@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "xgen-contextifier"
-version = "0.5.0"
+version = "0.6.0"
 description = "Convert raw documents into AI-understandable context with intelligent text extraction, table detection, and semantic chunking"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -64,13 +64,10 @@ dependencies = [
     # Image & OCR
     "pi-heif>=1.0.0",
     "pytesseract>=0.3.10",
-]
 
-[project.optional-dependencies]
-# PDF — PyMuPDF is AGPL-3.0; install explicitly to acknowledge license terms
-pdf = ["pymupdf>=1.24.0"]
-# These are ecosystem integrations, not core functionality
-langchain = [
+    # ── extras 흡수 (XGEN 은 기능을 옵션으로 두지 않는다) ──────────
+    # 설치 시 이름 뒤에 [tag] 를 붙여야만 켜지는 기능은, 붙이는 걸 잊은
+    # 배포에서 조용히 없는 기능이 된다. XGEN 판에서는 전부 기본 포함한다.
     "langchain>=1.0.0",
     "langchain-aws>=1.0.0",
     "langchain-community>=0.4.0",
@@ -80,20 +77,21 @@ langchain = [
     "langchain-google-genai>=4.0.0",
     "langgraph>=1.0.0",
     "langsmith>=0.6.0",
-]
-server = [
     "pydantic>=2.12.0",
     "pydantic-settings>=2.12.0",
     "python-dotenv>=1.0.0",
     "python-multipart>=0.0.20",
     "orjson>=3.10.0",
     "psutil>=7.0.0",
-]
-all = [
-    "xgen_contextifier[pdf,langchain,server]",
     "pandas>=2.2.0",
     "cachetools>=5.3.0",
 ]
+
+[project.optional-dependencies]
+# PyMuPDF 는 AGPL-3.0 이다. 나머지 extras 는 전부 core 로 흡수했지만 이것만
+# 남긴다 — 라이선스 의무가 붙는 코드를 "설치 편의"를 이유로 기본 포함할 수는
+# 없다. 필요한 배포가 명시적으로 켠다.
+pdf = ["pymupdf>=1.24.0"]
 
 [project.urls]
 Homepage = "https://github.com/PlateerLab/xgen-contextifier"
