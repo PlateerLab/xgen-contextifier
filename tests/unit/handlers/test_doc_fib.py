@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import struct
 
-from contextifier.handlers.doc._fib import (
+from xgen_contextifier.handlers.doc._fib import (
     _clean_doc_text,
     _parse_clx,
     detect_tables_from_text,

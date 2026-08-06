@@ -24,7 +24,7 @@
 
 ### 1.1 [BUG-CRITICAL] XLSX 이미지 이름 충돌 — 데이터 손실
 
-**파일**: `contextifier/handlers/xlsx/content_extractor.py:_extract_sheet_images()`
+**파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py:_extract_sheet_images()`
 
 ```python
 # 실제 코드 (확인됨)
@@ -43,7 +43,7 @@ tag = self._image_service.save_and_tag(
 
 ### 1.2 [BUG-HIGH] XLSX — openpyxl 내부 API 2종 사용
 
-**파일**: `contextifier/handlers/xlsx/content_extractor.py`
+**파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py`
 
 ```python
 # 확인된 실제 코드 (두 곳)
@@ -65,7 +65,7 @@ Python 컨벤션상 `_`로 시작하는 속성/메서드는 내부 구현 세부
 
 ### 1.3 [BUG-HIGH] DOCX — `import re`가 메서드 내부에 위치
 
-**파일**: `contextifier/handlers/docx/content_extractor.py:extract_text()`
+**파일**: `xgen_contextifier/handlers/docx/content_extractor.py:extract_text()`
 
 ```python
 def extract_text(self, preprocessed: PreprocessedData, **kwargs: Any) -> str:
@@ -84,7 +84,7 @@ def extract_text(self, preprocessed: PreprocessedData, **kwargs: Any) -> str:
 
 ### 1.4 [BUG-MEDIUM] DOCX — 이미지 중복 제거가 `rel_id` 기반
 
-**파일**: `contextifier/handlers/docx/content_extractor.py:_extract_image_by_rel()`
+**파일**: `xgen_contextifier/handlers/docx/content_extractor.py:_extract_image_by_rel()`
 
 ```python
 def _extract_image_by_rel(self, rel_id, doc, processed_images: Set[str]):
@@ -104,7 +104,7 @@ def _extract_image_by_rel(self, rel_id, doc, processed_images: Set[str]):
 
 ### 1.5 [BUG-HIGH] PDF — mode 문자열 유효성 검증 없음
 
-**파일**: `contextifier/handlers/pdf/handler.py:create_content_extractor()`
+**파일**: `xgen_contextifier/handlers/pdf/handler.py:create_content_extractor()`
 
 ```python
 mode = self._config.get_format_option(
@@ -126,7 +126,7 @@ return PdfPlusContentExtractor(...)
 
 ### 1.6 [MEDIUM] Registry — 핸들러 등록 실패를 `INFO`로만 로깅
 
-**파일**: `contextifier/handlers/registry.py:register_defaults()`
+**파일**: `xgen_contextifier/handlers/registry.py:register_defaults()`
 
 ```python
 except (ImportError, AttributeError) as e:
@@ -143,7 +143,7 @@ except (ImportError, AttributeError) as e:
 
 ### 1.7 [MEDIUM] TextHandler — HTML을 plain text로 처리 (README 불일치)
 
-**파일**: `contextifier/handlers/text/handler.py`
+**파일**: `xgen_contextifier/handlers/text/handler.py`
 
 ```python
 _TEXT_EXTENSIONS = frozenset({
@@ -167,7 +167,7 @@ README는 "HTML structure preservation" 지원을 명시하지만, 실제로는
 
 ### 2.1 [CRITICAL] 파일 크기 검사 없이 전체 메모리 로드
 
-**파일**: `contextifier/document_processor.py:_create_file_context()`
+**파일**: `xgen_contextifier/document_processor.py:_create_file_context()`
 
 ```python
 @staticmethod
@@ -191,7 +191,7 @@ def _create_file_context(file_path: str, extension: str) -> FileContext:
 
 ### 2.2 [HIGH] 핸들러 전체에 만연한 bare `except Exception: pass`
 
-**파일**: `contextifier/handlers/xlsx/content_extractor.py`
+**파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py`
 
 ```python
 # extract_text() 내 차트 처리
@@ -222,7 +222,7 @@ except Exception:
 
 ### 2.3 [HIGH] 메타데이터 추출 실패를 파이프라인 레벨에서 묵살
 
-**파일**: `contextifier/handlers/base.py:process()`
+**파일**: `xgen_contextifier/handlers/base.py:process()`
 
 ```python
 # Stage 3: Metadata
@@ -246,7 +246,7 @@ if include_metadata:
 
 ### 2.4 [HIGH] Timeout 메커니즘 없음
 
-**파일**: `contextifier/handlers/base.py:process()`
+**파일**: `xgen_contextifier/handlers/base.py:process()`
 
 ```python
 def process(self, file_context: FileContext, *, include_metadata: bool = True, **kwargs):
@@ -268,7 +268,7 @@ def process(self, file_context: FileContext, *, include_metadata: bool = True, *
 
 ### 2.5 [MEDIUM] 핸들러 위임(Delegation) 실패 시 원본 포맷 처리 fallback 없음
 
-**파일**: `contextifier/handlers/base.py:_delegate_to()`
+**파일**: `xgen_contextifier/handlers/base.py:_delegate_to()`
 
 ```python
 def _delegate_to(self, extension: str, file_context, ...) -> ExtractionResult:
@@ -288,7 +288,7 @@ def _delegate_to(self, extension: str, file_context, ...) -> ExtractionResult:
 
 ### 2.6 [MEDIUM] 서비스가 `None`일 때 핸들러 동작 불명확
 
-**파일**: `contextifier/handlers/base.py:__init__()`
+**파일**: `xgen_contextifier/handlers/base.py:__init__()`
 
 ```python
 def __init__(
@@ -320,8 +320,8 @@ self._table_service.format_table(...)  # 다른 곳은 그냥 호출 (None이면
 
 ```python
 default_handlers: List[tuple] = [
-    ("contextifier.handlers.pdf.handler", "PDFHandler"),
-    ("contextifier.handlers.docx.handler", "DOCXHandler"),
+    ("xgen_contextifier.handlers.pdf.handler", "PDFHandler"),
+    ("xgen_contextifier.handlers.docx.handler", "DOCXHandler"),
     # ... 14개
     # ← HTMLHandler 없음
 ]
@@ -336,7 +336,7 @@ README는 HTML 구조 보존을 지원한다고 명시하나 실제 구현 없�
 
 ### 3.2 [HIGH] `format_options` — 타입 안전성 없는 딕셔너리
 
-**파일**: `contextifier/config.py`
+**파일**: `xgen_contextifier/config.py`
 
 ```python
 @dataclass(frozen=True)
@@ -371,7 +371,7 @@ Python 표준 `importlib.metadata.entry_points`를 활용한 플러그인 시스
 
 ### 3.4 [HIGH] `BaseHandler.process()`가 `@final`로 보호되지 않음
 
-**파일**: `contextifier/handlers/base.py`
+**파일**: `xgen_contextifier/handlers/base.py`
 
 ```python
 # 주석으로만 경고:
@@ -389,7 +389,7 @@ Python 3.8+에서 `typing.final` 데코레이터를 사용할 수 있으나 적�
 
 ### 3.5 [MEDIUM] 핸들러 언등록(Unregister) API 없음
 
-**파일**: `contextifier/handlers/registry.py`
+**파일**: `xgen_contextifier/handlers/registry.py`
 
 ```python
 class HandlerRegistry:
@@ -420,7 +420,7 @@ FastAPI, 비동기 작업 큐(Celery async), 웹소켓 스트리밍 등
 
 ### 3.7 [LOW] `ChunkingConfig.strategy` — 유효값 검증 없음
 
-**파일**: `contextifier/config.py`
+**파일**: `xgen_contextifier/config.py`
 
 ```python
 @dataclass(frozen=True)
@@ -488,7 +488,7 @@ for sheet_name in wb.sheetnames:
 
 ### 4.3 [MEDIUM] 표 HTML 생성이 `TableService` 없이 각 핸들러에 fallback 구현됨
 
-**파일**: `contextifier/handlers/docx/content_extractor.py`
+**파일**: `xgen_contextifier/handlers/docx/content_extractor.py`
 
 ```python
 def _format_table(self, table_data: TableData) -> str:
@@ -558,7 +558,7 @@ def _make_slide_tag(self, slide_number: int) -> Optional[str]:
 
 ### 5.1 [CRITICAL] 파일 전체 메모리 로드 — OOM 위험
 
-**파일**: `contextifier/document_processor.py:_create_file_context()`
+**파일**: `xgen_contextifier/document_processor.py:_create_file_context()`
 
 ```python
 file_data = Path(file_path).read_bytes()   # 전체 파일 → RAM
@@ -576,7 +576,7 @@ Linux OOM killer가 프로세스를 강제 종료할 수 있음.
 
 ### 5.2 [HIGH] 서비스 인스턴스 공유 — Thread Safety 미보장
 
-**파일**: `contextifier/document_processor.py:_create_services()`
+**파일**: `xgen_contextifier/document_processor.py:_create_services()`
 
 `ImageService`는 per-file 상태(`clear_state()` 호출)를 가지며, 멀티스레드 환경에서
 동시에 여러 파일을 처리하면 이미지 해시 세트가 경쟁 상태(race condition)에 빠짐.
@@ -606,7 +606,7 @@ wb = openpyxl.load_workbook(BytesIO(data), read_only=True)
 
 ### 5.4 [MEDIUM] pdf_plus — 복잡한 heuristic 분석의 페이지별 캐싱 없음
 
-**파일**: `contextifier/handlers/pdf_plus/_layout_block_detector.py` (29KB)
+**파일**: `xgen_contextifier/handlers/pdf_plus/_layout_block_detector.py` (29KB)
 
 pdf_plus 모드는 페이지마다 텍스트 블록 감지, 복잡도 분석, 표 경계 탐지, 레이아웃 분류를 반복 수행.
 동일한 PDF를 여러 설정으로 반복 처리할 때 동일 페이지 분석이 중복 실행됨.

@@ -11,8 +11,8 @@ from __future__ import annotations
 from unittest import mock
 
 
-from contextifier.handlers.pptx.content_extractor import PptxContentExtractor
-from contextifier.types import ChartData, PreprocessedData
+from xgen_contextifier.handlers.pptx.content_extractor import PptxContentExtractor
+from xgen_contextifier.types import ChartData, PreprocessedData
 
 
 def _make_shape(

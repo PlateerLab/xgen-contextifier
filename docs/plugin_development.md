@@ -21,7 +21,7 @@ process(file_context) → ExtractionResult
 ## 디렉토리 구조
 
 ```
-contextifier/handlers/
+xgen_contextifier/handlers/
 └── myformat/
     ├── __init__.py
     ├── handler.py           # MyFormatHandler (BaseHandler 상속)
@@ -38,11 +38,11 @@ contextifier/handlers/
 바이너리 데이터를 포맷별 작업 객체로 변환합니다.
 
 ```python
-# contextifier/handlers/myformat/converter.py
+# xgen_contextifier/handlers/myformat/converter.py
 from typing import Any
-from contextifier.pipeline.converter import BaseConverter
-from contextifier.types import FileContext
-from contextifier.errors import ConversionError
+from xgen_contextifier.pipeline.converter import BaseConverter
+from xgen_contextifier.types import FileContext
+from xgen_contextifier.errors import ConversionError
 
 
 class MyFormatConverter(BaseConverter):
@@ -75,7 +75,7 @@ class MyFormatConverter(BaseConverter):
 
 > **팁**: 변환이 불필요한 포맷은 `NullConverter`를 사용하세요:
 > ```python
-> from contextifier.pipeline.converter import NullConverter
+> from xgen_contextifier.pipeline.converter import NullConverter
 > ```
 
 ---
@@ -85,10 +85,10 @@ class MyFormatConverter(BaseConverter):
 변환된 객체를 정리/변환하여 `PreprocessedData`를 생성합니다.
 
 ```python
-# contextifier/handlers/myformat/preprocessor.py
+# xgen_contextifier/handlers/myformat/preprocessor.py
 from typing import Any
-from contextifier.pipeline.preprocessor import BasePreprocessor
-from contextifier.types import PreprocessedData
+from xgen_contextifier.pipeline.preprocessor import BasePreprocessor
+from xgen_contextifier.types import PreprocessedData
 
 
 class MyFormatPreprocessor(BasePreprocessor):
@@ -118,10 +118,10 @@ class MyFormatPreprocessor(BasePreprocessor):
 문서 메타데이터(제목, 작성자, 날짜 등)를 추출합니다.
 
 ```python
-# contextifier/handlers/myformat/metadata_extractor.py
+# xgen_contextifier/handlers/myformat/metadata_extractor.py
 from typing import Any, Optional
-from contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
-from contextifier.types import DocumentMetadata
+from xgen_contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
+from xgen_contextifier.types import DocumentMetadata
 
 
 class MyFormatMetadataExtractor(BaseMetadataExtractor):
@@ -150,10 +150,10 @@ class MyFormatMetadataExtractor(BaseMetadataExtractor):
 텍스트, 테이블, 이미지, 차트를 추출합니다.
 
 ```python
-# contextifier/handlers/myformat/content_extractor.py
+# xgen_contextifier/handlers/myformat/content_extractor.py
 from typing import Any, List, Optional
-from contextifier.pipeline.content_extractor import BaseContentExtractor
-from contextifier.types import (
+from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
+from xgen_contextifier.types import (
     ChartData,
     DocumentMetadata,
     PreprocessedData,
@@ -214,14 +214,14 @@ class MyFormatContentExtractor(BaseContentExtractor):
 5개 컴포넌트를 조합하는 핸들러를 작성합니다.
 
 ```python
-# contextifier/handlers/myformat/handler.py
+# xgen_contextifier/handlers/myformat/handler.py
 from typing import FrozenSet
-from contextifier.handlers.base import BaseHandler
-from contextifier.pipeline.converter import BaseConverter
-from contextifier.pipeline.preprocessor import BasePreprocessor
-from contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
-from contextifier.pipeline.content_extractor import BaseContentExtractor
-from contextifier.pipeline.postprocessor import BasePostprocessor, DefaultPostprocessor
+from xgen_contextifier.handlers.base import BaseHandler
+from xgen_contextifier.pipeline.converter import BaseConverter
+from xgen_contextifier.pipeline.preprocessor import BasePreprocessor
+from xgen_contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
+from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
+from xgen_contextifier.pipeline.postprocessor import BasePostprocessor, DefaultPostprocessor
 
 from .converter import MyFormatConverter
 from .preprocessor import MyFormatPreprocessor
@@ -274,8 +274,8 @@ class MyFormatHandler(BaseHandler):
 ### 방법 A: 직접 등록
 
 ```python
-from contextifier import DocumentProcessor
-from contextifier.config import ProcessingConfig
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.config import ProcessingConfig
 from my_package.handler import MyFormatHandler
 
 processor = DocumentProcessor()
@@ -290,7 +290,7 @@ text = processor.extract_text("document.myformat")
 `pyproject.toml`에 entry point를 등록하면 자동으로 발견됩니다:
 
 ```toml
-[project.entry-points."contextifier.handlers"]
+[project.entry-points."xgen_contextifier.handlers"]
 myformat = "my_package.handler:MyFormatHandler"
 ```
 
@@ -329,7 +329,7 @@ myformat = "my_package.handler:MyFormatHandler"
 # tests/unit/handlers/test_myformat.py
 import pytest
 from unittest.mock import MagicMock
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 from my_package.handler import MyFormatHandler
 
 
@@ -357,7 +357,7 @@ class TestMyFormatHandler:
         assert result.text  # 텍스트가 추출되었는지 확인
 
     def test_process_empty_file(self, handler):
-        from contextifier.errors import ConversionError
+        from xgen_contextifier.errors import ConversionError
         file_context = {
             "file_name": "empty.myformat",
             "file_extension": "myformat",
@@ -372,7 +372,7 @@ class TestMyFormatHandler:
 
 ## 참고
 
-- [ARCHITECTURE.md](../contextifier/ARCHITECTURE.md) — 전체 아키텍처 명세
+- [ARCHITECTURE.md](../xgen_contextifier/ARCHITECTURE.md) — 전체 아키텍처 명세
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — 코딩 규칙
 - [Error Codes](error_codes.md) — 예외 계층 및 에러 코드
 - [Configuration](configuration.md) — 설정 레퍼런스

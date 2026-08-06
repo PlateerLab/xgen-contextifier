@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.0] — 2026-07-07
 
-### Added — the raw layer (`contextifier.raw`)
+### Added — the raw layer (`xgen_contextifier.raw`)
 
 Contextifier now offers **two views of every document**: the existing
 AI-friendly extraction pipeline, and `open_raw()` — a lossless,
@@ -130,7 +130,7 @@ addressable, **writable** view of OOXML files (`.xlsx` / `.docx` /
 
 ### Ecosystem (Phase 6)
 
-- **LangChain Integration**: `ContextifierLoader(BaseLoader)` in `contextifier.integrations.langchain_loader`
+- **LangChain Integration**: `ContextifierLoader(BaseLoader)` in `xgen_contextifier.integrations.langchain_loader`
   - Single document / chunked mode, OCR support, lazy_load
 - **CI/CD Pipeline**: `.github/workflows/ci.yml` — lint, test matrix (Python 3.12/3.13), type-check, PyPI publish
 - **Docker Support**: Multi-stage `Dockerfile` with Tesseract OCR and Poppler
@@ -148,7 +148,7 @@ addressable, **writable** view of OOXML files (`.xlsx` / `.docx` /
 
 ### Breaking Changes — Full Architecture Redesign
 
-v2 is a **complete rewrite** that is **not backwards-compatible** with v1. The package has moved from `contextifier` to `contextifier_new`.
+v2 is a **complete rewrite** that is **not backwards-compatible** with v1. The package has moved from `xgen_contextifier` to `contextifier_new`.
 
 ### Added
 
@@ -190,7 +190,7 @@ v2 is a **complete rewrite** that is **not backwards-compatible** with v1. The p
 
 ### Removed
 
-- All legacy v1 code in the `contextifier` package
+- All legacy v1 code in the `xgen_contextifier` package
   - `core/document_processor.py` (monolithic single file)
   - `core/functions/` (utils.py, individual processor modules)
   - `core/processor/` (per-handler files without unified structure)

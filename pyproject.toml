@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "contextifier"
-version = "0.4.0"
+name = "xgen-contextifier"
+version = "0.5.0"
 description = "Convert raw documents into AI-understandable context with intelligent text extraction, table detection, and semantic chunking"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -90,24 +90,24 @@ server = [
     "psutil>=7.0.0",
 ]
 all = [
-    "contextifier[pdf,langchain,server]",
+    "xgen_contextifier[pdf,langchain,server]",
     "pandas>=2.2.0",
     "cachetools>=5.3.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/CocoRoF/Contextifier"
-Documentation = "https://github.com/CocoRoF/Contextifier#readme"
-Repository = "https://github.com/CocoRoF/Contextifier.git"
-Issues = "https://github.com/CocoRoF/Contextifier/issues"
-Changelog = "https://github.com/CocoRoF/Contextifier/releases"
+Homepage = "https://github.com/PlateerLab/xgen-contextifier"
+Documentation = "https://github.com/PlateerLab/xgen-contextifier#readme"
+Repository = "https://github.com/PlateerLab/xgen-contextifier"
+Issues = "https://github.com/PlateerLab/xgen-contextifier/issues"
+Changelog = "https://github.com/PlateerLab/xgen-contextifier/releases"
 
 [tool.hatch.build.targets.wheel]
-packages = ["contextifier"]
+packages = ["xgen_contextifier"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "contextifier/",
+    "xgen_contextifier/",
     "README.md",
     "LICENSE",
     "pyproject.toml",

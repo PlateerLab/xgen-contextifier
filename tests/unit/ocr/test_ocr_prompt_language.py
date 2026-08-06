@@ -11,8 +11,8 @@ Verifies that:
 from __future__ import annotations
 
 
-from contextifier.config import OCRConfig
-from contextifier.ocr.base import (
+from xgen_contextifier.config import OCRConfig
+from xgen_contextifier.ocr.base import (
     DEFAULT_OCR_PROMPT,
     get_ocr_prompt,
     _OCR_PROMPT_TEMPLATE,
@@ -51,7 +51,7 @@ class TestOCRPromptLanguage:
 
     def test_ocr_config_serialization(self):
         """prompt_language survives to_dict/from_dict round-trip."""
-        from contextifier.config import ProcessingConfig
+        from xgen_contextifier.config import ProcessingConfig
 
         cfg = ProcessingConfig(ocr=OCRConfig(prompt_language="en"))
         d = cfg.to_dict()

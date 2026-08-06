@@ -15,13 +15,13 @@
 ## Installation
 
 ```bash
-pip install contextifier
+pip install xgen_contextifier
 ```
 
 or
 
 ```bash
-uv add contextifier
+uv add xgen_contextifier
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ uv add contextifier
 ### 1. Basic Text Extraction
 
 ```python
-from contextifier import DocumentProcessor
+from xgen_contextifier import DocumentProcessor
 
 processor = DocumentProcessor()
 text = processor.extract_text("document.pdf")
@@ -46,7 +46,7 @@ custom XML all survive (unlike a load→save round-trip through the
 usual Office libraries).
 
 ```python
-from contextifier import open_raw
+from xgen_contextifier import open_raw
 
 raw = open_raw("report.xlsx")              # XlsxRawDocument
 raw.sheets["Sales"].set_cell("B3", 142)    # surgical edit
@@ -71,7 +71,7 @@ Every model also exposes `.package` for part-level OPC access.
 ### 3. Extract + Chunk in One Step
 
 ```python
-from contextifier import DocumentProcessor
+from xgen_contextifier import DocumentProcessor
 
 processor = DocumentProcessor()
 result = processor.extract_chunks("document.pdf")
@@ -86,8 +86,8 @@ result.save_to_md("output/chunks")
 ### 4. Custom Configuration
 
 ```python
-from contextifier import DocumentProcessor
-from contextifier.config import ProcessingConfig, ChunkingConfig, TagConfig
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.config import ProcessingConfig, ChunkingConfig, TagConfig
 
 config = ProcessingConfig(
     tags=TagConfig(page_prefix="<page>", page_suffix="</page>"),
@@ -101,8 +101,8 @@ text = processor.extract_text("report.xlsx")
 ### 5. OCR Integration
 
 ```python
-from contextifier import DocumentProcessor
-from contextifier.ocr.engines import OpenAIOCREngine
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.ocr.engines import OpenAIOCREngine
 
 ocr = OpenAIOCREngine.from_api_key("sk-...", model="gpt-4o")
 processor = DocumentProcessor(ocr_engine=ocr)
@@ -126,7 +126,7 @@ text = processor.extract_text("scanned.pdf", ocr_processing=True)
 ## Architecture
 
 ```
-contextifier/
+xgen_contextifier/
 ├── document_processor.py     # Facade: single public entry point
 ├── config.py                 # Immutable config system (ProcessingConfig)
 ├── types.py                  # Shared types / Enums / TypedDicts
@@ -190,7 +190,7 @@ contextifier/
 |----------|----------|
 | [QUICKSTART.md](QUICKSTART.md) | Detailed usage guide & full API reference |
 | [Process Logic.md](Process%20Logic.md) | Handler processing flow diagrams |
-| [ARCHITECTURE.md](contextifier/ARCHITECTURE.md) | Internal architecture specification |
+| [ARCHITECTURE.md](xgen_contextifier/ARCHITECTURE.md) | Internal architecture specification |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
 | [Handler Comparison](docs/handler_comparison.md) | Handler feature support matrix |

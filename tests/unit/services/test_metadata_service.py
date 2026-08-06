@@ -7,9 +7,9 @@ from datetime import datetime
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.services.metadata_service import MetadataService
-from contextifier.types import DocumentMetadata
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.services.metadata_service import MetadataService
+from xgen_contextifier.types import DocumentMetadata
 
 
 @pytest.fixture()

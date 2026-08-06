@@ -15,14 +15,14 @@ from __future__ import annotations
 
 import unittest
 
-from contextifier.handlers.csv.preprocessor import (
+from xgen_contextifier.handlers.csv.preprocessor import (
     CsvPreprocessor,
     CsvParsedData,
     MAX_ROWS,
     _parse_csv_content,
     _parse_csv_simple,
 )
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 
 
 class TestParseMaxRows(unittest.TestCase):
@@ -120,7 +120,7 @@ class TestCsvHandlerMaxRowsOption(unittest.TestCase):
     """CSVHandler reads max_rows from format_options."""
 
     def test_csv_handler_passes_max_rows(self):
-        from contextifier.handlers.csv.handler import CSVHandler
+        from xgen_contextifier.handlers.csv.handler import CSVHandler
         config = ProcessingConfig(
             format_options={"csv": {"max_rows": 500}}
         )
@@ -129,7 +129,7 @@ class TestCsvHandlerMaxRowsOption(unittest.TestCase):
         self.assertEqual(pp._max_rows, 500)
 
     def test_csv_handler_default_max_rows(self):
-        from contextifier.handlers.csv.handler import CSVHandler
+        from xgen_contextifier.handlers.csv.handler import CSVHandler
         handler = CSVHandler(config=ProcessingConfig())
         pp = handler.create_preprocessor()
         self.assertEqual(pp._max_rows, MAX_ROWS)
@@ -139,7 +139,7 @@ class TestTsvHandlerMaxRowsOption(unittest.TestCase):
     """TSVHandler reads max_rows from format_options."""
 
     def test_tsv_handler_passes_max_rows(self):
-        from contextifier.handlers.tsv.handler import TSVHandler
+        from xgen_contextifier.handlers.tsv.handler import TSVHandler
         config = ProcessingConfig(
             format_options={"tsv": {"max_rows": 200}}
         )

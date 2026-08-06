@@ -17,13 +17,13 @@
 
 ### P0-1. TableService.format_as_html() HTML 이스케이프 추가 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/services/table_service.py` — `format_as_html()` 내 `_clean_cell()` 후 `html.escape(content, quote=False)` 추가 + `\n` → `<br>` 변환
+- **수정**: `xgen_contextifier/services/table_service.py` — `format_as_html()` 내 `_clean_cell()` 후 `html.escape(content, quote=False)` 추가 + `\n` → `<br>` 변환
 - **테스트**: `tests/unit/services/test_table_service.py` — `test_escapes_html_special_chars` 추가
 - **검증**: 9 tests passed (기존 8 + 신규 1)
 
 ### P0-2. HTML 핸들러 base64 이미지 크기 제한 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/html/preprocessor.py`
+- **수정**: `xgen_contextifier/handlers/html/preprocessor.py`
   - `_MAX_IMAGE_DECODE_BYTES = 50 * 1024 * 1024` (50MB) 상수 추가
   - base64 문자열 길이로 디코딩 크기 추정 (`len(b64_str) * 3 // 4`)
   - 초과 시 `logger.warning()` + `continue` (해당 이미지 스킵)
@@ -34,7 +34,7 @@
 
 ### P0-3. 저장 경로 순회(Path Traversal) 방어 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/services/storage/local.py` — `LocalStorageBackend.save()` 내
+- **수정**: `xgen_contextifier/services/storage/local.py` — `LocalStorageBackend.save()` 내
   - `os.path.realpath()` 로 `file_path`와 `base_path` 정규화
   - 정규화된 경로가 `base_path` 하위가 아니면 `StorageError` 발생
   - 기존 `open(file_path)` → `open(resolved_path)` 변경
@@ -48,11 +48,11 @@
 ### P0-4. ZIP Bomb 방어 ✅
 - **상태**: ✅ 완료
 - **수정**:
-  - `contextifier/pipeline/converter.py` — `check_zip_bomb()` 유틸리티 함수 + `MAX_ZIP_DECOMPRESSED_BYTES = 1GB` 상수 추가
-  - `contextifier/handlers/docx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
-  - `contextifier/handlers/pptx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
-  - `contextifier/handlers/xlsx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
-  - `contextifier/handlers/hwpx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합 (기존 magic-only → ZIP 열어서 검증)
+  - `xgen_contextifier/pipeline/converter.py` — `check_zip_bomb()` 유틸리티 함수 + `MAX_ZIP_DECOMPRESSED_BYTES = 1GB` 상수 추가
+  - `xgen_contextifier/handlers/docx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
+  - `xgen_contextifier/handlers/pptx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
+  - `xgen_contextifier/handlers/xlsx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합
+  - `xgen_contextifier/handlers/hwpx/converter.py` — `validate()` 에 `check_zip_bomb()` 통합 (기존 magic-only → ZIP 열어서 검증)
 - **설계**: `ZipInfo.file_size` 합산으로 사전 검증 (실제 압축해제 없이 메타데이터만 확인)
 - **테스트**: `tests/unit/handlers/test_zip_bomb_defense.py` — 8개 테스트
   - 4개 단위 테스트: small/oversized/multi-entry sum/exact limit
@@ -66,7 +66,7 @@
 
 ### P1-1. PDF Default: 스캔 문서 이미지 태그 삽입 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/pdf_default/content_extractor.py`
+- **수정**: `xgen_contextifier/handlers/pdf_default/content_extractor.py`
   - `extract_text()`: `needs_ocr` 플래그 확인 → `_extract_scan_pages()` 호출
   - `_extract_scan_pages()`: 150 DPI 렌더링 → PNG → ImageService 저장 → `[Image: scan_page_N.png]` 태그
 - **테스트**: `tests/unit/handlers/test_pdf_scan_ocr.py` — 3개 테스트
@@ -74,12 +74,12 @@
 ### P1-2. DOC 핸들러: OLE2 네이티브 파싱 고도화 ✅
 - **상태**: ✅ 완료
 - **수정**:
-  - `contextifier/handlers/doc/_fib.py` (신규 295 LOC) — FIB + Piece Table 파서
+  - `xgen_contextifier/handlers/doc/_fib.py` (신규 295 LOC) — FIB + Piece Table 파서
     - `parse_fib_text()`: FIB 헤더 → fcClx/lcbClx → Clx → PlcPcd → 피스별 텍스트 재구성
     - `_parse_clx()`: Prc 스킵 + Pcdt 파싱
     - `_parse_plc_pcd()`: CP/PCD 배열 파싱 (compressed cp1252 / Unicode UTF-16LE 구분)
     - `detect_tables_from_text()`: `\x07` 셀 마커 기반 테이블 감지
-  - `contextifier/handlers/doc/content_extractor.py` — FIB 우선 + 휴리스틱 폴백
+  - `xgen_contextifier/handlers/doc/content_extractor.py` — FIB 우선 + 휴리스틱 폴백
     - `extract_text()`: `parse_fib_text()` 시도 → 실패 시 기존 UTF-16LE 스캐닝
     - `extract_tables()`: 피스 테이블 텍스트에서 `\x07` 마커로 테이블 구조 복원 → `TableData` 변환
 - **참조**: MS-DOC Binary File Format Specification (FIB → Clx → PlcPcd)
@@ -88,7 +88,7 @@
 
 ### P1-3. PPT 핸들러: 테이블/차트 추출 구현 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/ppt/content_extractor.py`
+- **수정**: `xgen_contextifier/handlers/ppt/content_extractor.py`
   - `extract_tables()`: 탭 문자(`\t`) 기반 표형 텍스트 패턴 감지
   - `extract_charts()`: OLE 디렉토리 스캔 → 임베디드 차트 OLE 객체 감지
   - `_detect_tabular_text()` + `_detect_ole_charts()` 헬퍼 함수
@@ -98,7 +98,7 @@
 
 ### P1-4. XLS 핸들러: OLE2 기반 이미지/차트 추출 구현 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/xls/content_extractor.py`
+- **수정**: `xgen_contextifier/handlers/xls/content_extractor.py`
   - `extract_images()`: raw bytes → olefile OLE2 재개봉 → 이미지 스트림 스캔 (DOC 패턴 재사용)
   - `extract_charts()`: xlrd `sheet_type()` API → BIFF 차트 시트(type 2) 감지
   - `_detect_image_format()`: PNG/JPEG/GIF/BMP/TIFF/EMF 시그니처 감지
@@ -108,11 +108,11 @@
 
 ### P1-5. libreoffice.py 모듈 제거 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/services/libreoffice.py` 삭제 (168 LOC, import 0건)
+- **수정**: `xgen_contextifier/services/libreoffice.py` 삭제 (168 LOC, import 0건)
 
 ### P1-6. 위임 깊이 제한 추가 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/base.py` — `threading.local()` 깊이 카운터, 최대 3레벨
+- **수정**: `xgen_contextifier/handlers/base.py` — `threading.local()` 깊이 카운터, 최대 3레벨
 - **테스트**: `tests/unit/handlers/test_delegation.py` — 4개 테스트
 
 ---
@@ -123,7 +123,7 @@
 
 ### P2-1. RTF 테이블 병합 플래그 검증 ✅
 - **상태**: ✅ 완료 (구현 정상 확인 — 코드 변경 없음, 테스트만 추가)
-- **검증**: `contextifier/handlers/rtf/_table_parser.py` (~540 LOC)
+- **검증**: `xgen_contextifier/handlers/rtf/_table_parser.py` (~540 LOC)
   - `_parse_cell_definitions()`: `\clmgf/\clmrg/\clvmgf/\clvmrg` → `_CellDef` 정상 파싱
   - `_build_table_data()`: colspan/rowspan 정확히 계산 확인
   - `_extract_cells_with_merge()`: 수평/수직/복합 병합 모두 정상
@@ -137,7 +137,7 @@
 - **확인**:
   - `_section.py` → `_process_chart_ref()` → `_parse_ooxml_chart()` 경로로 OOXML 차트 인라인 처리
   - `extract_charts()`는 빈 리스트 반환 (차트가 `extract_text()` 내에서 처리됨)
-- **수정**: `contextifier/handlers/hwpx/content_extractor.py` — `extract_charts()` 독스트링 업데이트
+- **수정**: `xgen_contextifier/handlers/hwpx/content_extractor.py` — `extract_charts()` 독스트링 업데이트
 - **테스트**: `tests/unit/handlers/test_hwpx_charts.py` — 10개 테스트
   - OOXML 차트 XML 파싱 (기본, 제목 없음, 꺾은선, 다중 시리즈)
   - `_format_chart_simple`, 섹션 내 인라인 차트, `extract_charts()` 빈 반환
@@ -145,26 +145,26 @@
 ### P2-3. Image 핸들러 OCR 통합 명확화 ✅
 - **상태**: ✅ 완료 (아키텍처 정상 확인 — 독스트링 보강)
 - **확인**: Image 핸들러는 `[Image: ...]` 태그 생성 → `DocumentProcessor`가 `ocr_processing=True`일 때 `OCRProcessor`로 치환
-- **수정**: `contextifier/handlers/image/content_extractor.py` — "OCR Integration Architecture" 독스트링 추가
+- **수정**: `xgen_contextifier/handlers/image/content_extractor.py` — "OCR Integration Architecture" 독스트링 추가
 - **테스트**: P2-4 테스트 파일에 통합 (image handler → tag 생성 + fallback 테스트)
 
 ### P2-4. Tesseract OCR 엔진 구현 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/ocr/engines/tesseract_engine.py` (신규)
+- **수정**: `xgen_contextifier/ocr/engines/tesseract_engine.py` (신규)
   - `TesseractOCREngine` — `BaseOCREngine` 상속, LLM 미사용
   - `convert_image_to_text()` 직접 오버라이드 → `pytesseract.image_to_string()` 래핑
   - 생성자: `__init__(*, lang="eng", tesseract_cmd=None, prompt=None)`
   - `build_message_content()` → `NotImplementedError` (LLM 기반 아님)
   - `provider` → `"tesseract"`, 성공 시 `[Figure: ...]`, 실패 시 `[Image conversion error: ...]`
   - `pytesseract` 지연 임포트 (런타임에만 의존)
-- **수정**: `contextifier/ocr/engines/__init__.py` — `TesseractOCREngine` 추가
+- **수정**: `xgen_contextifier/ocr/engines/__init__.py` — `TesseractOCREngine` 추가
 - **테스트**: `tests/unit/ocr/test_tesseract_engine.py` — 13개 테스트
   - 엔진 생성, provider, build_message_content raises, repr
   - convert_image (성공/빈문자열/import_error/runtime_error)
 
 ### P2-5. PPTX 그룹 셰이프 재귀 추출 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/pptx/content_extractor.py`
+- **수정**: `xgen_contextifier/handlers/pptx/content_extractor.py`
   - `extract_tables()` → `_collect_tables(shape, depth=0)` 재귀 헬퍼
   - `extract_images()` → `_collect_images(shape, slide_idx, processed, depth=0)` 재귀 헬퍼
   - `extract_charts()` → `_collect_charts(shape, depth=0)` 재귀 헬퍼
@@ -174,7 +174,7 @@
 
 ### P2-6. XLSX 차트 추출 확인 ✅
 - **상태**: ✅ 완료 (이미 구현됨 확인 — 테스트만 추가)
-- **확인**: `contextifier/handlers/xlsx/content_extractor.py`
+- **확인**: `xgen_contextifier/handlers/xlsx/content_extractor.py`
   - `extract_charts()`: `preprocessed.resources["charts_by_sheet"]` 에서 차트 데이터 로드
   - `preprocessor.py`에서 `openpyxl.chart` API로 사전 추출 → 리소스 맵핑
 - **테스트**: `tests/unit/handlers/test_xlsx_charts.py` — 7개 테스트
@@ -183,12 +183,12 @@
 ### P2-7. OCR 프롬프트 언어 설정화 ✅
 - **상태**: ✅ 완료
 - **수정**:
-  - `contextifier/ocr/base.py`
+  - `xgen_contextifier/ocr/base.py`
     - `_OCR_PROMPT_TEMPLATE`: `{language_rule}` 플레이스홀더 기반 템플릿
     - `OCR_LANGUAGE_RULES`: 언어별 규칙 dict (`ko`, `en`, `ja`)
     - `get_ocr_prompt(language: str = "ko") -> str`: 언어 코드로 프롬프트 생성
     - `DEFAULT_OCR_PROMPT` = `get_ocr_prompt("ko")` (하위 호환성 유지)
-  - `contextifier/config.py`
+  - `xgen_contextifier/config.py`
     - `OCRConfig.prompt_language: str = "ko"` 필드 추가
 - **테스트**: `tests/unit/ocr/test_ocr_prompt_language.py` — 8개 테스트
   - 한국어 기본, 영어, 일본어, 미지원 언어 폴백, 커스텀 프롬프트 우선
@@ -200,19 +200,19 @@
   - 핸들러의 `create_content_extractor()`에서 `config=self._config` 전달
   - 각 추출기가 `self._config.get_format_option()` 으로 임계값 읽기, 기본값 폴백
 - **수정**:
-  - `contextifier/pipeline/content_extractor.py` — `config` 파라미터 추가
-  - `contextifier/handlers/pdf/handler.py` — 양쪽 모드에 `config=self._config` 전달
-  - `contextifier/handlers/pdf_default/content_extractor.py`
+  - `xgen_contextifier/pipeline/content_extractor.py` — `config` 파라미터 추가
+  - `xgen_contextifier/handlers/pdf/handler.py` — 양쪽 모드에 `config=self._config` 전달
+  - `xgen_contextifier/handlers/pdf_default/content_extractor.py`
     - `render_dpi`: `format_options["pdf"]["render_dpi"]` (기본 150)
     - `min_image_size`: `format_options["pdf"]["min_image_size"]` (기본 50)
     - `min_image_area`: `format_options["pdf"]["min_image_area"]` (기본 2500)
-  - `contextifier/handlers/pdf_plus/content_extractor.py` — `config` 파라미터 추가
-  - `contextifier/handlers/pptx/handler.py` + `content_extractor.py`
+  - `xgen_contextifier/handlers/pdf_plus/content_extractor.py` — `config` 파라미터 추가
+  - `xgen_contextifier/handlers/pptx/handler.py` + `content_extractor.py`
     - `max_group_depth`: `format_options["pptx"]["max_group_depth"]` (기본 20)
-  - `contextifier/handlers/csv/handler.py` + `preprocessor.py`
+  - `xgen_contextifier/handlers/csv/handler.py` + `preprocessor.py`
     - `delimiter_candidates`: `format_options["csv"]["delimiter_candidates"]` (기본 `[",", "\t", ";", "|"]`)
     - `_detect_delimiter()` 에 `candidates` 파라미터 추가
-  - `contextifier/handlers/doc/handler.py` + `content_extractor.py`
+  - `xgen_contextifier/handlers/doc/handler.py` + `content_extractor.py`
     - `min_text_fragment_length`: `format_options["doc"]["min_text_fragment_length"]` (기본 4)
     - 인스턴스 변수 `_min_text_fragment_length`, `_min_unicode_bytes` 로 변환
 - **사용 예시**:
@@ -323,14 +323,14 @@
 
 ### P4-1. 대형 CSV 스트리밍 처리 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/csv/preprocessor.py`
+- **수정**: `xgen_contextifier/handlers/csv/preprocessor.py`
   - `CsvParsedData`: `truncated: bool = False` 필드 추가
   - `CsvPreprocessor.__init__()`: `max_rows` 매개변수 추가 (기본값 = `MAX_ROWS`)
   - `_parse_csv_content()`: `max_rows` 매개변수 추가, `(rows, truncated)` 튜플 반환
   - `_parse_csv_simple()`: 동일 변경
   - `preprocess()`: `truncated` 플래그를 `CsvParsedData` 및 `properties`에 전파
-- **수정**: `contextifier/handlers/csv/handler.py` — `format_options["csv"]["max_rows"]` 읽기
-- **수정**: `contextifier/handlers/tsv/handler.py` — `format_options["tsv"]["max_rows"]` 읽기
+- **수정**: `xgen_contextifier/handlers/csv/handler.py` — `format_options["csv"]["max_rows"]` 읽기
+- **수정**: `xgen_contextifier/handlers/tsv/handler.py` — `format_options["tsv"]["max_rows"]` 읽기
 - **테스트**: `tests/unit/handlers/test_csv_streaming.py` — 15 테스트
   - `TestParseMaxRows` (4): no truncation, truncation at limit, exact limit, default constant
   - `TestParseSimpleMaxRows` (2): truncation, no truncation
@@ -341,16 +341,16 @@
 
 ### P4-2. XLSX read_only 모드 옵션 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/xlsx/converter.py`
+- **수정**: `xgen_contextifier/handlers/xlsx/converter.py`
   - `XlsxConverter.__init__()`: `read_only: bool = False` 매개변수 추가
   - `convert()`: `openpyxl.load_workbook(stream, data_only=..., read_only=...)` 전달
-- **수정**: `contextifier/handlers/xlsx/handler.py` — `format_options["xlsx"]["read_only"]` 읽기
+- **수정**: `xgen_contextifier/handlers/xlsx/handler.py` — `format_options["xlsx"]["read_only"]` 읽기
 - **테스트**: `tests/unit/handlers/test_xlsx_handler.py` — 3 테스트 추가
   - `test_read_only_default_false`, `test_read_only_from_format_options`, `test_read_only_passed_to_load_workbook`
 
 ### P4-3. OCR 병렬 처리 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/ocr/processor.py`
+- **수정**: `xgen_contextifier/ocr/processor.py`
   - `OCRProcessor.__init__()`: `max_workers: int = 1` 매개변수 추가
   - `process()`: 2-phase 구조 개편 (Phase 1: 병렬 OCR → Phase 2: 순차 교체)
   - `_run_ocr_batch()`: `ThreadPoolExecutor` 기반 병렬 실행 (max_workers > 1일 때)
@@ -364,7 +364,7 @@
 
 ### P4-4. ThreadPoolExecutor 재사용 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/base.py`
+- **수정**: `xgen_contextifier/handlers/base.py`
   - `_timeout_executor`: `ClassVar` 공유 `ThreadPoolExecutor` (max_workers=4)
   - `_get_timeout_executor()`: 더블 체크 락킹 패턴으로 지연 생성
   - `_shutdown_timeout_executor()`: `atexit` 등록, 프로세스 종료 시 정리
@@ -374,7 +374,7 @@
 
 ### P4-5. CachedDocumentProcessor 확장 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/cached_processor.py`
+- **수정**: `xgen_contextifier/cached_processor.py`
   - `process()`: `ExtractionResult` 캐싱 (JSON 직렬화/역직렬화)
   - `extract_chunks()`: `ChunkResult` 캐싱 (JSON 직렬화/역직렬화)
   - `_make_key()`: `suffix` 매개변수 추가 (text/process/chunks 구분)
@@ -387,7 +387,7 @@
 
 ### P4-6. MemoryCacheBackend LRU 전환 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/cached_processor.py`
+- **수정**: `xgen_contextifier/cached_processor.py`
   - `MemoryCacheBackend._store`: `dict` → `collections.OrderedDict`
   - `get()`: `move_to_end(key)` 호출로 LRU 위치 갱신
   - `put()`: 기존 키 갱신 시 `move_to_end()`, 초과 시 `popitem(last=False)` (LRU 제거)
@@ -397,9 +397,9 @@
 
 ### P4-7. ImageService 크기 제한 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/config.py`
+- **수정**: `xgen_contextifier/config.py`
   - `ImageConfig`: `max_file_size_mb: Optional[float] = None` 필드 추가
-- **수정**: `contextifier/services/image_service.py`
+- **수정**: `xgen_contextifier/services/image_service.py`
   - `save()`: 크기 제한 체크 로직 추가 (초과 시 경고 + `None` 반환)
 - **테스트**: `tests/unit/services/test_image_service.py` — 6 테스트 추가 (24 → 30)
   - `TestImageSizeLimit` (6): default no limit, within limit, exceeds limit, exact limit, None limit, save_and_tag respects
@@ -459,7 +459,7 @@
   - Phase 0 (Security), Phase 1 (Fixed), Phase 2 (Improved), Phase 3 (Added), Phase 4 (Performance), Phase 5 (Documentation) 전체 반영
 - **수정**: `README.md`
   - Documentation 테이블에 5개 신규 문서 링크 추가
-  - `contextifier_new` → `contextifier` 임포트 경로 7건 수정
+  - `contextifier_new` → `xgen_contextifier` 임포트 경로 7건 수정
   - ARCHITECTURE.md 링크 경로 수정
 
 ---
@@ -471,7 +471,7 @@
 
 ### P6-1. LangChain Document Loader ✅
 - **상태**: ✅ 완료
-- **생성**: `contextifier/integrations/__init__.py`, `contextifier/integrations/langchain_loader.py`
+- **생성**: `xgen_contextifier/integrations/__init__.py`, `xgen_contextifier/integrations/langchain_loader.py`
   - `ContextifierLoader(BaseLoader)` — LangChain 문서 로더
   - `lazy_load()` — 단일 문서 모드 / 청크 모드 (chunk=True)
   - 메타데이터: source, file_name, file_extension, chunk_index, page_number
@@ -490,15 +490,15 @@
 - **생성**: `Dockerfile`
   - Multi-stage 빌드 (builder → runtime)
   - python:3.12-slim + tesseract-ocr + tesseract-ocr-kor + poppler-utils
-  - Non-root user (`contextifier`), WORKDIR /data
+  - Non-root user (`xgen_contextifier`), WORKDIR /data
 
 ### P6-4. 암호화 파일 지원 ✅
 - **상태**: ✅ 완료
-- **생성**: `contextifier/services/crypto_service.py`
+- **생성**: `xgen_contextifier/services/crypto_service.py`
   - `is_encrypted(file_data) -> bool` — msoffcrypto로 암호화 여부 확인
   - `decrypt_if_encrypted(file_data, password=None) -> bytes` — 복호화
   - msoffcrypto 미설치 시 graceful fallback (원본 데이터 반환)
-- **수정**: `contextifier/document_processor.py`
+- **수정**: `xgen_contextifier/document_processor.py`
   - `_create_file_context()`: `password` 매개변수 추가 + `decrypt_if_encrypted()` 호출
   - `extract_text()`, `process()`, `extract_chunks()`: `password` kwarg 전달
 - **테스트**: `tests/unit/services/test_crypto_service.py` (10 tests)
@@ -510,18 +510,18 @@
 - **생성**: `docs/license_review.md`
   - AGPL-3.0 vs Apache-2.0 비호환성 분석
   - 영향받는 파일 목록 (pdf/converter.py, pdf_default, pdf_plus)
-  - 조치: pymupdf를 optional dependency (`pip install contextifier[pdf]`)로 전환
+  - 조치: pymupdf를 optional dependency (`pip install xgen_contextifier[pdf]`)로 전환
 - **수정**: `pyproject.toml`
   - `pymupdf>=1.24.0`를 `dependencies`에서 `[project.optional-dependencies].pdf`로 이동
   - `all` extra에 `pdf` 포함
-- **수정**: `contextifier/handlers/pdf/converter.py`
+- **수정**: `xgen_contextifier/handlers/pdf/converter.py`
   - `import fitz` → try/except 가드 + fitz 미설치 시 ConversionError
-- **수정**: `contextifier/handlers/pdf_default/content_extractor.py`
+- **수정**: `xgen_contextifier/handlers/pdf_default/content_extractor.py`
   - `import fitz` → try/except 가드
 
 ### P6-6. CSV 구분자 신뢰도 점수 ✅
 - **상태**: ✅ 완료
-- **수정**: `contextifier/handlers/csv/preprocessor.py`
+- **수정**: `xgen_contextifier/handlers/csv/preprocessor.py`
   - `_detect_delimiter()` 반환값: `str` → `tuple[str, float]` (delimiter, confidence)
   - Sniffer 성공: 행 일관성 검증 후 0.7~1.0 신뢰도
   - 수동 스코어링: 완벽 일관성 1.0, 변동 시 0.0~0.7
@@ -532,7 +532,7 @@
 
 ### P6-7. 인코딩 감지 설정 통합 ✅
 - **상태**: ✅ 완료
-- **생성**: `contextifier/config.py`에 `EncodingConfig` 추가
+- **생성**: `xgen_contextifier/config.py`에 `EncodingConfig` 추가
   - `fallback_encodings`: 인코딩 시도 순서 (기본: utf-8, utf-8-sig, cp949, euc-kr, latin-1, ascii)
   - `force_encoding`: 강제 인코딩 지정 (감지 건너뜀)
   - `min_confidence`: chardet 최소 신뢰도 (향후 통합용, 기본 0.7)

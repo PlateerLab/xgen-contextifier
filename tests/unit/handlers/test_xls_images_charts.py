@@ -14,12 +14,12 @@ from __future__ import annotations
 from unittest.mock import MagicMock, patch
 
 
-from contextifier.handlers.xls.content_extractor import (
+from xgen_contextifier.handlers.xls.content_extractor import (
     XlsContentExtractor,
     _detect_image_format,
     _XL_CHART_SHEET,
 )
-from contextifier.types import PreprocessedData
+from xgen_contextifier.types import PreprocessedData
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -100,7 +100,7 @@ class TestXlsImageExtraction:
         extractor = XlsContentExtractor(image_service=image_service)
         assert extractor.extract_images(preprocessed) == []
 
-    @patch("contextifier.handlers.xls.content_extractor.olefile")
+    @patch("xgen_contextifier.handlers.xls.content_extractor.olefile")
     def test_ole_image_found_and_saved(self, mock_olefile_mod):
         """When OLE streams contain an image, save_and_tag is called."""
         # Set up mock OLE
@@ -130,7 +130,7 @@ class TestXlsImageExtraction:
         assert "[Image:" in tags[0]
         image_service.save_and_tag.assert_called_once()
 
-    @patch("contextifier.handlers.xls.content_extractor.olefile")
+    @patch("xgen_contextifier.handlers.xls.content_extractor.olefile")
     def test_deduplication(self, mock_olefile_mod):
         """Identical images in different streams produce only one tag."""
         mock_ole = MagicMock()

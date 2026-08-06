@@ -56,8 +56,8 @@ pdf = ["pymupdf>=1.24.0"]
 ```
 
 이를 통해:
-- 기본 설치(`pip install contextifier`)에는 pymupdf가 포함되지 않음
-- 사용자가 명시적으로 `pip install contextifier[pdf]`로 설치해야 함
+- 기본 설치(`pip install xgen_contextifier`)에는 pymupdf가 포함되지 않음
+- 사용자가 명시적으로 `pip install xgen_contextifier[pdf]`로 설치해야 함
 - 사용자가 AGPL-3.0 조건을 인지하고 선택할 수 있음
 
 ### 3.2 가드 임포트 패턴 적용
@@ -85,7 +85,7 @@ pymupdf 없이도 기본적인 PDF 텍스트 추출이 가능한 라이브러리
 ### PyMuPDF 사용 시 (AGPL-3.0 수용)
 
 ```bash
-pip install contextifier[pdf]
+pip install xgen_contextifier[pdf]
 ```
 
 - PDF 핸들러(pdf, pdf_default, pdf_plus)가 전체 기능으로 동작
@@ -94,7 +94,7 @@ pip install contextifier[pdf]
 ### PyMuPDF 미사용 시 (Apache-2.0 유지)
 
 ```bash
-pip install contextifier
+pip install xgen_contextifier
 ```
 
 - PDF 핸들러 사용 시 `ImportError`와 함께 설치 안내 메시지 표시
@@ -115,8 +115,8 @@ AGPL-3.0 조건을 피하면서 PyMuPDF를 사용하려면 상업 라이선스 �
 
 | 파일 | fitz 사용 방식 |
 |------|---------------|
-| `contextifier/handlers/pdf/converter.py` | `fitz.open()` — PDF 문서 열기 |
-| `contextifier/handlers/pdf_default/content_extractor.py` | fitz 페이지 텍스트 추출 |
-| `contextifier/handlers/pdf_plus/_block_image_engine.py` | 블록 이미지 처리 (이미 가드 적용) |
-| `contextifier/handlers/pdf_plus/_image_extractor.py` | 이미지 추출 |
-| `contextifier/handlers/pdf_plus/_vector_text_ocr.py` | 벡터 텍스트 OCR 렌더링 |
+| `xgen_contextifier/handlers/pdf/converter.py` | `fitz.open()` — PDF 문서 열기 |
+| `xgen_contextifier/handlers/pdf_default/content_extractor.py` | fitz 페이지 텍스트 추출 |
+| `xgen_contextifier/handlers/pdf_plus/_block_image_engine.py` | 블록 이미지 처리 (이미 가드 적용) |
+| `xgen_contextifier/handlers/pdf_plus/_image_extractor.py` | 이미지 추출 |
+| `xgen_contextifier/handlers/pdf_plus/_vector_text_ocr.py` | 벡터 텍스트 OCR 렌더링 |

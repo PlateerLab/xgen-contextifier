@@ -13,17 +13,17 @@ from __future__ import annotations
 
 import unittest
 
-from contextifier.handlers.base import BaseHandler
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.base import BaseHandler
+from xgen_contextifier.config import ProcessingConfig
 
 
 def _make_handler():
     """Create a minimal concrete handler for testing."""
-    from contextifier.pipeline.converter import NullConverter
-    from contextifier.pipeline.preprocessor import NullPreprocessor
-    from contextifier.pipeline.metadata_extractor import NullMetadataExtractor
-    from contextifier.pipeline.content_extractor import BaseContentExtractor
-    from contextifier.pipeline.postprocessor import DefaultPostprocessor
+    from xgen_contextifier.pipeline.converter import NullConverter
+    from xgen_contextifier.pipeline.preprocessor import NullPreprocessor
+    from xgen_contextifier.pipeline.metadata_extractor import NullMetadataExtractor
+    from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
+    from xgen_contextifier.pipeline.postprocessor import DefaultPostprocessor
 
     class _StubExtractor(BaseContentExtractor):
         def extract_text(self, preprocessed, **kwargs):

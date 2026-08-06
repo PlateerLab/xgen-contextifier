@@ -1,15 +1,15 @@
 # tests/unit/test_config.py
-"""Unit tests for contextifier.config — configuration validation."""
+"""Unit tests for xgen_contextifier.config — configuration validation."""
 
 from __future__ import annotations
 
 import pytest
 
-from contextifier.config import (
+from xgen_contextifier.config import (
     ChunkingConfig,
     ProcessingConfig,
 )
-from contextifier.errors import ConfigurationError
+from xgen_contextifier.errors import ConfigurationError
 
 
 class TestChunkingConfig:

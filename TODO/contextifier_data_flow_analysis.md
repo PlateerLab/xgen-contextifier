@@ -815,12 +815,12 @@ def process(self, file_context, *, timeout: Optional[float] = None, ...):
 
 ```python
 # pyproject.toml에 등록
-# [project.entry-points."contextifier.handlers"]
+# [project.entry-points."xgen_contextifier.handlers"]
 # my_format = "my_package.handlers:MyFormatHandler"
 
 def register_plugins(self) -> None:
     import importlib.metadata
-    eps = importlib.metadata.entry_points(group="contextifier.handlers")
+    eps = importlib.metadata.entry_points(group="xgen_contextifier.handlers")
     for ep in eps:
         try:
             handler_class = ep.load()

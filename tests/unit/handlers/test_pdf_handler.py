@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.handlers.pdf.handler import PDFHandler
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.pdf.handler import PDFHandler
 
 
 @pytest.fixture()

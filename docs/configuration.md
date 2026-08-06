@@ -9,7 +9,7 @@ Contextifier는 **불변(frozen) 데이터클래스** 기반의 설정 시스템
 변경이 필요하면 `with_*()` 메서드로 수정된 복사본을 만듭니다.
 
 ```python
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 
 # 기본 설정 (모든 옵션이 기본값)
 config = ProcessingConfig()
@@ -182,7 +182,7 @@ config = ProcessingConfig().with_metadata(
 | `preserve_merged_cells` | `bool` | `True` | 병합 셀 보존 (rowspan/colspan) |
 
 ```python
-from contextifier.types import OutputFormat
+from xgen_contextifier.types import OutputFormat
 
 config = ProcessingConfig().with_tables(
     output_format=OutputFormat.MARKDOWN,

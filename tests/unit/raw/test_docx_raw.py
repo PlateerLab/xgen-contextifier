@@ -21,9 +21,9 @@ from docx.oxml.ns import qn as docx_qn
 from docx.oxml.parser import OxmlElement
 from lxml import etree
 
-from contextifier.raw import open_raw
-from contextifier.raw.docx import DocxRawDocument
-from contextifier.raw.xmlpart import NS, qn
+from xgen_contextifier.raw import open_raw
+from xgen_contextifier.raw.docx import DocxRawDocument
+from xgen_contextifier.raw.xmlpart import NS, qn
 
 W_DRAWING = qn("w:drawing")
 W_HYPERLINK = qn("w:hyperlink")

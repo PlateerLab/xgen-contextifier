@@ -17,17 +17,17 @@ from typing import Any
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from contextifier import (
+from xgen_contextifier import (
     DocumentProcessor, AsyncDocumentProcessor, CachedDocumentProcessor,
     ProcessingConfig, ChunkingConfig, TextChunker,
     ExtractionResult, ChunkResult, Chunk, ChunkMetadata,
     ContextifierError, UnsupportedFormatError,
 )
-from contextifier.config import (
+from xgen_contextifier.config import (
     TagConfig, ImageConfig, ChartConfig, MetadataConfig,
     TableConfig, OCRConfig, EncodingConfig,
 )
-from contextifier.types import (
+from xgen_contextifier.types import (
     OutputFormat, NamingStrategy, FileContext,
 )
 

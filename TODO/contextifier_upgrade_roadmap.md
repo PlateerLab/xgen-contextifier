@@ -67,7 +67,7 @@ FileContext { file_data: bytes, file_stream: BytesIO, ... }   ← ⚠ OOM 위험
 > 아래 5건은 실제 GitHub 소스 코드를 직접 디코딩하여 확인한 버그입니다.
 
 ### BUG-1: XLSX 이미지 이름 충돌 → 데이터 손실
-**파일**: `contextifier/handlers/xlsx/content_extractor.py:_extract_sheet_images()`
+**파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py:_extract_sheet_images()`
 
 ```python
 # 현재 코드 (버그)
@@ -91,7 +91,7 @@ tag = self._image_service.save_and_tag(
 ---
 
 ### BUG-2: XLSX openpyxl 내부 API 3종 사용 → 버전 업 시 즉시 파손
-**파일**: `contextifier/handlers/xlsx/content_extractor.py`
+**파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py`
 
 ```python
 # 현재 코드 (버그)
@@ -117,7 +117,7 @@ def _extract_images_from_workbook_zip(file_data: bytes) -> dict:
 ---
 
 ### BUG-3: DOCX `import re` 함수 내부 위치
-**파일**: `contextifier/handlers/docx/content_extractor.py:extract_text()`
+**파일**: `xgen_contextifier/handlers/docx/content_extractor.py:extract_text()`
 
 ```python
 # 현재 코드 (버그)
@@ -141,7 +141,7 @@ def extract_text(self, preprocessed, **kwargs):
 ---
 
 ### BUG-4: PDF mode 문자열 유효성 검증 없음
-**파일**: `contextifier/handlers/pdf/handler.py:create_content_extractor()`
+**파일**: `xgen_contextifier/handlers/pdf/handler.py:create_content_extractor()`
 
 ```python
 # 현재 코드 (버그)
@@ -162,7 +162,7 @@ if mode not in VALID_MODES:
 ---
 
 ### BUG-5: HandlerRegistry 등록 실패를 `logger.info`로만 로깅
-**파일**: `contextifier/handlers/registry.py:register_defaults()`
+**파일**: `xgen_contextifier/handlers/registry.py:register_defaults()`
 
 ```python
 # 현재 코드 (버그)
@@ -230,7 +230,7 @@ class HTMLContentExtractor(BaseContentExtractor):
 **등록**:
 ```python
 # registry.py register_defaults()에 추가
-("contextifier.handlers.html.handler", "HTMLHandler"),
+("xgen_contextifier.handlers.html.handler", "HTMLHandler"),
 ```
 
 ---
@@ -390,7 +390,7 @@ class AsyncDocumentProcessor(DocumentProcessor):
 def register_plugins(self) -> None:
     import importlib.metadata
     try:
-        eps = importlib.metadata.entry_points(group="contextifier.handlers")
+        eps = importlib.metadata.entry_points(group="xgen_contextifier.handlers")
     except Exception:
         return
     for ep in eps:

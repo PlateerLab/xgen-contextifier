@@ -66,7 +66,7 @@ DocumentProcessor (동기, 핵심)
 
 ## 3. 모듈 구조 상세
 
-### 3.1 루트 모듈 (`contextifier/`)
+### 3.1 루트 모듈 (`xgen_contextifier/`)
 
 | 파일 | LOC | 역할 | 패턴 |
 |------|-----|------|------|
@@ -92,7 +92,7 @@ ProcessingConfig (root, frozen)
 └── format_options     — 핸들러별 옵션 (MappingProxyType으로 동결)
 ```
 
-### 3.3 파이프라인 모듈 (`contextifier/pipeline/`)
+### 3.3 파이프라인 모듈 (`xgen_contextifier/pipeline/`)
 
 | 파일 | LOC | 역할 |
 |------|-----|------|
@@ -102,7 +102,7 @@ ProcessingConfig (root, frozen)
 | `content_extractor.py` | 297 | Stage 4 ABC: 텍스트/테이블/이미지/차트 추출 |
 | `postprocessor.py` | 148 | Stage 5 ABC + DefaultPostprocessor |
 
-### 3.4 서비스 레이어 (`contextifier/services/`)
+### 3.4 서비스 레이어 (`xgen_contextifier/services/`)
 
 | 서비스 | LOC | 역할 | 특징 |
 |--------|-----|------|------|
@@ -114,7 +114,7 @@ ProcessingConfig (root, frozen)
 | `LocalStorageBackend` | ~50 | 로컬 파일 시스템 저장 | BaseStorageBackend 구현체 |
 | `LibreOfficeHelper` | 133 | LibreOffice headless 변환 | ⚠️ 제거 대상 (외부 도구 의존) |
 
-### 3.5 청킹 시스템 (`contextifier/chunking/`)
+### 3.5 청킹 시스템 (`xgen_contextifier/chunking/`)
 
 | 파일 | LOC | 역할 |
 |------|-----|------|
@@ -134,7 +134,7 @@ ProcessingConfig (root, frozen)
 3. `ProtectedChunkingStrategy` (p=20) — 보호 영역 보존
 4. `PlainChunkingStrategy` (p=100) — 기본 폴백
 
-### 3.6 OCR 시스템 (`contextifier/ocr/`)
+### 3.6 OCR 시스템 (`xgen_contextifier/ocr/`)
 
 | 파일 | LOC | 역할 |
 |------|-----|------|
@@ -146,7 +146,7 @@ ProcessingConfig (root, frozen)
 | `engines/gemini_engine.py` | ~80 | Google Gemini 구현체 |
 | `engines/vllm_engine.py` | ~80 | vLLM 로컬 구현체 |
 
-### 3.7 핸들러 (`contextifier/handlers/`)
+### 3.7 핸들러 (`xgen_contextifier/handlers/`)
 
 ```
 handlers/

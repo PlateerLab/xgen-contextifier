@@ -19,13 +19,13 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.document_processor import DocumentProcessor
-from contextifier.errors import ConversionError, FileReadError
-from contextifier.handlers.base import BaseHandler
-from contextifier.pipeline.converter import check_zip_bomb, MAX_ZIP_DECOMPRESSED_BYTES
-from contextifier.services.storage.local import LocalStorageBackend
-from contextifier.errors import StorageError
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.document_processor import DocumentProcessor
+from xgen_contextifier.errors import ConversionError, FileReadError
+from xgen_contextifier.handlers.base import BaseHandler
+from xgen_contextifier.pipeline.converter import check_zip_bomb, MAX_ZIP_DECOMPRESSED_BYTES
+from xgen_contextifier.services.storage.local import LocalStorageBackend
+from xgen_contextifier.errors import StorageError
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -131,7 +131,7 @@ class TestDelegationDepthSecurity:
 
     def test_depth_overflow_prevented(self) -> None:
         """Simulating depth at max should block further delegation."""
-        from contextifier.errors import HandlerExecutionError
+        from xgen_contextifier.errors import HandlerExecutionError
 
         class _Stub(BaseHandler):
             @property

@@ -27,14 +27,14 @@ from lxml import etree
 from openpyxl.chart import BarChart, Reference
 from openpyxl.workbook.defined_name import DefinedName
 
-from contextifier.raw import open_raw
-from contextifier.raw.xlsx import (
+from xgen_contextifier.raw import open_raw
+from xgen_contextifier.raw.xlsx import (
     XlsxRawDocument,
     col_index_to_letters,
     col_letters_to_index,
     parse_ref,
 )
-from contextifier.raw.xmlpart import NS
+from xgen_contextifier.raw.xmlpart import NS
 
 SHEET1 = "xl/worksheets/sheet1.xml"
 SHEET2 = "xl/worksheets/sheet2.xml"

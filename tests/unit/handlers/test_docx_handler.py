@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.handlers.docx.handler import DOCXHandler
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.docx.handler import DOCXHandler
 
 
 @pytest.fixture()

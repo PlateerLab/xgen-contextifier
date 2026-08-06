@@ -11,8 +11,8 @@ from __future__ import annotations
 from unittest import mock
 
 
-from contextifier.handlers.xlsx.content_extractor import XlsxContentExtractor
-from contextifier.types import ChartData, ChartSeries, PreprocessedData
+from xgen_contextifier.handlers.xlsx.content_extractor import XlsxContentExtractor
+from xgen_contextifier.types import ChartData, ChartSeries, PreprocessedData
 
 
 def _make_preprocessed(charts: list[dict] | None = None):

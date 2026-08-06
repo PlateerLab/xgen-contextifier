@@ -4,9 +4,9 @@
 from __future__ import annotations
 
 
-from contextifier.config import ProcessingConfig
-from contextifier.services.table_service import TableService
-from contextifier.types import TableData, TableCell
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.services.table_service import TableService
+from xgen_contextifier.types import TableData, TableCell
 
 
 def _simple_table() -> TableData:

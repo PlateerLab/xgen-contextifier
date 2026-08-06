@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml MANIFEST.in README.md LICENSE ./
-COPY contextifier/ contextifier/
+COPY xgen_contextifier/ xgen_contextifier/
 
 RUN pip install --no-cache-dir build \
     && python -m build --wheel
@@ -37,10 +37,10 @@ RUN pip install --no-cache-dir /tmp/*.whl \
     && rm -rf /tmp/*.whl
 
 # Non-root user for security
-RUN useradd --create-home --shell /bin/bash contextifier
-USER contextifier
+RUN useradd --create-home --shell /bin/bash xgen_contextifier
+USER xgen_contextifier
 
 # Default working directory for documents
 WORKDIR /data
 
-ENTRYPOINT ["python", "-m", "contextifier"]
+ENTRYPOINT ["python", "-m", "xgen_contextifier"]

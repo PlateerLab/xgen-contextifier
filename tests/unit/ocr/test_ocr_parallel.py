@@ -17,8 +17,8 @@ import tempfile
 import unittest
 from unittest.mock import MagicMock
 
-from contextifier.config import ProcessingConfig
-from contextifier.ocr.processor import OCRProcessor, OCRProgressEvent
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.ocr.processor import OCRProcessor, OCRProgressEvent
 
 
 def _make_engine(results: dict[str, str | None] | None = None):

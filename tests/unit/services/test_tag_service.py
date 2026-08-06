@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.services.tag_service import TagService
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.services.tag_service import TagService
 
 
 @pytest.fixture()

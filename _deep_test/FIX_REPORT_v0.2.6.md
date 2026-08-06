@@ -28,9 +28,9 @@
 
 | File | Change |
 |------|--------|
-| `contextifier/pipeline/converter.py` | `BaseConverter.validate()` now returns `True` always (empty file handling deferred to `convert()`) |
-| `contextifier/handlers/text/converter.py` | `validate()` returns `True`; `convert()` returns empty `TextConvertedData` for empty files instead of raising |
-| `contextifier/handlers/csv/converter.py` | `validate()` returns `True`; `convert()` returns empty `CsvConvertedData` for empty files instead of raising |
+| `xgen_contextifier/pipeline/converter.py` | `BaseConverter.validate()` now returns `True` always (empty file handling deferred to `convert()`) |
+| `xgen_contextifier/handlers/text/converter.py` | `validate()` returns `True`; `convert()` returns empty `TextConvertedData` for empty files instead of raising |
+| `xgen_contextifier/handlers/csv/converter.py` | `validate()` returns `True`; `convert()` returns empty `CsvConvertedData` for empty files instead of raising |
 | `tests/unit/test_security.py` | `test_empty_file_rejected` -> `test_empty_file_returns_empty_text` (expects empty string return) |
 
 **Verification:**
@@ -51,7 +51,7 @@ proc.extract_text("empty.csv")  # Returns metadata-only text (was: ConversionErr
 
 | File | Change |
 |------|--------|
-| `contextifier/handlers/image/_constants.py` | Removed `"svg"` from `IMAGE_EXTENSIONS` (SVG stays in TextHandler as it's XML-based) |
+| `xgen_contextifier/handlers/image/_constants.py` | Removed `"svg"` from `IMAGE_EXTENSIONS` (SVG stays in TextHandler as it's XML-based) |
 
 **Verification:**
 ```python
@@ -72,7 +72,7 @@ proc.is_supported(".svg")   # Returns True (was: False)
 
 | File | Change |
 |------|--------|
-| `contextifier/chunking/chunker.py` | `return [""]` -> `return []` for empty/whitespace-only text |
+| `xgen_contextifier/chunking/chunker.py` | `return [""]` -> `return []` for empty/whitespace-only text |
 | `tests/unit/chunking/test_chunker.py` | Updated 2 tests to expect `[]` instead of `[""]` |
 
 **Verification:**
@@ -91,7 +91,7 @@ chunker.chunk("  \n  ")  # Returns [] (was: [""])
 
 | File | Change |
 |------|--------|
-| `contextifier/document_processor.py` | In `extract_text()` and `process()`: moved extension resolution and format support check **before** file existence check |
+| `xgen_contextifier/document_processor.py` | In `extract_text()` and `process()`: moved extension resolution and format support check **before** file existence check |
 
 **Verification:**
 ```python
@@ -109,9 +109,9 @@ proc.extract_text("nonexistent.pdf")  # FileNotFoundError (unchanged, .pdf is su
 
 | File | Change |
 |------|--------|
-| `contextifier/document_processor.py` | Added `strategy: Optional[str] = None` field to `ChunkResult` dataclass |
-| `contextifier/chunking/chunker.py` | Added `last_strategy_name` property to `TextChunker`; tracks strategy used in each `chunk()` call |
-| `contextifier/document_processor.py` | `extract_chunks()` now passes `self._chunker.last_strategy_name` to `ChunkResult.strategy` |
+| `xgen_contextifier/document_processor.py` | Added `strategy: Optional[str] = None` field to `ChunkResult` dataclass |
+| `xgen_contextifier/chunking/chunker.py` | Added `last_strategy_name` property to `TextChunker`; tracks strategy used in each `chunk()` call |
+| `xgen_contextifier/document_processor.py` | `extract_chunks()` now passes `self._chunker.last_strategy_name` to `ChunkResult.strategy` |
 
 **Verification:**
 ```python
@@ -131,12 +131,12 @@ result.strategy  # "protected" or "page"
 
 | File | Lines Changed | Type |
 |------|--------------|------|
-| `contextifier/pipeline/converter.py` | ~5 | Bug fix |
-| `contextifier/handlers/text/converter.py` | ~10 | Bug fix |
-| `contextifier/handlers/csv/converter.py` | ~10 | Bug fix |
-| `contextifier/handlers/image/_constants.py` | ~3 | Bug fix |
-| `contextifier/chunking/chunker.py` | ~10 | Bug fix + Feature |
-| `contextifier/document_processor.py` | ~25 | Bug fix + Feature |
+| `xgen_contextifier/pipeline/converter.py` | ~5 | Bug fix |
+| `xgen_contextifier/handlers/text/converter.py` | ~10 | Bug fix |
+| `xgen_contextifier/handlers/csv/converter.py` | ~10 | Bug fix |
+| `xgen_contextifier/handlers/image/_constants.py` | ~3 | Bug fix |
+| `xgen_contextifier/chunking/chunker.py` | ~10 | Bug fix + Feature |
+| `xgen_contextifier/document_processor.py` | ~25 | Bug fix + Feature |
 | `tests/unit/test_security.py` | ~5 | Test update |
 | `tests/unit/chunking/test_chunker.py` | ~4 | Test update |
 

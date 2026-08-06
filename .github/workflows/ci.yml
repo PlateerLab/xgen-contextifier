@@ -21,9 +21,9 @@ jobs:
       - name: Install ruff
         run: pip install ruff
       - name: Run ruff check
-        run: ruff check contextifier/
+        run: ruff check xgen_contextifier/
       - name: Run ruff format check
-        run: ruff format --check contextifier/
+        run: ruff format --check xgen_contextifier/
 
   test:
     name: Test (Python ${{ matrix.python-version }})
@@ -59,7 +59,7 @@ jobs:
           pip install -e ".[all]"
           pip install mypy
       - name: Run mypy
-        run: mypy contextifier/ --ignore-missing-imports --no-strict-optional
+        run: mypy xgen_contextifier/ --ignore-missing-imports --no-strict-optional
         continue-on-error: true
 
   publish:

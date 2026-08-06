@@ -11,7 +11,7 @@ from __future__ import annotations
 
 from unittest import mock
 
-from contextifier.handlers.rtf._table_parser import (
+from xgen_contextifier.handlers.rtf._table_parser import (
     _parse_cell_definitions,
     _build_table_data,
     _is_real_table,
@@ -334,10 +334,10 @@ class TestMergeEdgeCases:
         # Build minimal RTF row text
         row_text = r"\trowd\cellx5000 Hello\cell\row"
         with mock.patch(
-            "contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
             side_effect=lambda t, enc: t,
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.clean_rtf_text",
+            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
             side_effect=lambda t, enc: t.strip(),
         ):
             result = single_column_to_text([row_text], "cp949")
@@ -364,16 +364,16 @@ class TestExtractTablesIntegration:
             r" C\cell D\cell\row"
         )
         with mock.patch(
-            "contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
             side_effect=lambda t, enc: t,
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.clean_rtf_text",
+            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
             side_effect=lambda t, enc: t.strip(),
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.find_excluded_regions",
+            "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
             return_value=[],
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.is_in_excluded_region",
+            "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
             return_value=False,
         ):
             tables = extract_tables(rtf, "cp949")
@@ -391,16 +391,16 @@ class TestExtractTablesIntegration:
             r" C\cell D\cell\row"
         )
         with mock.patch(
-            "contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
             side_effect=lambda t, enc: t,
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.clean_rtf_text",
+            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
             side_effect=lambda t, enc: t.strip(),
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.find_excluded_regions",
+            "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
             return_value=[],
         ), mock.patch(
-            "contextifier.handlers.rtf._table_parser.is_in_excluded_region",
+            "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
             return_value=False,
         ):
             tables = extract_tables(rtf, "cp949")

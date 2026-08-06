@@ -255,14 +255,14 @@ The pipeline rejects empty files at the validation stage instead of returning an
 ```python
 # chunk_text() correctly returns List[Chunk] with metadata
 chunks = proc.chunk_text("text", include_position_metadata=True)
-type(chunks[0])  # -> <class 'contextifier.types.Chunk'> (Correct!)
+type(chunks[0])  # -> <class 'xgen_contextifier.types.Chunk'> (Correct!)
 
 # extract_chunks() always returns strings in .chunks
 result = proc.extract_chunks(file, include_position_metadata=True)
 type(result.chunks[0])  # -> <class 'str'> (Wrong!)
 
 # Metadata is hidden in a separate field
-type(result.chunks_with_metadata[0])  # -> <class 'contextifier.types.Chunk'> (But user doesn't know!)
+type(result.chunks_with_metadata[0])  # -> <class 'xgen_contextifier.types.Chunk'> (But user doesn't know!)
 ```
 
 **Root cause:** `extract_chunks()` calls `chunk_text()` which returns `List[Chunk]`, but then wraps them in `ChunkResult` which stores string-only chunks in `.chunks` and Chunk objects in `.chunks_with_metadata`. The API is confusing.
@@ -282,8 +282,8 @@ Extension 'svg' already registered to Text Handler, overriding with Image File H
 ```
 
 **Root cause:** SVG is listed in both:
-- `contextifier/handlers/text/handler.py` line 54: `_TEXT_EXTENSIONS` includes `"svg"`
-- `contextifier/handlers/image/_constants.py` line 43: `IMAGE_EXTENSIONS` includes `"svg"`
+- `xgen_contextifier/handlers/text/handler.py` line 54: `_TEXT_EXTENSIONS` includes `"svg"`
+- `xgen_contextifier/handlers/image/_constants.py` line 43: `IMAGE_EXTENSIONS` includes `"svg"`
 
 Since TextHandler registers before ImageFileHandler, the warning fires every time.
 

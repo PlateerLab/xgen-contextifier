@@ -16,13 +16,13 @@ from typing import List, Tuple
 from unittest.mock import MagicMock
 
 
-from contextifier.handlers.ppt.content_extractor import (
+from xgen_contextifier.handlers.ppt.content_extractor import (
     PptContentExtractor,
     _detect_ole_charts,
     _detect_tabular_text,
     _rows_to_table_data,
 )
-from contextifier.types import PreprocessedData
+from xgen_contextifier.types import PreprocessedData
 
 
 # ═════════════════════════════════════════════════════════════════════════════

@@ -7,9 +7,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.services.chart_service import ChartService
-from contextifier.types import ChartData, ChartSeries
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.services.chart_service import ChartService
+from xgen_contextifier.types import ChartData, ChartSeries
 
 
 @pytest.fixture()

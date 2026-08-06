@@ -7,10 +7,10 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.handlers.pdf_default.content_extractor import (
+from xgen_contextifier.handlers.pdf_default.content_extractor import (
     PdfDefaultContentExtractor,
 )
-from contextifier.types import PreprocessedData
+from xgen_contextifier.types import PreprocessedData
 
 
 def _make_fake_doc(page_count: int = 2) -> MagicMock:

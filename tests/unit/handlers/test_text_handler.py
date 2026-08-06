@@ -5,9 +5,9 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.handlers.text.handler import TextHandler
-from contextifier.types import FileContext
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.text.handler import TextHandler
+from xgen_contextifier.types import FileContext
 
 
 def _make_text_context(

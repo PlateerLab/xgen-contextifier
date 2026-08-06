@@ -7,10 +7,10 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.handlers.base import BaseHandler
-from contextifier.errors import HandlerExecutionError
-from contextifier.types import ExtractionResult, FileContext
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.base import BaseHandler
+from xgen_contextifier.errors import HandlerExecutionError
+from xgen_contextifier.types import ExtractionResult, FileContext
 
 
 class _StubHandler(BaseHandler):
@@ -106,7 +106,7 @@ class TestDOCDelegation:
     """DOCHandler delegates to DOCX, RTF, or HTML based on magic bytes."""
 
     def _make_doc_handler(self):
-        from contextifier.handlers.doc.handler import DOCHandler
+        from xgen_contextifier.handlers.doc.handler import DOCHandler
         h = DOCHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -162,7 +162,7 @@ class TestPPTDelegation:
     """PPTHandler delegates to PPTX when ZIP magic is detected."""
 
     def _make_ppt_handler(self):
-        from contextifier.handlers.ppt.handler import PPTHandler
+        from xgen_contextifier.handlers.ppt.handler import PPTHandler
         h = PPTHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -191,7 +191,7 @@ class TestXLSDelegation:
     """XLSHandler delegates to XLSX when ZIP magic is detected."""
 
     def _make_xls_handler(self):
-        from contextifier.handlers.xls.handler import XLSHandler
+        from xgen_contextifier.handlers.xls.handler import XLSHandler
         h = XLSHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -220,7 +220,7 @@ class TestHWPDelegation:
     """HWPHandler delegates to HWPX when ZIP magic is detected."""
 
     def _make_hwp_handler(self):
-        from contextifier.handlers.hwp.handler import HWPHandler
+        from xgen_contextifier.handlers.hwp.handler import HWPHandler
         h = HWPHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)

@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 
-from contextifier.handlers.csv.preprocessor import (
+from xgen_contextifier.handlers.csv.preprocessor import (
     CsvParsedData,
     CsvPreprocessor,
     _detect_delimiter,

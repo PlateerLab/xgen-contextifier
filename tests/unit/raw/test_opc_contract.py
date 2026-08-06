@@ -1,7 +1,7 @@
 # tests/unit/raw/test_opc_contract.py
 """The byte-preservation contract — the foundation of the raw layer.
 
-If these fail, nothing else in contextifier.raw can be trusted.
+If these fail, nothing else in xgen_contextifier.raw can be trusted.
 """
 
 from __future__ import annotations
@@ -11,9 +11,9 @@ import zipfile
 
 import pytest
 
-from contextifier.errors import ContextifierError
-from contextifier.raw.opc import OpcPackage
-from contextifier.raw.xmlpart import NS, XmlPart, qn
+from xgen_contextifier.errors import ContextifierError
+from xgen_contextifier.raw.opc import OpcPackage
+from xgen_contextifier.raw.xmlpart import NS, XmlPart, qn
 
 
 def _mini_package() -> bytes:

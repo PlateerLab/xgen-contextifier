@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from contextifier.async_processor import AsyncDocumentProcessor
-from contextifier.config import ProcessingConfig
-from contextifier.types import ExtractionResult
+from xgen_contextifier.async_processor import AsyncDocumentProcessor
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.types import ExtractionResult
 
 
 @pytest.fixture()

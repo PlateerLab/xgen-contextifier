@@ -26,8 +26,8 @@ pip install langchain-openai
 ```
 
 ```python
-from contextifier import DocumentProcessor
-from contextifier.ocr.engines import OpenAIOCREngine
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.ocr.engines import OpenAIOCREngine
 
 # API 키로 간편 생성
 ocr = OpenAIOCREngine.from_api_key(
@@ -47,7 +47,7 @@ pip install langchain-anthropic
 ```
 
 ```python
-from contextifier.ocr.engines import AnthropicOCREngine
+from xgen_contextifier.ocr.engines import AnthropicOCREngine
 
 ocr = AnthropicOCREngine.from_api_key(
     "sk-ant-your-api-key",
@@ -64,7 +64,7 @@ pip install langchain-google-genai
 ```
 
 ```python
-from contextifier.ocr.engines import GeminiOCREngine
+from xgen_contextifier.ocr.engines import GeminiOCREngine
 
 ocr = GeminiOCREngine.from_api_key(
     "your-google-api-key",
@@ -81,7 +81,7 @@ pip install langchain-aws
 ```
 
 ```python
-from contextifier.ocr.engines import BedrockOCREngine
+from xgen_contextifier.ocr.engines import BedrockOCREngine
 from langchain_aws import ChatBedrock
 
 # LangChain 클라이언트 직접 주입
@@ -101,7 +101,7 @@ pip install langchain-openai
 ```
 
 ```python
-from contextifier.ocr.engines import VLLMOCREngine
+from xgen_contextifier.ocr.engines import VLLMOCREngine
 from langchain_openai import ChatOpenAI
 
 # vLLM 서버를 OpenAI 호환 엔드포인트로 연결
@@ -130,7 +130,7 @@ pip install pytesseract Pillow
 | **Windows** | [UB Mannheim 설치파일](https://github.com/UB-Mannheim/tesseract/wiki) 다운로드 후 PATH 등록 |
 
 ```python
-from contextifier.ocr.engines import TesseractOCREngine
+from xgen_contextifier.ocr.engines import TesseractOCREngine
 
 # 기본 영어
 ocr = TesseractOCREngine()
@@ -159,7 +159,7 @@ processor = DocumentProcessor(ocr_engine=ocr)
 - `"en"`: 영어 출력
 
 ```python
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 
 # 프롬프트 언어 변경
 config = ProcessingConfig().with_ocr(prompt_language="en")
@@ -185,7 +185,7 @@ ocr = OpenAIOCREngine.from_api_key("sk-...", prompt=custom_prompt)
 대량의 이미지가 포함된 문서에서 OCR 속도를 향상시킬 수 있습니다:
 
 ```python
-from contextifier.ocr.processor import OCRProcessor
+from xgen_contextifier.ocr.processor import OCRProcessor
 
 # 기본: 순차 처리 (max_workers=1)
 processor = OCRProcessor(engine=ocr, config=config)

@@ -27,13 +27,13 @@ A comprehensive guide to all APIs, configuration options, and usage patterns in 
 ### pip
 
 ```bash
-pip install contextifier
+pip install xgen_contextifier
 ```
 
 ### uv
 
 ```bash
-uv add contextifier
+uv add xgen_contextifier
 ```
 
 ### Optional Dependencies

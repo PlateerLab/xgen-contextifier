@@ -7,12 +7,12 @@ from pathlib import Path
 from unittest.mock import MagicMock
 
 
-from contextifier.cached_processor import (
+from xgen_contextifier.cached_processor import (
     CachedDocumentProcessor,
     DiskCacheBackend,
     MemoryCacheBackend,
 )
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 
 
 # ═══════════════ MemoryCacheBackend ═══════════════════════════════════════════
@@ -191,7 +191,7 @@ class TestCachedProcess:
     """CachedDocumentProcessor.process() cache support."""
 
     def test_process_returns_extraction_result(self, tmp_path: Path) -> None:
-        from contextifier.types import ExtractionResult
+        from xgen_contextifier.types import ExtractionResult
         test_file = tmp_path / "test.txt"
         test_file.write_text("Hello World", encoding="utf-8")
 
@@ -210,8 +210,8 @@ class TestCachedProcess:
         assert r1.text == r2.text
 
     def test_process_custom_backend(self, tmp_path: Path) -> None:
-        from contextifier.cached_processor import _serialize_extraction_result
-        from contextifier.types import ExtractionResult
+        from xgen_contextifier.cached_processor import _serialize_extraction_result
+        from xgen_contextifier.types import ExtractionResult
 
         fake_result = ExtractionResult(text="cached process text")
         mock_backend = MagicMock()
@@ -230,7 +230,7 @@ class TestCachedExtractChunks:
     """CachedDocumentProcessor.extract_chunks() cache support."""
 
     def test_extract_chunks_returns_chunk_result(self, tmp_path: Path) -> None:
-        from contextifier.document_processor import ChunkResult
+        from xgen_contextifier.document_processor import ChunkResult
         test_file = tmp_path / "test.txt"
         test_file.write_text("Hello World " * 100, encoding="utf-8")
 
@@ -255,11 +255,11 @@ class TestSerializationRoundTrip:
     """Verify ExtractionResult and ChunkResult survive serialization."""
 
     def test_extraction_result_round_trip(self) -> None:
-        from contextifier.cached_processor import (
+        from xgen_contextifier.cached_processor import (
             _serialize_extraction_result,
             _deserialize_extraction_result,
         )
-        from contextifier.types import (
+        from xgen_contextifier.types import (
             ExtractionResult,
             DocumentMetadata,
             TableData,
@@ -304,12 +304,12 @@ class TestSerializationRoundTrip:
         assert restored.warnings == ["warn1"]
 
     def test_chunk_result_round_trip(self) -> None:
-        from contextifier.cached_processor import (
+        from xgen_contextifier.cached_processor import (
             _serialize_chunk_result,
             _deserialize_chunk_result,
         )
-        from contextifier.document_processor import ChunkResult
-        from contextifier.types import Chunk, ChunkMetadata
+        from xgen_contextifier.document_processor import ChunkResult
+        from xgen_contextifier.types import Chunk, ChunkMetadata
 
         original = ChunkResult(
             chunks=["chunk1", "chunk2"],
@@ -334,11 +334,11 @@ class TestSerializationRoundTrip:
         assert restored.chunks_with_metadata[1].metadata is None
 
     def test_extraction_result_no_metadata(self) -> None:
-        from contextifier.cached_processor import (
+        from xgen_contextifier.cached_processor import (
             _serialize_extraction_result,
             _deserialize_extraction_result,
         )
-        from contextifier.types import ExtractionResult
+        from xgen_contextifier.types import ExtractionResult
 
         original = ExtractionResult(text="plain")
         serialized = _serialize_extraction_result(original)

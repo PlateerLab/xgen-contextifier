@@ -8,8 +8,8 @@ import zipfile
 
 import pytest
 
-from contextifier.pipeline.converter import check_zip_bomb
-from contextifier.errors import ConversionError
+from xgen_contextifier.pipeline.converter import check_zip_bomb
+from xgen_contextifier.errors import ConversionError
 
 
 def _make_zip(entries: dict[str, bytes]) -> bytes:
@@ -65,8 +65,8 @@ class TestConverterValidateZipBomb:
         return _make_zip(all_entries)
 
     def test_docx_validate_rejects_bomb(self) -> None:
-        from contextifier.handlers.docx.converter import DocxConverter
-        import contextifier.pipeline.converter as conv_mod
+        from xgen_contextifier.handlers.docx.converter import DocxConverter
+        import xgen_contextifier.pipeline.converter as conv_mod
 
         original = conv_mod.MAX_ZIP_DECOMPRESSED_BYTES
         try:
@@ -79,8 +79,8 @@ class TestConverterValidateZipBomb:
             conv_mod.MAX_ZIP_DECOMPRESSED_BYTES = original
 
     def test_pptx_validate_rejects_bomb(self) -> None:
-        from contextifier.handlers.pptx.converter import PptxConverter
-        import contextifier.pipeline.converter as conv_mod
+        from xgen_contextifier.handlers.pptx.converter import PptxConverter
+        import xgen_contextifier.pipeline.converter as conv_mod
 
         original = conv_mod.MAX_ZIP_DECOMPRESSED_BYTES
         try:
@@ -93,8 +93,8 @@ class TestConverterValidateZipBomb:
             conv_mod.MAX_ZIP_DECOMPRESSED_BYTES = original
 
     def test_xlsx_validate_rejects_bomb(self) -> None:
-        from contextifier.handlers.xlsx.converter import XlsxConverter
-        import contextifier.pipeline.converter as conv_mod
+        from xgen_contextifier.handlers.xlsx.converter import XlsxConverter
+        import xgen_contextifier.pipeline.converter as conv_mod
 
         original = conv_mod.MAX_ZIP_DECOMPRESSED_BYTES
         try:
@@ -107,8 +107,8 @@ class TestConverterValidateZipBomb:
             conv_mod.MAX_ZIP_DECOMPRESSED_BYTES = original
 
     def test_hwpx_validate_rejects_bomb(self) -> None:
-        from contextifier.handlers.hwpx.converter import HwpxConverter
-        import contextifier.pipeline.converter as conv_mod
+        from xgen_contextifier.handlers.hwpx.converter import HwpxConverter
+        import xgen_contextifier.pipeline.converter as conv_mod
 
         original = conv_mod.MAX_ZIP_DECOMPRESSED_BYTES
         try:

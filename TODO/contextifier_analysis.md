@@ -365,7 +365,7 @@ def _check_delegation(self, file_context, **kwargs):
 **[HIGH] HTML 핸들러 추가**
 ```python
 # registry.py register_defaults()에 추가
-("contextifier.handlers.html.handler", "HTMLHandler"),
+("xgen_contextifier.handlers.html.handler", "HTMLHandler"),
 ```
 
 **[MEDIUM] 등록 실패 가시성 향상**
@@ -416,7 +416,7 @@ class CachedDocumentProcessor(DocumentProcessor):
 ```python
 def register_plugins(self) -> None:
     import importlib.metadata
-    for ep in importlib.metadata.entry_points(group="contextifier.handlers"):
+    for ep in importlib.metadata.entry_points(group="xgen_contextifier.handlers"):
         try:
             handler_class = ep.load()
             self.register(handler_class)

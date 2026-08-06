@@ -56,7 +56,7 @@ ContextifierError (E_CONTEXTIFIER)
 **원인**: 잘못된 설정값이 제공되었을 때
 
 ```python
-from contextifier.config import ChunkingConfig
+from xgen_contextifier.config import ChunkingConfig
 
 # 잘못된 전략 이름
 ChunkingConfig(strategy="invalid")
@@ -216,8 +216,8 @@ handler.process(file_context, timeout=5.0)
 ### 기본 에러 처리
 
 ```python
-from contextifier import DocumentProcessor
-from contextifier.errors import (
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.errors import (
     ContextifierError,
     FileNotFoundError,
     UnsupportedFormatError,
@@ -253,7 +253,7 @@ except ContextifierError as e:
 ### 파이프라인 에러 정보
 
 ```python
-from contextifier.errors import PipelineError
+from xgen_contextifier.errors import PipelineError
 
 try:
     result = handler.process(file_context)

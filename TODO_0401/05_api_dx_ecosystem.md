@@ -56,7 +56,7 @@ class ChunkResult:
 processor = DocumentProcessor()
 
 # 커스텀 설정
-from contextifier.config import ProcessingConfig, TagConfig, ImageConfig
+from xgen_contextifier.config import ProcessingConfig, TagConfig, ImageConfig
 config = ProcessingConfig(
     tags=TagConfig(page_prefix="<page>", page_suffix="</page>"),
     images=ImageConfig(directory_path="output/images"),
@@ -79,13 +79,13 @@ new_config = config.with_chunking(chunk_size=3000)
 
 ```python
 # 최소 임포트
-from contextifier import DocumentProcessor
+from xgen_contextifier import DocumentProcessor
 
 # 설정 포함
-from contextifier import DocumentProcessor, ProcessingConfig
+from xgen_contextifier import DocumentProcessor, ProcessingConfig
 
 # 전체 타입
-from contextifier import (
+from xgen_contextifier import (
     DocumentProcessor, AsyncDocumentProcessor, CachedDocumentProcessor,
     ProcessingConfig, ChunkingConfig,
     ExtractionResult, FileContext, Chunk, ChunkMetadata,
@@ -110,8 +110,8 @@ from contextifier import (
 ### 2.3 로깅
 
 ```python
-logger = logging.getLogger("contextifier")
-# 핸들러별: logging.getLogger(f"contextifier.handler.{cls_name}")
+logger = logging.getLogger("xgen_contextifier")
+# 핸들러별: logging.getLogger(f"xgen_contextifier.handler.{cls_name}")
 ```
 
 **🟡 이슈**:
@@ -282,7 +282,7 @@ tests/
 | 패키지 | 라이선스 | 주의 |
 |--------|---------|------|
 | **pymupdf** | AGPL-3.0 | **🟠 AGPL 전파 위험** — 상업적 사용 시 오픈소스 공개 의무 또는 별도 라이선스 필요 |
-| contextifier | Apache-2.0 | AGPL과의 호환성 검토 필요 |
+| xgen_contextifier | Apache-2.0 | AGPL과의 호환성 검토 필요 |
 
 ---
 
@@ -296,11 +296,11 @@ def _discover_plugins(self):
     """
     Third-party handlers via entry-point group.
     pyproject.toml:
-        [project.entry-points."contextifier.handlers"]
+        [project.entry-points."xgen_contextifier.handlers"]
         my_format = "my_package.handler:MyHandler"
     """
     import importlib.metadata
-    for ep in importlib.metadata.entry_points(group="contextifier.handlers"):
+    for ep in importlib.metadata.entry_points(group="xgen_contextifier.handlers"):
         handler_class = ep.load()
         self.register(handler_class)
 ```

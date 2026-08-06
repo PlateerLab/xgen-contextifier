@@ -14,7 +14,7 @@ import io
 import zipfile
 
 
-from contextifier.handlers.hwpx._section import (
+from xgen_contextifier.handlers.hwpx._section import (
     _parse_ooxml_chart,
     _format_chart_simple,
     parse_hwpx_section,
@@ -192,8 +192,8 @@ class TestInlineChartProcessing:
 
     def test_extract_charts_returns_empty(self):
         """HwpxContentExtractor.extract_charts() returns [] by design."""
-        from contextifier.handlers.hwpx.content_extractor import HwpxContentExtractor
-        from contextifier.types import PreprocessedData
+        from xgen_contextifier.handlers.hwpx.content_extractor import HwpxContentExtractor
+        from xgen_contextifier.types import PreprocessedData
 
         extractor = HwpxContentExtractor()
         preprocessed = PreprocessedData(content=None, raw_content=b"")

@@ -8,8 +8,8 @@ import logging
 
 import pytest
 
-from contextifier.handlers.html.converter import HtmlConvertedData
-from contextifier.handlers.html.preprocessor import (
+from xgen_contextifier.handlers.html.converter import HtmlConvertedData
+from xgen_contextifier.handlers.html.preprocessor import (
     HtmlPreprocessor,
 )
 
@@ -59,7 +59,7 @@ class TestBase64ImageSizeLimit:
         #
         # That would require ~67 MB of string in the test, which is too much.
         # Instead, we temporarily monkeypatch the threshold.
-        import contextifier.handlers.html.preprocessor as mod
+        import xgen_contextifier.handlers.html.preprocessor as mod
 
         original = mod._MAX_IMAGE_DECODE_BYTES
         try:
@@ -69,7 +69,7 @@ class TestBase64ImageSizeLimit:
             b64 = base64.b64encode(raw).decode()
             html = f'<html><body><img src="data:image/png;base64,{b64}"></body></html>'
 
-            with caplog.at_level(logging.WARNING, logger="contextifier.handlers.html.preprocessor"):
+            with caplog.at_level(logging.WARNING, logger="xgen_contextifier.handlers.html.preprocessor"):
                 result = preprocessor.preprocess(_make_converted(html))
 
             images = result.resources.get("images", [])
@@ -82,7 +82,7 @@ class TestBase64ImageSizeLimit:
         self, preprocessor: HtmlPreprocessor,
     ) -> None:
         """Only images within the size limit are extracted; oversized ones are skipped."""
-        import contextifier.handlers.html.preprocessor as mod
+        import xgen_contextifier.handlers.html.preprocessor as mod
 
         original = mod._MAX_IMAGE_DECODE_BYTES
         try:

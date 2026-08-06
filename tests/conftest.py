@@ -17,8 +17,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.types import FileContext, get_category
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.types import FileContext, get_category
 
 
 # ── Config fixtures ───────────────────────────────────────────────────────

@@ -13,11 +13,11 @@ import io
 
 import pytest
 
-from contextifier import DocumentProcessor, open_raw
-from contextifier.raw import RawUnsupportedError
-from contextifier.raw.docx import DocxRawDocument
-from contextifier.raw.pptx import PptxRawDocument
-from contextifier.raw.xlsx import XlsxRawDocument
+from xgen_contextifier import DocumentProcessor, open_raw
+from xgen_contextifier.raw import RawUnsupportedError
+from xgen_contextifier.raw.docx import DocxRawDocument
+from xgen_contextifier.raw.pptx import PptxRawDocument
+from xgen_contextifier.raw.xlsx import XlsxRawDocument
 
 
 def _xlsx_with_chart() -> bytes:

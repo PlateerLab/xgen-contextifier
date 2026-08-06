@@ -9,9 +9,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.types import NamingStrategy
-from contextifier.services.image_service import ImageService
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.types import NamingStrategy
+from xgen_contextifier.services.image_service import ImageService
 
 
 @pytest.fixture()
@@ -62,7 +62,7 @@ class TestBasicSave:
         assert call_args[0][0] == b"data"
 
     def test_save_storage_error_raises(self, image_service: ImageService) -> None:
-        from contextifier.errors import ImageServiceError
+        from xgen_contextifier.errors import ImageServiceError
         image_service._storage.save.side_effect = IOError("disk full")
         with pytest.raises(ImageServiceError, match="Failed to save"):
             image_service.save(b"data", custom_name="fail.png")
@@ -215,7 +215,7 @@ class TestImageSizeLimit:
 
     def test_default_no_limit(self) -> None:
         """Default: max_file_size_mb=None → no limit."""
-        from contextifier.config import ImageConfig
+        from xgen_contextifier.config import ImageConfig
         assert ImageConfig().max_file_size_mb is None
 
     def test_within_limit_saves(self) -> None:

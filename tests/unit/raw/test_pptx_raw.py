@@ -22,7 +22,7 @@ from pptx.enum.chart import XL_CHART_TYPE  # noqa: E402
 from pptx.enum.shapes import MSO_SHAPE_TYPE  # noqa: E402
 from pptx.util import Inches  # noqa: E402
 
-from contextifier.raw import open_raw  # noqa: E402
+from xgen_contextifier.raw import open_raw  # noqa: E402
 
 # 1x1 px valid PNG — fallback when Pillow is unavailable.
 _TINY_PNG = base64.b64decode(

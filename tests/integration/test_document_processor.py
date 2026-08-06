@@ -11,9 +11,9 @@ from pathlib import Path
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.document_processor import DocumentProcessor, ChunkResult
-from contextifier.errors import (
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.document_processor import DocumentProcessor, ChunkResult
+from xgen_contextifier.errors import (
     FileNotFoundError as ContextifyFileNotFoundError,
     UnsupportedFormatError,
 )
@@ -117,7 +117,7 @@ class TestProcessEndToEnd:
         self, processor: DocumentProcessor, tmp_text_file: Path
     ) -> None:
         result = processor.process(tmp_text_file)
-        from contextifier.types import ExtractionResult
+        from xgen_contextifier.types import ExtractionResult
         assert isinstance(result, ExtractionResult)
         assert "Integration test content" in result.text
 

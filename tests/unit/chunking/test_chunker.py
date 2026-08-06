@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.chunking.chunker import TextChunker
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.chunking.chunker import TextChunker
 
 
 @pytest.fixture()
@@ -24,7 +24,7 @@ class TestChunkerInit:
         assert len(names) >= 2  # at least plain + one more
 
     def test_add_custom_strategy(self, chunker: TextChunker) -> None:
-        from contextifier.chunking.strategies.base import BaseChunkingStrategy
+        from xgen_contextifier.chunking.strategies.base import BaseChunkingStrategy
         from unittest.mock import MagicMock
         custom = MagicMock(spec=BaseChunkingStrategy)
         custom.priority = 1

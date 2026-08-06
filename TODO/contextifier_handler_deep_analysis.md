@@ -129,8 +129,8 @@ registry.register_defaults()
 
 ```python
 default_handlers = [
-    ("contextifier.handlers.pdf.handler", "PDFHandler"),
-    ("contextifier.handlers.docx.handler", "DocxHandler"),
+    ("xgen_contextifier.handlers.pdf.handler", "PDFHandler"),
+    ("xgen_contextifier.handlers.docx.handler", "DocxHandler"),
     # ... 14개
 ]
 

@@ -8,10 +8,10 @@ context that chunkers can split safely.
 
 from __future__ import annotations
 
-from contextifier import DocumentProcessor
-from contextifier.chunking.metadata_enricher import enrich_chunk_metadata
-from contextifier.handlers.text.content_extractor import _render_json_context
-from contextifier.types import Chunk, ChunkMetadata
+from xgen_contextifier import DocumentProcessor
+from xgen_contextifier.chunking.metadata_enricher import enrich_chunk_metadata
+from xgen_contextifier.handlers.text.content_extractor import _render_json_context
+from xgen_contextifier.types import Chunk, ChunkMetadata
 
 
 def _chunk(text: str, idx: int = 0) -> Chunk:

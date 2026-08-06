@@ -7,8 +7,8 @@ Thank you for your interest in contributing to Contextifier! This document provi
 ### 1. Clone & Create Environment
 
 ```bash
-git clone https://github.com/your-org/contextifier.git
-cd contextifier
+git clone https://github.com/your-org/xgen_contextifier.git
+cd xgen_contextifier
 
 python -m venv .venv
 source .venv/bin/activate    # Linux/Mac

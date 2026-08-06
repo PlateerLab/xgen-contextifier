@@ -23,8 +23,8 @@ from pptx.chart.data import CategoryChartData, XyChartData
 from pptx.enum.chart import XL_CHART_TYPE
 from pptx.util import Inches
 
-from contextifier.raw.chart import ChartSeriesData, load_chart
-from contextifier.raw.opc import OpcPackage, RawUnsupportedError
+from xgen_contextifier.raw.chart import ChartSeriesData, load_chart
+from xgen_contextifier.raw.opc import OpcPackage, RawUnsupportedError
 
 _CHART_PART_RE = re.compile(r"(?:xl|ppt|word)/charts/chart\d+\.xml$")
 
@@ -456,7 +456,7 @@ class TestScatterXY:
         # all-numeric x categories → numRef inside c:xVal
         ser_el = reopened.xml.find("c:chart/c:plotArea/c:scatterChart/c:ser")
         assert ser_el is not None
-        from contextifier.raw.xmlpart import NS
+        from xgen_contextifier.raw.xmlpart import NS
 
         assert ser_el.find("c:xVal/c:numRef/c:numCache", NS) is not None
         assert ser_el.find("c:yVal/c:numRef/c:numCache", NS) is not None

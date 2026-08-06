@@ -26,7 +26,7 @@
 
 ### P0-1. XLSX 이미지 이름 충돌 → 데이터 손실
 
-- **파일**: `contextifier/handlers/xlsx/content_extractor.py` L311
+- **파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py` L311
 - **현상**: `_extract_sheet_images()`에서 모든 이미지에 `custom_name="excel_sheet_img"` 하드코딩.
   워크북에 이미지 2개 이상이면 마지막 이미지만 남고 나머지 덮어쓰기됨.
 - **참고**: 같은 파일 L176 `extract_images()`에서는 `custom_name=f"excel_{clean_name}"`을 정상 사용하므로
@@ -41,7 +41,7 @@
 
 ### P0-2. XLSX openpyxl 비공개 API 3종 사용
 
-- **파일**: `contextifier/handlers/xlsx/content_extractor.py`
+- **파일**: `xgen_contextifier/handlers/xlsx/content_extractor.py`
 - **위치**:
   - L103: `ws_charts = getattr(ws, "_charts", [])` — 비공개 속성
   - L296: `ws_images = getattr(ws, "_images", [])` — 비공개 속성
@@ -67,8 +67,8 @@
 ### P0-3. DOCX/PPTX `import re` 메서드 내부 위치
 
 - **파일**:
-  - `contextifier/handlers/docx/content_extractor.py` L131
-  - `contextifier/handlers/pptx/content_extractor.py` L111
+  - `xgen_contextifier/handlers/docx/content_extractor.py` L131
+  - `xgen_contextifier/handlers/pptx/content_extractor.py` L111
 - **현상**: `extract_text()` 함수 본문 내부에 `import re`. 매 호출마다 `sys.modules` 조회 발생.
 - **수정 방향**: 모듈 최상단으로 이동 + 컴파일된 패턴 재사용.
   ```python
@@ -81,7 +81,7 @@
 
 ### P0-4. PDF mode 문자열 유효성 검증 없음
 
-- **파일**: `contextifier/handlers/pdf/handler.py` L79-100
+- **파일**: `xgen_contextifier/handlers/pdf/handler.py` L79-100
 - **현상**: `mode == "default"` 단일 비교만 존재.
   `"defualt"`, `"PLUS"`, `"invalid"` 등 어떤 값이든 plus 모드로 묵묵히 fallback.
 - **수정 방향**:
@@ -98,7 +98,7 @@
 
 ### P0-5. Registry 핸들러 등록 실패를 `logger.info`로 로깅
 
-- **파일**: `contextifier/handlers/registry.py` L182
+- **파일**: `xgen_contextifier/handlers/registry.py` L182
 - **현상**: `register_defaults()`에서 핸들러 import 실패(의존성 미설치)를 `logger.info`로 처리.
   기본 로깅 레벨(`WARNING`)에서 출력되지 않아, 핸들러가 누락되어도 사용자가 인지 불가.
   (참고: 핸들러 인스턴스화 실패는 L113에서 `logger.warning`으로 올바르게 처리됨.)
@@ -112,7 +112,7 @@
 
 ### P1-1. 파일 크기 검사 없이 전체 메모리 로드 (OOM 위험)
 
-- **파일**: `contextifier/document_processor.py` L558-567
+- **파일**: `xgen_contextifier/document_processor.py` L558-567
 - **현상**:
   1. `Path(file_path).read_bytes()` — 크기 제한 없이 파일 전체를 메모리에 로드.
   2. `file_data`(bytes)와 `BytesIO(file_data)` 두 복사본이 동시에 메모리에 존재 → 파일 크기 × 2 RAM.
@@ -154,7 +154,7 @@
 
 ### P1-3. ImageService 스레드 안전성 미보장
 
-- **파일**: `contextifier/services/image_service.py` L55, L86-88
+- **파일**: `xgen_contextifier/services/image_service.py` L55, L86-88
 - **현상**: docstring(L55)에 "Thread-safe for concurrent handler use" 주장이 있으나,
   `_processed_hashes`(set), `_processed_paths`(list), `_counter`(int) 모두 plain mutable state — lock 없음.
   `clear_state()`를 멀티스레드 환경에서 동시 호출하면 이미지 중복 제거 경쟁 상태 발생.
@@ -166,7 +166,7 @@
 
 ### P1-4. DOCX 이미지 중복 제거가 `rel_id` 기반
 
-- **파일**: `contextifier/handlers/docx/content_extractor.py` L257
+- **파일**: `xgen_contextifier/handlers/docx/content_extractor.py` L257
 - **현상**: 동일한 이미지 파일이 여러 위치에 삽입되면 각각 별도 `rel_id`가 부여됨 → 같은 이미지가 중복 저장.
 - **수정 방향**: content hash 기반으로 변경.
   ```python
@@ -180,7 +180,7 @@
 
 ### P1-5. `process()` 파이프라인 Timeout 미지원
 
-- **파일**: `contextifier/handlers/base.py` L223
+- **파일**: `xgen_contextifier/handlers/base.py` L223
 - **현상**: 손상된 파일, Zip Bomb, 재귀적 중첩 도형 등으로 `process()`가 무한 대기 가능.
   외부에서 제어할 방법 없음.
 - **수정 방향**: `timeout` 매개변수 추가 + `concurrent.futures.ThreadPoolExecutor` 기반.
@@ -202,7 +202,7 @@
 
 ### P1-6. PPTX 그룹 도형 재귀 깊이 제한 없음
 
-- **파일**: `contextifier/handlers/pptx/content_extractor.py` L258-268
+- **파일**: `xgen_contextifier/handlers/pptx/content_extractor.py` L258-268
 - **현상**: `_process_group()` → `_process_shape()` → `_process_group()` 재귀에 깊이 제한 없음.
   악의적으로 조작된 PPTX의 깊은 그룹 도형 중첩 시 `RecursionError` 발생 가능 (DoS 벡터).
 - **수정 방향**: `max_depth` 매개변수 추가 (기본값 20).
@@ -217,14 +217,14 @@
 
 ### P1-7. OCR 모듈 `__all__`에 존재하지 않는 심볼 노출
 
-- **파일**: `contextifier/ocr/processor.py` L166
+- **파일**: `xgen_contextifier/ocr/processor.py` L166
 - **현상**: `__all__`에 `DEFAULT_IMAGE_TAG_PATTERN`이 포함되어 있으나 해당 파일에 정의되지 않음.
-  `from contextifier.ocr.processor import *` 시 `AttributeError` 발생.
+  `from xgen_contextifier.ocr.processor import *` 시 `AttributeError` 발생.
 - **수정 방향**: `__all__`에서 제거하거나, 실제 상수를 정의.
 
 ### P1-8. `format_options` — frozen dataclass에 mutable dict
 
-- **파일**: `contextifier/config.py` L175
+- **파일**: `xgen_contextifier/config.py` L175
 - **현상**: `ProcessingConfig`는 `frozen=True`이지만 `format_options: Dict[str, Dict[str, Any]]`는
   mutable dict. `config.format_options["pdf"]["mode"] = "default"` 같은 in-place 변경이 가능하여
   frozen 계약을 위반함. `__post_init__`에서 딥 카피나 immutable 변환이 없음.
@@ -257,14 +257,14 @@
      ├── metadata_extractor.py— <meta name="author">, <title> 등 파싱
      └── content_extractor.py — 구조화된 HTML → AI 친화적 텍스트
      ```
-  2. `registry.py` `register_defaults()`에 `("contextifier.handlers.html.handler", "HTMLHandler")` 추가.
+  2. `registry.py` `register_defaults()`에 `("xgen_contextifier.handlers.html.handler", "HTMLHandler")` 추가.
   3. `text/handler.py` `_TEXT_EXTENSIONS`에서 `"html"`, `"htm"`, `"xhtml"` 제거.
   4. `types.py` `EXTENSION_CATEGORIES`에서 `"html"` 분류를 `CODE` → `WEB`으로 통일.
   5. `doc/handler.py` HTML 마법 바이트 분기에서 `html` 핸들러로 위임 구현.
 
 ### P2-2. PDF 암호화 파일 지원
 
-- **파일**: `contextifier/handlers/pdf/converter.py` L42-62
+- **파일**: `xgen_contextifier/handlers/pdf/converter.py` L42-62
 - **현상**: `fitz.open()` 호출 시 `password` 매개변수 없음.
   암호화된 PDF는 PyMuPDF 내부에서 일반 예외 발생 → 사용자에게 명확한 에러 메시지 없음.
 - **수정 방향**:
@@ -281,7 +281,7 @@
 
 ### P2-3. DOCX 헤더/푸터/각주 추출
 
-- **파일**: `contextifier/handlers/docx/content_extractor.py`
+- **파일**: `xgen_contextifier/handlers/docx/content_extractor.py`
 - **현상**: 현재 `doc.element.body` 요소만 순회. 섹션 헤더/푸터, 각주(Footnote), 미주(Endnote) 미추출.
 - **수정 방향**:
   - 헤더/푸터: `doc.sections` 순회 후 `section.header.paragraphs` / `section.footer.paragraphs` 추출.
@@ -383,7 +383,7 @@
 
 ### P3-5. ImageService 해시 알고리즘 불일치
 
-- **파일**: `contextifier/services/image_service.py` L207, L216
+- **파일**: `xgen_contextifier/services/image_service.py` L207, L216
 - **현상**: 파일 이름 생성에 md5(L207), 중복 제거에 sha256(L216) — 동일 목적에 다른 알고리즘.
 - **수정 방향**: sha256으로 통일.
 
@@ -440,14 +440,14 @@
 
 ### P4-3. `BaseHandler.process()`에 `@final` 데코레이터 적용
 
-- **파일**: `contextifier/handlers/base.py` L223
+- **파일**: `xgen_contextifier/handlers/base.py` L223
 - **현상**: 주석으로만 override 금지 명시. Python 3.12 환경이므로 `typing.final` 적용 가능.
 - **수정 방향**: `from typing import final` + `@final` 데코레이터 적용.
   → mypy/pyright 등 타입 체커가 서브클래스 override 시 경고 발생.
 
 ### P4-4. 핸들러 Unregister API 추가
 
-- **파일**: `contextifier/handlers/registry.py`
+- **파일**: `xgen_contextifier/handlers/registry.py`
 - **현상**: `register()`, `get_handler()`, `is_supported()` 존재하나 `unregister()` 없음.
 - **필요 시나리오**: 테스트 Mock 교체, 보안/정책상 특정 포맷 비활성화 등.
 - **수정 방향**:
@@ -471,12 +471,12 @@
   hwp = ["pyhwp", "olefile"]
   ocr = ["pytesseract", "pi-heif"]
   langchain = ["langchain", "langchain-core", "langchain-community", ...]
-  all = ["contextifier[pdf,docx,pptx,excel,hwp,ocr,langchain]"]
+  all = ["xgen_contextifier[pdf,docx,pptx,excel,hwp,ocr,langchain]"]
   ```
 
 ### P4-6. Postprocessor 경고 전달
 
-- **파일**: `contextifier/pipeline/postprocessor.py` L119, L126
+- **파일**: `xgen_contextifier/pipeline/postprocessor.py` L119, L126
 - **현상**: docstring에 "Warning comments (if any warnings from extraction)" 언급이 있으나
   실제 구현에서 `ExtractionResult.warnings`가 무시됨.
 - **수정 방향**: warnings를 최종 텍스트 끝에 주석으로 포함하거나, `ExtractionResult`에 유지하여
@@ -484,7 +484,7 @@
 
 ### P4-7. `TagService.remove_all_structural_markers()` 범위 확대
 
-- **파일**: `contextifier/services/tag_service.py` L147
+- **파일**: `xgen_contextifier/services/tag_service.py` L147
 - **현상**: 이름과 달리 page/slide/sheet 마커만 제거. image, chart, metadata 태그는 그대로 남음.
 - **수정 방향**: 메서드 이름을 `remove_page_slide_sheet_markers()`로 변경하거나, 실제로 모든 구조 마커를 제거하도록 구현 확장.
 
@@ -502,7 +502,7 @@
 
 ### P5-2. ✅ 플러그인 시스템 (entry_points 기반)
 
-- `importlib.metadata.entry_points(group="contextifier.handlers")`로 외부 핸들러 자동 발견.
+- `importlib.metadata.entry_points(group="xgen_contextifier.handlers")`로 외부 핸들러 자동 발견.
 - 서드파티 패키지가 `pyproject.toml`에 entry point 선언만으로 핸들러 등록 가능.
 
 ### P5-3. ✅ LibreOffice 변환 레이어
@@ -548,14 +548,14 @@
 
 ### P5-6. ✅ 위임 실패 시 원본 포맷 fallback
 
-- **파일**: `contextifier/handlers/base.py` `_delegate_to()`
+- **파일**: `xgen_contextifier/handlers/base.py` `_delegate_to()`
 - **현상**: DOCHandler가 ZIP 매직바이트 감지하여 DocxHandler에 위임했으나 손상된 ZIP이면
   DocxHandler가 실패 → 원래 OLE2 DOC 파이프라인으로 재시도 없이 예외 전파.
 - **수정 방향**: `_check_delegation()`에서 위임 실패 시 자체 파이프라인으로 fallback하는 옵션.
 
 ### P5-7. ✅ 공개 API 확대
 
-- **파일**: `contextifier/__init__.py`
+- **파일**: `xgen_contextifier/__init__.py`
 - **현상**: `DocumentProcessor`와 `__version__`만 export. `ProcessingConfig`, `TextChunker`,
   `ExtractionResult` 등은 서브모듈에서 직접 import 필요.
 - **수정 방향**: 주요 public 타입을 `__init__.py`에서 re-export.

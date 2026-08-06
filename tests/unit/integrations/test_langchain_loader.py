@@ -6,9 +6,9 @@ from unittest.mock import MagicMock, patch
 import pytest
 from langchain_core.documents import Document
 
-from contextifier.integrations.langchain_loader import ContextifierLoader
-from contextifier.config import ProcessingConfig
-from contextifier.document_processor import ChunkResult
+from xgen_contextifier.integrations.langchain_loader import ContextifierLoader
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.document_processor import ChunkResult
 
 
 # ── Fixtures ──────────────────────────────────────────────────────────────
@@ -108,7 +108,7 @@ class TestOCRIntegration:
         """Verify ocr_engine kwarg is forwarded to DocumentProcessor."""
         mock_engine = MagicMock()
         with patch(
-            "contextifier.integrations.langchain_loader.DocumentProcessor"
+            "xgen_contextifier.integrations.langchain_loader.DocumentProcessor"
         ) as MockDP:
             mock_processor = MagicMock()
             mock_processor.extract_text.return_value = "ocr text"
@@ -131,7 +131,7 @@ class TestOCRIntegration:
         """Verify chunk mode forwards ocr_processing."""
         mock_engine = MagicMock()
         with patch(
-            "contextifier.integrations.langchain_loader.DocumentProcessor"
+            "xgen_contextifier.integrations.langchain_loader.DocumentProcessor"
         ) as MockDP:
             mock_processor = MagicMock()
             mock_result = ChunkResult(

@@ -17,7 +17,7 @@ from __future__ import annotations
 import unittest
 from unittest.mock import MagicMock, patch
 
-from contextifier.config import ProcessingConfig
+from xgen_contextifier.config import ProcessingConfig
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -30,7 +30,7 @@ class TestBaseContentExtractorConfig(unittest.TestCase):
 
     def test_config_default_none(self):
         """Config is None when not provided."""
-        from contextifier.pipeline.content_extractor import BaseContentExtractor
+        from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
 
         # Can't instantiate ABC directly — use a concrete subclass
         class _Stub(BaseContentExtractor):
@@ -44,7 +44,7 @@ class TestBaseContentExtractorConfig(unittest.TestCase):
 
     def test_config_stored(self):
         """Config is stored when provided."""
-        from contextifier.pipeline.content_extractor import BaseContentExtractor
+        from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
 
         class _Stub(BaseContentExtractor):
             def extract_text(self, preprocessed, **kwargs):
@@ -66,7 +66,7 @@ class TestPdfDefaultThresholds(unittest.TestCase):
     """Verify PdfDefaultContentExtractor reads thresholds from config."""
 
     def _make_extractor(self, **format_opts):
-        from contextifier.handlers.pdf_default.content_extractor import (
+        from xgen_contextifier.handlers.pdf_default.content_extractor import (
             PdfDefaultContentExtractor,
         )
         config = ProcessingConfig()
@@ -107,7 +107,7 @@ class TestPdfDefaultThresholds(unittest.TestCase):
             ext._config.get_format_option("pdf", "min_image_area", 2500), 1000,
         )
 
-    @patch("contextifier.handlers.pdf_default.content_extractor.fitz")
+    @patch("xgen_contextifier.handlers.pdf_default.content_extractor.fitz")
     def test_render_dpi_used_in_scan(self, mock_fitz):
         """Configured render_dpi controls the zoom matrix in _extract_scan_pages."""
         ext = self._make_extractor(render_dpi=300)
@@ -159,7 +159,7 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
 
     def test_default_depth(self):
         """Default max_group_depth is 20."""
-        from contextifier.handlers.pptx.content_extractor import (
+        from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
         ext = PptxContentExtractor()
@@ -167,7 +167,7 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
 
     def test_custom_depth_from_config(self):
         """max_group_depth can be overridden via config."""
-        from contextifier.handlers.pptx.content_extractor import (
+        from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
         config = ProcessingConfig().with_format_option(
@@ -178,7 +178,7 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
 
     def test_no_config_keeps_default(self):
         """Without config, the class attribute default is preserved."""
-        from contextifier.handlers.pptx.content_extractor import (
+        from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
         ext = PptxContentExtractor(config=None)
@@ -195,12 +195,12 @@ class TestCsvDelimiterCandidatesConfig(unittest.TestCase):
 
     def test_default_candidates(self):
         """Default candidates are [',', '\\t', ';', '|']."""
-        from contextifier.handlers.csv.preprocessor import DELIMITER_CANDIDATES
+        from xgen_contextifier.handlers.csv.preprocessor import DELIMITER_CANDIDATES
         self.assertEqual(DELIMITER_CANDIDATES, [",", "\t", ";", "|"])
 
     def test_custom_candidates_used(self):
         """Custom delimiter_candidates are used in detection."""
-        from contextifier.handlers.csv.preprocessor import _detect_delimiter
+        from xgen_contextifier.handlers.csv.preprocessor import _detect_delimiter
 
         # Data where ':' is the consistent delimiter
         data = "a:b:c\n1:2:3\n4:5:6"
@@ -215,7 +215,7 @@ class TestCsvDelimiterCandidatesConfig(unittest.TestCase):
 
     def test_preprocessor_stores_candidates(self):
         """CsvPreprocessor stores delimiter_candidates."""
-        from contextifier.handlers.csv.preprocessor import CsvPreprocessor
+        from xgen_contextifier.handlers.csv.preprocessor import CsvPreprocessor
 
         candidates = [",", ";"]
         prep = CsvPreprocessor(delimiter_candidates=candidates)
@@ -223,14 +223,14 @@ class TestCsvDelimiterCandidatesConfig(unittest.TestCase):
 
     def test_preprocessor_default_candidates_none(self):
         """CsvPreprocessor defaults delimiter_candidates to None."""
-        from contextifier.handlers.csv.preprocessor import CsvPreprocessor
+        from xgen_contextifier.handlers.csv.preprocessor import CsvPreprocessor
 
         prep = CsvPreprocessor()
         self.assertIsNone(prep._delimiter_candidates)
 
     def test_handler_passes_candidates_from_config(self):
         """CSVHandler reads delimiter_candidates from config."""
-        from contextifier.handlers.csv.handler import CSVHandler
+        from xgen_contextifier.handlers.csv.handler import CSVHandler
 
         config = ProcessingConfig().with_format_option(
             "csv", delimiter_candidates=[",", ";", ":"],
@@ -250,7 +250,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
 
     def test_default_fragment_length(self):
         """Default min_text_fragment_length is 4."""
-        from contextifier.handlers.doc.content_extractor import (
+        from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
         ext = DocContentExtractor()
@@ -259,7 +259,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
 
     def test_custom_fragment_length(self):
         """Custom min_text_fragment_length is read from config."""
-        from contextifier.handlers.doc.content_extractor import (
+        from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
         config = ProcessingConfig().with_format_option(
@@ -271,7 +271,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
 
     def test_no_config_keeps_default(self):
         """Without config, uses module constant."""
-        from contextifier.handlers.doc.content_extractor import (
+        from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
         ext = DocContentExtractor(config=None)
@@ -279,7 +279,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
 
     def test_handler_passes_config(self):
         """DOCHandler passes config to DocContentExtractor."""
-        from contextifier.handlers.doc.handler import DOCHandler
+        from xgen_contextifier.handlers.doc.handler import DOCHandler
 
         config = ProcessingConfig().with_format_option(
             "doc", min_text_fragment_length=6,
@@ -300,7 +300,7 @@ class TestPdfHandlerConfigPropagation(unittest.TestCase):
 
     def test_default_mode_receives_config(self):
         """PdfDefaultContentExtractor receives config via PDFHandler."""
-        from contextifier.handlers.pdf.handler import PDFHandler
+        from xgen_contextifier.handlers.pdf.handler import PDFHandler
 
         config = ProcessingConfig().with_format_option(
             "pdf", mode="default", render_dpi=200,
@@ -314,7 +314,7 @@ class TestPdfHandlerConfigPropagation(unittest.TestCase):
 
     def test_plus_mode_receives_config(self):
         """PdfPlusContentExtractor receives config via PDFHandler."""
-        from contextifier.handlers.pdf.handler import PDFHandler
+        from xgen_contextifier.handlers.pdf.handler import PDFHandler
 
         config = ProcessingConfig().with_format_option(
             "pdf", mode="plus", min_image_size=30,

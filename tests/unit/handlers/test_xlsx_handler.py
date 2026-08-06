@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import pytest
 
-from contextifier.config import ProcessingConfig
-from contextifier.handlers.xlsx.handler import XLSXHandler
+from xgen_contextifier.config import ProcessingConfig
+from xgen_contextifier.handlers.xlsx.handler import XLSXHandler
 
 
 @pytest.fixture()
@@ -60,12 +60,12 @@ class TestXLSXFormatOptions:
     def test_read_only_passed_to_load_workbook(self) -> None:
         """Converter passes read_only to openpyxl.load_workbook."""
         from unittest.mock import patch, MagicMock
-        from contextifier.handlers.xlsx.converter import XlsxConverter
+        from xgen_contextifier.handlers.xlsx.converter import XlsxConverter
 
         converter = XlsxConverter(data_only=True, read_only=True)
 
         mock_wb = MagicMock()
-        with patch("contextifier.handlers.xlsx.converter.openpyxl.load_workbook", return_value=mock_wb) as mock_load:
+        with patch("xgen_contextifier.handlers.xlsx.converter.openpyxl.load_workbook", return_value=mock_wb) as mock_load:
             ctx = {"file_data": b"PK\x03\x04" + b"\x00" * 100}
             try:
                 converter.convert(ctx)

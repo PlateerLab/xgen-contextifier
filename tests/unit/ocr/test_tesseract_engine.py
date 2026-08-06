@@ -9,7 +9,7 @@ import sys
 from unittest import mock
 
 
-from contextifier.ocr.engines.tesseract_engine import TesseractOCREngine
+from xgen_contextifier.ocr.engines.tesseract_engine import TesseractOCREngine
 
 
 def _make_mock_pytesseract(return_value="Hello World"):
@@ -138,8 +138,8 @@ class TestImageOCRIntegration:
 
     def test_image_handler_produces_image_tag(self):
         """ImageContentExtractor produces [Image:...] tags for OCR."""
-        from contextifier.handlers.image.content_extractor import ImageContentExtractor
-        from contextifier.types import PreprocessedData
+        from xgen_contextifier.handlers.image.content_extractor import ImageContentExtractor
+        from xgen_contextifier.types import PreprocessedData
 
         mock_img_service = mock.MagicMock()
         mock_img_service.save_and_tag.return_value = "[Image:photo.png]"
@@ -155,8 +155,8 @@ class TestImageOCRIntegration:
 
     def test_image_handler_fallback_no_service(self):
         """Without ImageService, handler returns placeholder tag."""
-        from contextifier.handlers.image.content_extractor import ImageContentExtractor
-        from contextifier.types import PreprocessedData
+        from xgen_contextifier.handlers.image.content_extractor import ImageContentExtractor
+        from xgen_contextifier.types import PreprocessedData
 
         extractor = ImageContentExtractor()
         preprocessed = PreprocessedData(
@@ -169,5 +169,5 @@ class TestImageOCRIntegration:
 
     def test_engine_registered_in_init(self):
         """TesseractOCREngine is accessible from engines package."""
-        from contextifier.ocr.engines import TesseractOCREngine as Imported
+        from xgen_contextifier.ocr.engines import TesseractOCREngine as Imported
         assert Imported is TesseractOCREngine

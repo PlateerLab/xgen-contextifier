@@ -7,8 +7,8 @@ import os
 
 import pytest
 
-from contextifier.services.storage.local import LocalStorageBackend
-from contextifier.errors import StorageError
+from xgen_contextifier.services.storage.local import LocalStorageBackend
+from xgen_contextifier.errors import StorageError
 
 
 @pytest.fixture()
