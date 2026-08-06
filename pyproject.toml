@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "xgen-contextifier"
-version = "0.6.0"
+version = "0.7.0"
 description = "Convert raw documents into AI-understandable context with intelligent text extraction, table detection, and semantic chunking"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -85,13 +85,12 @@ dependencies = [
     "psutil>=7.0.0",
     "pandas>=2.2.0",
     "cachetools>=5.3.0",
-]
 
-[project.optional-dependencies]
-# PyMuPDF 는 AGPL-3.0 이다. 나머지 extras 는 전부 core 로 흡수했지만 이것만
-# 남긴다 — 라이선스 의무가 붙는 코드를 "설치 편의"를 이유로 기본 포함할 수는
-# 없다. 필요한 배포가 명시적으로 켠다.
-pdf = ["pymupdf>=1.24.0"]
+    # pdf(pymupdf) 도 흡수한다. 라이선스(AGPL-3.0) 때문에 분리돼 있었으나,
+    # pymupdf 는 이미 xgen-edit2docs·xgen-doc2chunk 의 core 의존이라
+    # 어차피 배포 트리에 들어온다 — 여기서만 빼 두는 것은 의미가 없다.
+    "pymupdf>=1.24.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/PlateerLab/xgen-contextifier"
