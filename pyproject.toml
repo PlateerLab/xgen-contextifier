@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "xgen-contextifier"
-version = "0.7.0"
+version = "0.8.0"
 description = "Convert raw documents into AI-understandable context with intelligent text extraction, table detection, and semantic chunking"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -118,3 +118,15 @@ exclude = [
     "temp/",
     "libs/",
 ]
+
+# ---------------------------------------------------------------------------
+# Ruff — 규칙 집합을 고정해 `ruff check` 가 ruff 버전에 따라 흔들리지 않게 한다
+# (새로 설치되는 CI 는 그냥 두면 표류한다). 레이아웃은 포매터가 소유하므로
+# E501(줄 길이)은 여기서 제외.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F"]
