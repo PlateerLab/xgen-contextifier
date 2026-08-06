@@ -23,7 +23,10 @@ from xgen_contextifier.config import ProcessingConfig
 from xgen_contextifier.document_processor import DocumentProcessor
 from xgen_contextifier.errors import ConversionError, FileReadError
 from xgen_contextifier.handlers.base import BaseHandler
-from xgen_contextifier.pipeline.converter import check_zip_bomb, MAX_ZIP_DECOMPRESSED_BYTES
+from xgen_contextifier.pipeline.converter import (
+    check_zip_bomb,
+    MAX_ZIP_DECOMPRESSED_BYTES,
+)
 from xgen_contextifier.services.storage.local import LocalStorageBackend
 from xgen_contextifier.errors import StorageError
 
@@ -31,6 +34,7 @@ from xgen_contextifier.errors import StorageError
 # ═══════════════════════════════════════════════════════════════════════════════
 # File Size Limits
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class TestFileSizeLimits:
     def test_oversized_file_rejected(self, tmp_path: Path) -> None:
@@ -58,6 +62,7 @@ class TestFileSizeLimits:
 # ═══════════════════════════════════════════════════════════════════════════════
 # ZIP Bomb Defense
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 def _make_zip(entries: dict[str, bytes]) -> bytes:
     buf = io.BytesIO()
@@ -94,6 +99,7 @@ class TestZipBombDefense:
 # Path Traversal Defense
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class TestPathTraversalDefense:
     def test_dotdot_blocked(self, tmp_path: Path) -> None:
         backend = LocalStorageBackend(str(tmp_path))
@@ -125,6 +131,7 @@ class TestPathTraversalDefense:
 # Delegation Depth Limit (Infinite Loop Prevention)
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class TestDelegationDepthSecurity:
     def test_max_depth_constant_reasonable(self) -> None:
         assert 1 <= BaseHandler._MAX_DELEGATION_DEPTH <= 10
@@ -137,17 +144,23 @@ class TestDelegationDepthSecurity:
             @property
             def supported_extensions(self):
                 return frozenset({"stub"})
+
             @property
             def handler_name(self):
                 return "Stub"
+
             def create_converter(self):
                 return MagicMock()
+
             def create_preprocessor(self):
                 return MagicMock()
+
             def create_metadata_extractor(self):
                 return MagicMock()
+
             def create_content_extractor(self):
                 return MagicMock()
+
             def create_postprocessor(self):
                 return MagicMock()
 
@@ -164,6 +177,7 @@ class TestDelegationDepthSecurity:
 # ═══════════════════════════════════════════════════════════════════════════════
 # Input Boundary Safety
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 class TestInputBoundary:
     def test_null_bytes_in_text_handled(self, tmp_path: Path) -> None:

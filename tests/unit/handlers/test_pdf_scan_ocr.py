@@ -50,8 +50,8 @@ def _make_preprocessed(doc: MagicMock, needs_ocr: bool = True) -> PreprocessedDa
 @pytest.fixture()
 def image_service() -> MagicMock:
     svc = MagicMock()
-    svc.save_and_tag.side_effect = lambda img_data, custom_name=None, skip_duplicate=None: (
-        f"[Image:{custom_name}]"
+    svc.save_and_tag.side_effect = (
+        lambda img_data, custom_name=None, skip_duplicate=None: f"[Image:{custom_name}]"
     )
     return svc
 
@@ -70,7 +70,9 @@ def extractor(image_service: MagicMock) -> PdfDefaultContentExtractor:
 
 class TestScanPageRendering:
     def test_needs_ocr_renders_pages_as_images(
-        self, extractor: PdfDefaultContentExtractor, image_service: MagicMock,
+        self,
+        extractor: PdfDefaultContentExtractor,
+        image_service: MagicMock,
     ) -> None:
         """When needs_ocr=True, extract_text should produce image tags instead of text."""
         doc = _make_fake_doc(page_count=3)
@@ -92,7 +94,9 @@ class TestScanPageRendering:
         assert image_service.save_and_tag.call_count == 3
 
     def test_normal_pdf_does_not_use_scan_path(
-        self, extractor: PdfDefaultContentExtractor, image_service: MagicMock,
+        self,
+        extractor: PdfDefaultContentExtractor,
+        image_service: MagicMock,
     ) -> None:
         """When needs_ocr=False, extract_text should use normal extraction."""
         doc = _make_fake_doc(page_count=1)

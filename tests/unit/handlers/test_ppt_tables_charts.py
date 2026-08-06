@@ -52,6 +52,7 @@ def _make_pp_stream(texts: list[str]) -> bytes:
 # Table detection tests
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 class TestTabularTextDetection:
     """Tab-separated text pattern detection."""
 
@@ -129,6 +130,7 @@ class TestRowsToTableData:
 # Chart OLE detection tests
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 class TestOleChartDetection:
     """OLE directory chart scanning."""
 
@@ -143,7 +145,10 @@ class TestOleChartDetection:
         charts = _detect_ole_charts(ole)
         # Should detect at least one chart (from "Microsoft Graph" keyword)
         assert len(charts) >= 1
-        assert any("chart" in c.chart_type.lower() or "ole" in c.chart_type.lower() for c in charts)
+        assert any(
+            "chart" in c.chart_type.lower() or "ole" in c.chart_type.lower()
+            for c in charts
+        )
 
     def test_no_chart_storages(self):
         ole = MagicMock()
@@ -169,6 +174,7 @@ class TestOleChartDetection:
 # ═════════════════════════════════════════════════════════════════════════════
 # Integration: extract_tables via PptContentExtractor
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestPptContentExtractorTables:
     """End-to-end table extraction through PptContentExtractor."""

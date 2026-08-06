@@ -26,6 +26,7 @@ class TestChunkerInit:
     def test_add_custom_strategy(self, chunker: TextChunker) -> None:
         from xgen_contextifier.chunking.strategies.base import BaseChunkingStrategy
         from unittest.mock import MagicMock
+
         custom = MagicMock(spec=BaseChunkingStrategy)
         custom.priority = 1
         custom.strategy_name = "custom"

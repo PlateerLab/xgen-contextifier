@@ -42,7 +42,10 @@ from xgen_contextifier.pipeline.converter import BaseConverter
 from xgen_contextifier.pipeline.preprocessor import BasePreprocessor
 from xgen_contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
 from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
-from xgen_contextifier.pipeline.postprocessor import BasePostprocessor, DefaultPostprocessor
+from xgen_contextifier.pipeline.postprocessor import (
+    BasePostprocessor,
+    DefaultPostprocessor,
+)
 
 from xgen_contextifier.handlers.doc.converter import DocConverter
 from xgen_contextifier.handlers.doc.preprocessor import DocPreprocessor

@@ -683,7 +683,9 @@ class TestSheetStructure:
         raw.delete_sheet("Sales")  # Sales owns the chart
         out = raw.to_bytes()
         assert _load_wb(out).sheetnames == ["Notes"]
-        assert not any("charts/chart" in n for n in _parts(out)), "chart orphan not swept"
+        assert not any("charts/chart" in n for n in _parts(out)), (
+            "chart orphan not swept"
+        )
 
     def test_delete_last_sheet_refused(self):
         raw = open_raw(_build_workbook())

@@ -110,6 +110,7 @@ class TestProcessorInit:
 # P3-7: Expanded integration test framework
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class TestProcessEndToEnd:
     """Full pipeline via processor.process() — returns ExtractionResult."""
 
@@ -118,6 +119,7 @@ class TestProcessEndToEnd:
     ) -> None:
         result = processor.process(tmp_text_file)
         from xgen_contextifier.types import ExtractionResult
+
         assert isinstance(result, ExtractionResult)
         assert "Integration test content" in result.text
 

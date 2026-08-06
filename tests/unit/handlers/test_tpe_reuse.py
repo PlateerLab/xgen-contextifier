@@ -28,6 +28,7 @@ def _make_handler():
     class _StubExtractor(BaseContentExtractor):
         def extract_text(self, preprocessed, **kwargs):
             return "stub"
+
         def get_format_name(self):
             return "stub"
 
@@ -35,17 +36,23 @@ def _make_handler():
         @property
         def supported_extensions(self):
             return frozenset({"stub"})
+
         @property
         def handler_name(self):
             return "Stub Handler"
+
         def create_converter(self):
             return NullConverter()
+
         def create_preprocessor(self):
             return NullPreprocessor()
+
         def create_metadata_extractor(self):
             return NullMetadataExtractor()
+
         def create_content_extractor(self):
             return _StubExtractor()
+
         def create_postprocessor(self):
             return DefaultPostprocessor(self._config)
 

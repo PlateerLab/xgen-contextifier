@@ -461,7 +461,9 @@ class TestDuplicateSlide:
         raw.duplicate_slide(1)
         out = raw.to_bytes()
         pkg = zipfile.ZipFile(io.BytesIO(out))
-        charts = sorted(n for n in pkg.namelist() if "charts/chart" in n and n.endswith(".xml"))
+        charts = sorted(
+            n for n in pkg.namelist() if "charts/chart" in n and n.endswith(".xml")
+        )
         assert len(charts) == 2  # original + independent copy
         assert pkg.read(charts[0]) != b"" and pkg.read(charts[1]) != b""
 
@@ -470,10 +472,16 @@ class TestDuplicateSlide:
         duplicated (read-only asset)."""
         data = build_deck()  # slide 2 has table + chart + picture
         raw = open_raw(data)
-        before = [n for n in zipfile.ZipFile(io.BytesIO(data)).namelist() if "media/image" in n]
+        before = [
+            n
+            for n in zipfile.ZipFile(io.BytesIO(data)).namelist()
+            if "media/image" in n
+        ]
         raw.duplicate_slide(1)
         out = raw.to_bytes()
-        after = [n for n in zipfile.ZipFile(io.BytesIO(out)).namelist() if "media/image" in n]
+        after = [
+            n for n in zipfile.ZipFile(io.BytesIO(out)).namelist() if "media/image" in n
+        ]
         assert len(after) == len(before)  # image shared, not cloned
 
     def test_duplicate_reopens_in_pptx(self):

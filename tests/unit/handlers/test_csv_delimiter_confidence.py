@@ -79,7 +79,9 @@ class TestDelimiterConfidence:
         ]
         for content in test_data:
             _, confidence = _detect_delimiter(content)
-            assert 0.0 <= confidence <= 1.0, f"Confidence {confidence} out of range for content: {content!r}"
+            assert 0.0 <= confidence <= 1.0, (
+                f"Confidence {confidence} out of range for content: {content!r}"
+            )
 
     def test_returns_tuple(self):
         """_detect_delimiter returns a 2-tuple (str, float)."""

@@ -63,6 +63,7 @@ class TestBasicSave:
 
     def test_save_storage_error_raises(self, image_service: ImageService) -> None:
         from xgen_contextifier.errors import ImageServiceError
+
         image_service._storage.save.side_effect = IOError("disk full")
         with pytest.raises(ImageServiceError, match="Failed to save"):
             image_service.save(b"data", custom_name="fail.png")
@@ -88,7 +89,9 @@ class TestDeduplication:
         assert path1 is not None
         assert path2 is None
 
-    def test_skip_duplicate_false_allows_duplicates(self, image_service: ImageService) -> None:
+    def test_skip_duplicate_false_allows_duplicates(
+        self, image_service: ImageService
+    ) -> None:
         path1 = image_service.save(b"dup", skip_duplicate=False)
         path2 = image_service.save(b"dup", skip_duplicate=False)
         assert path1 is not None
@@ -144,7 +147,9 @@ class TestNamingStrategy:
         path2 = image_service.save(b"hash-test", skip_duplicate=False)
         assert path1 == path2
 
-    def test_sequential_naming_increments(self, sequential_service: ImageService) -> None:
+    def test_sequential_naming_increments(
+        self, sequential_service: ImageService
+    ) -> None:
         path1 = sequential_service.save(b"d1", skip_duplicate=False)
         path2 = sequential_service.save(b"d2", skip_duplicate=False)
         assert "img_0001" in path1
@@ -202,6 +207,7 @@ class TestThreadIsolation:
 
 # ═══════════════ P4-7: Image size limit ═══════════════════════════════════════
 
+
 class TestImageSizeLimit:
     """max_file_size_mb enforcement in ImageService.save()."""
 
@@ -216,6 +222,7 @@ class TestImageSizeLimit:
     def test_default_no_limit(self) -> None:
         """Default: max_file_size_mb=None → no limit."""
         from xgen_contextifier.config import ImageConfig
+
         assert ImageConfig().max_file_size_mb is None
 
     def test_within_limit_saves(self) -> None:
@@ -250,7 +257,9 @@ class TestImageSizeLimit:
 
     def test_thread_counter_independence(self) -> None:
         """Sequential counter is per-thread."""
-        config = ProcessingConfig().with_images(naming_strategy=NamingStrategy.SEQUENTIAL)
+        config = ProcessingConfig().with_images(
+            naming_strategy=NamingStrategy.SEQUENTIAL
+        )
         storage = MagicMock()
         svc = ImageService(config, storage_backend=storage, tag_service=None)
 

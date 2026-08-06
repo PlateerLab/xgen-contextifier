@@ -23,6 +23,7 @@ from xgen_contextifier.types import FileContext, get_category
 
 # ── Config fixtures ───────────────────────────────────────────────────────
 
+
 @pytest.fixture()
 def default_config() -> ProcessingConfig:
     """Default ProcessingConfig with all defaults."""
@@ -38,6 +39,7 @@ def tmp_output_dir(tmp_path: Path) -> Path:
 
 
 # ── Mock service fixtures ─────────────────────────────────────────────────
+
 
 @pytest.fixture()
 def mock_tag_service() -> MagicMock:
@@ -101,6 +103,7 @@ def all_mock_services(
 
 
 # ── FileContext factory ───────────────────────────────────────────────────
+
 
 def make_file_context(
     content: bytes,

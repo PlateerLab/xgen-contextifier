@@ -28,7 +28,9 @@ class TestPathTraversal:
         assert storage.save(b"PNG-DATA", path) is True
         assert os.path.isfile(path)
 
-    def test_subdirectory_save_succeeds(self, storage: LocalStorageBackend, tmp_path) -> None:
+    def test_subdirectory_save_succeeds(
+        self, storage: LocalStorageBackend, tmp_path
+    ) -> None:
         """Saving in a subdirectory under base_path works."""
         path = str(tmp_path / "images" / "sub" / "photo.png")
         assert storage.save(b"DATA", path) is True
@@ -40,13 +42,17 @@ class TestPathTraversal:
         with pytest.raises(StorageError, match="Path traversal blocked"):
             storage.save(b"EVIL", evil_path)
 
-    def test_traversal_deep_blocked(self, storage: LocalStorageBackend, tmp_path) -> None:
+    def test_traversal_deep_blocked(
+        self, storage: LocalStorageBackend, tmp_path
+    ) -> None:
         """Deeper traversal (../../) is also rejected."""
         evil_path = str(tmp_path / "images" / ".." / ".." / "evil.txt")
         with pytest.raises(StorageError, match="Path traversal blocked"):
             storage.save(b"EVIL", evil_path)
 
-    def test_absolute_path_outside_base(self, storage: LocalStorageBackend, tmp_path) -> None:
+    def test_absolute_path_outside_base(
+        self, storage: LocalStorageBackend, tmp_path
+    ) -> None:
         """An absolute path completely outside base_path is rejected."""
         outside_dir = str(tmp_path / "other_dir")
         os.makedirs(outside_dir, exist_ok=True)

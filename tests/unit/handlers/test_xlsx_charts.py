@@ -97,7 +97,11 @@ class TestXlsxChartExtraction:
     def test_invalid_chart_dict_skipped(self):
         """Invalid chart dict entries are gracefully skipped."""
         charts_data = [
-            {"chart_type": "Valid", "title": "OK", "series": [{"name": "S", "values": [1]}]},
+            {
+                "chart_type": "Valid",
+                "title": "OK",
+                "series": [{"name": "S", "values": [1]}],
+            },
         ]
         extractor = XlsxContentExtractor()
         charts = extractor.extract_charts(_make_preprocessed(charts_data))

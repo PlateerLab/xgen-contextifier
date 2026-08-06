@@ -19,6 +19,7 @@ def async_proc() -> AsyncDocumentProcessor:
 
 # ── extract_text ─────────────────────────────────────────────────────────
 
+
 class TestExtractText:
     @pytest.mark.asyncio
     async def test_extract_text_basic(self, tmp_path: Path) -> None:
@@ -37,6 +38,7 @@ class TestExtractText:
 
 # ── process ──────────────────────────────────────────────────────────────
 
+
 class TestProcess:
     @pytest.mark.asyncio
     async def test_process_returns_extraction_result(self, tmp_path: Path) -> None:
@@ -50,6 +52,7 @@ class TestProcess:
 
 # ── extract_chunks ───────────────────────────────────────────────────────
 
+
 class TestExtractChunks:
     @pytest.mark.asyncio
     async def test_extract_chunks_basic(self, tmp_path: Path) -> None:
@@ -61,6 +64,7 @@ class TestExtractChunks:
 
 
 # ── extract_batch ────────────────────────────────────────────────────────
+
 
 class TestExtractBatch:
     @pytest.mark.asyncio
@@ -96,6 +100,7 @@ class TestExtractBatch:
 
 
 # ── Utility ──────────────────────────────────────────────────────────────
+
 
 class TestUtility:
     def test_is_supported(self, async_proc: AsyncDocumentProcessor) -> None:

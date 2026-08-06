@@ -26,6 +26,7 @@ from xgen_contextifier.types import PreprocessedData
 # Image format detection
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 class TestImageFormatDetection:
     """Image signature detection works for all formats."""
 
@@ -70,6 +71,7 @@ class TestImageFormatDetection:
 # ═════════════════════════════════════════════════════════════════════════════
 # XLS image extraction via OLE
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestXlsImageExtraction:
     """OLE stream image scanning."""
@@ -163,6 +165,7 @@ class TestXlsImageExtraction:
 # ═════════════════════════════════════════════════════════════════════════════
 # XLS chart sheet detection
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestXlsChartDetection:
     """Chart sheet type detection."""

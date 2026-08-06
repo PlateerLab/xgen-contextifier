@@ -28,7 +28,10 @@ from xgen_contextifier.pipeline.converter import BaseConverter
 from xgen_contextifier.pipeline.preprocessor import BasePreprocessor
 from xgen_contextifier.pipeline.metadata_extractor import BaseMetadataExtractor
 from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
-from xgen_contextifier.pipeline.postprocessor import BasePostprocessor, DefaultPostprocessor
+from xgen_contextifier.pipeline.postprocessor import (
+    BasePostprocessor,
+    DefaultPostprocessor,
+)
 
 # Reuse CSV pipeline components — TSV differs only in delimiter
 from xgen_contextifier.handlers.csv.converter import CsvConverter

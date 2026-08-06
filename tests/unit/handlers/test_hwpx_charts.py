@@ -37,32 +37,30 @@ def _make_chart_xml(
     sers = series or [{"name": "Sales", "values": [100.0, 200.0, 300.0]}]
 
     cat_pts = "".join(
-        f'<c:pt idx="{i}"><c:v>{c}</c:v></c:pt>'
-        for i, c in enumerate(cats)
+        f'<c:pt idx="{i}"><c:v>{c}</c:v></c:pt>' for i, c in enumerate(cats)
     )
     ser_parts = []
     for idx, s in enumerate(sers):
         val_pts = "".join(
-            f'<c:pt idx="{j}"><c:v>{v}</c:v></c:pt>'
-            for j, v in enumerate(s["values"])
+            f'<c:pt idx="{j}"><c:v>{v}</c:v></c:pt>' for j, v in enumerate(s["values"])
         )
         ser_parts.append(
-            f'<c:ser>'
+            f"<c:ser>"
             f'<c:idx val="{idx}"/>'
             f'<c:tx><c:strRef><c:strCache><c:pt idx="0"><c:v>{s["name"]}</c:v></c:pt></c:strCache></c:strRef></c:tx>'
-            f'<c:cat><c:strCache>{cat_pts}</c:strCache></c:cat>'
-            f'<c:val><c:numCache>{val_pts}</c:numCache></c:val>'
-            f'</c:ser>'
+            f"<c:cat><c:strCache>{cat_pts}</c:strCache></c:cat>"
+            f"<c:val><c:numCache>{val_pts}</c:numCache></c:val>"
+            f"</c:ser>"
         )
 
     return (
         f'<c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart"'
         f'              xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
-        f'<c:chart>'
-        f'<c:title><c:tx><c:rich><a:p><a:r><a:t>{title}</a:t></a:r></a:p></c:rich></c:tx></c:title>'
-        f'<c:plotArea><c:{chart_type}>{"".join(ser_parts)}</c:{chart_type}></c:plotArea>'
-        f'</c:chart>'
-        f'</c:chartSpace>'
+        f"<c:chart>"
+        f"<c:title><c:tx><c:rich><a:p><a:r><a:t>{title}</a:t></a:r></a:p></c:rich></c:tx></c:title>"
+        f"<c:plotArea><c:{chart_type}>{''.join(ser_parts)}</c:{chart_type}></c:plotArea>"
+        f"</c:chart>"
+        f"</c:chartSpace>"
     ).encode("utf-8")
 
 
@@ -70,9 +68,14 @@ class TestParseOoxmlChart:
     """Tests for _parse_ooxml_chart()."""
 
     def test_bar_chart(self):
-        xml_bytes = _make_chart_xml("barChart", "Revenue", ["Q1", "Q2"], [
-            {"name": "Sales", "values": [100.0, 200.0]},
-        ])
+        xml_bytes = _make_chart_xml(
+            "barChart",
+            "Revenue",
+            ["Q1", "Q2"],
+            [
+                {"name": "Sales", "values": [100.0, 200.0]},
+            ],
+        )
         result = _parse_ooxml_chart(xml_bytes)
         assert result is not None
         assert result["type"] == "Bar Chart"
@@ -103,17 +106,22 @@ class TestParseOoxmlChart:
         """Chart with no series data returns None."""
         xml_bytes = (
             b'<c:chartSpace xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart">'
-            b'<c:chart><c:plotArea><c:barChart></c:barChart></c:plotArea></c:chart>'
-            b'</c:chartSpace>'
+            b"<c:chart><c:plotArea><c:barChart></c:barChart></c:plotArea></c:chart>"
+            b"</c:chartSpace>"
         )
         result = _parse_ooxml_chart(xml_bytes)
         assert result is None
 
     def test_multiple_series(self):
-        xml_bytes = _make_chart_xml("barChart", "Multi", ["A", "B"], [
-            {"name": "Series1", "values": [10.0, 20.0]},
-            {"name": "Series2", "values": [30.0, 40.0]},
-        ])
+        xml_bytes = _make_chart_xml(
+            "barChart",
+            "Multi",
+            ["A", "B"],
+            [
+                {"name": "Series1", "values": [10.0, 20.0]},
+                {"name": "Series2", "values": [30.0, 40.0]},
+            ],
+        )
         result = _parse_ooxml_chart(xml_bytes)
         assert result is not None
         assert len(result["series"]) == 2
@@ -157,20 +165,25 @@ class TestInlineChartProcessing:
 
     def test_chart_processed_inline_in_section(self):
         """Chart referenced via <hp:chart chartIDRef="..."> is extracted."""
-        chart_xml = _make_chart_xml("barChart", "InlineTest", ["X"], [
-            {"name": "Y", "values": [42.0]},
-        ])
+        chart_xml = _make_chart_xml(
+            "barChart",
+            "InlineTest",
+            ["X"],
+            [
+                {"name": "Y", "values": [42.0]},
+            ],
+        )
 
         # Build a minimal HWPX section XML with a chart reference
         section_xml = (
             '<hs:sec xmlns:hs="http://www.hancom.co.kr/hwpml/2011/section"'
             '        xmlns:hp="http://www.hancom.co.kr/hwpml/2011/paragraph">'
-            '<hp:p>'
-            '<hp:run><hp:t>Before chart</hp:t></hp:run>'
+            "<hp:p>"
+            "<hp:run><hp:t>Before chart</hp:t></hp:run>"
             '<hp:chart chartIDRef="chart1.xml"/>'
-            '<hp:run><hp:t>After chart</hp:t></hp:run>'
-            '</hp:p>'
-            '</hs:sec>'
+            "<hp:run><hp:t>After chart</hp:t></hp:run>"
+            "</hp:p>"
+            "</hs:sec>"
         ).encode("utf-8")
 
         # Create a mock ZIP with the chart file
@@ -181,7 +194,9 @@ class TestInlineChartProcessing:
         buf.seek(0)
         with zipfile.ZipFile(buf, "r") as zf_in:
             result = parse_hwpx_section(
-                section_xml, zf_in, {},
+                section_xml,
+                zf_in,
+                {},
                 chart_service=None,
             )
 
@@ -192,7 +207,9 @@ class TestInlineChartProcessing:
 
     def test_extract_charts_returns_empty(self):
         """HwpxContentExtractor.extract_charts() returns [] by design."""
-        from xgen_contextifier.handlers.hwpx.content_extractor import HwpxContentExtractor
+        from xgen_contextifier.handlers.hwpx.content_extractor import (
+            HwpxContentExtractor,
+        )
         from xgen_contextifier.types import PreprocessedData
 
         extractor = HwpxContentExtractor()

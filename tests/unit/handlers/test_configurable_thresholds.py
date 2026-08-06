@@ -36,6 +36,7 @@ class TestBaseContentExtractorConfig(unittest.TestCase):
         class _Stub(BaseContentExtractor):
             def extract_text(self, preprocessed, **kwargs):
                 return ""
+
             def get_format_name(self):
                 return "stub"
 
@@ -49,6 +50,7 @@ class TestBaseContentExtractorConfig(unittest.TestCase):
         class _Stub(BaseContentExtractor):
             def extract_text(self, preprocessed, **kwargs):
                 return ""
+
             def get_format_name(self):
                 return "stub"
 
@@ -69,6 +71,7 @@ class TestPdfDefaultThresholds(unittest.TestCase):
         from xgen_contextifier.handlers.pdf_default.content_extractor import (
             PdfDefaultContentExtractor,
         )
+
         config = ProcessingConfig()
         if format_opts:
             config = config.with_format_option("pdf", **format_opts)
@@ -83,28 +86,32 @@ class TestPdfDefaultThresholds(unittest.TestCase):
         """Default render_dpi is 150 when not configured."""
         ext = self._make_extractor()
         self.assertEqual(
-            ext._config.get_format_option("pdf", "render_dpi", 150), 150,
+            ext._config.get_format_option("pdf", "render_dpi", 150),
+            150,
         )
 
     def test_custom_render_dpi(self):
         """Custom render_dpi is read from config."""
         ext = self._make_extractor(render_dpi=200)
         self.assertEqual(
-            ext._config.get_format_option("pdf", "render_dpi", 150), 200,
+            ext._config.get_format_option("pdf", "render_dpi", 150),
+            200,
         )
 
     def test_custom_min_image_size(self):
         """Custom min_image_size is read from config."""
         ext = self._make_extractor(min_image_size=30)
         self.assertEqual(
-            ext._config.get_format_option("pdf", "min_image_size", 50), 30,
+            ext._config.get_format_option("pdf", "min_image_size", 50),
+            30,
         )
 
     def test_custom_min_image_area(self):
         """Custom min_image_area is read from config."""
         ext = self._make_extractor(min_image_area=1000)
         self.assertEqual(
-            ext._config.get_format_option("pdf", "min_image_area", 2500), 1000,
+            ext._config.get_format_option("pdf", "min_image_area", 2500),
+            1000,
         )
 
     @patch("xgen_contextifier.handlers.pdf_default.content_extractor.fitz")
@@ -143,7 +150,11 @@ class TestPdfDefaultThresholds(unittest.TestCase):
         ]
 
         result = ext._extract_images(
-            mock_doc, mock_page, 0, set(), [],
+            mock_doc,
+            mock_page,
+            0,
+            set(),
+            [],
         )
         # Should be filtered out (80 < 100)
         self.assertEqual(result, [])
@@ -162,6 +173,7 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
+
         ext = PptxContentExtractor()
         self.assertEqual(ext._MAX_GROUP_DEPTH, 20)
 
@@ -170,8 +182,10 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
+
         config = ProcessingConfig().with_format_option(
-            "pptx", max_group_depth=5,
+            "pptx",
+            max_group_depth=5,
         )
         ext = PptxContentExtractor(config=config)
         self.assertEqual(ext._MAX_GROUP_DEPTH, 5)
@@ -181,6 +195,7 @@ class TestPptxGroupDepthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.pptx.content_extractor import (
             PptxContentExtractor,
         )
+
         ext = PptxContentExtractor(config=None)
         self.assertEqual(ext._MAX_GROUP_DEPTH, 20)
 
@@ -196,6 +211,7 @@ class TestCsvDelimiterCandidatesConfig(unittest.TestCase):
     def test_default_candidates(self):
         """Default candidates are [',', '\\t', ';', '|']."""
         from xgen_contextifier.handlers.csv.preprocessor import DELIMITER_CANDIDATES
+
         self.assertEqual(DELIMITER_CANDIDATES, [",", "\t", ";", "|"])
 
     def test_custom_candidates_used(self):
@@ -233,7 +249,8 @@ class TestCsvDelimiterCandidatesConfig(unittest.TestCase):
         from xgen_contextifier.handlers.csv.handler import CSVHandler
 
         config = ProcessingConfig().with_format_option(
-            "csv", delimiter_candidates=[",", ";", ":"],
+            "csv",
+            delimiter_candidates=[",", ";", ":"],
         )
         handler = CSVHandler(config)
         prep = handler._preprocessor
@@ -253,6 +270,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
+
         ext = DocContentExtractor()
         self.assertEqual(ext._min_text_fragment_length, 4)
         self.assertEqual(ext._min_unicode_bytes, 8)
@@ -262,8 +280,10 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
+
         config = ProcessingConfig().with_format_option(
-            "doc", min_text_fragment_length=8,
+            "doc",
+            min_text_fragment_length=8,
         )
         ext = DocContentExtractor(config=config)
         self.assertEqual(ext._min_text_fragment_length, 8)
@@ -274,6 +294,7 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.doc.content_extractor import (
             DocContentExtractor,
         )
+
         ext = DocContentExtractor(config=None)
         self.assertEqual(ext._min_text_fragment_length, 4)
 
@@ -282,7 +303,8 @@ class TestDocFragmentLengthConfig(unittest.TestCase):
         from xgen_contextifier.handlers.doc.handler import DOCHandler
 
         config = ProcessingConfig().with_format_option(
-            "doc", min_text_fragment_length=6,
+            "doc",
+            min_text_fragment_length=6,
         )
         handler = DOCHandler(config)
         ext = handler._content_extractor
@@ -303,13 +325,16 @@ class TestPdfHandlerConfigPropagation(unittest.TestCase):
         from xgen_contextifier.handlers.pdf.handler import PDFHandler
 
         config = ProcessingConfig().with_format_option(
-            "pdf", mode="default", render_dpi=200,
+            "pdf",
+            mode="default",
+            render_dpi=200,
         )
         handler = PDFHandler(config)
         ext = handler._content_extractor
         self.assertIs(ext._config, config)
         self.assertEqual(
-            ext._config.get_format_option("pdf", "render_dpi", 150), 200,
+            ext._config.get_format_option("pdf", "render_dpi", 150),
+            200,
         )
 
     def test_plus_mode_receives_config(self):
@@ -317,7 +342,9 @@ class TestPdfHandlerConfigPropagation(unittest.TestCase):
         from xgen_contextifier.handlers.pdf.handler import PDFHandler
 
         config = ProcessingConfig().with_format_option(
-            "pdf", mode="plus", min_image_size=30,
+            "pdf",
+            mode="plus",
+            min_image_size=30,
         )
         handler = PDFHandler(config)
         ext = handler._content_extractor

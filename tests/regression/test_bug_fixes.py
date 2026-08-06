@@ -21,19 +21,29 @@ class TestP0_HTMLEscapingInTables:
 
     def test_html_entities_escaped(self) -> None:
         from xgen_contextifier.types import TableData, TableCell
-        td = TableData(rows=[[TableCell(content="<script>alert(1)</script>"), TableCell(content="normal")]])
+
+        td = TableData(
+            rows=[
+                [
+                    TableCell(content="<script>alert(1)</script>"),
+                    TableCell(content="normal"),
+                ]
+            ]
+        )
         result = TableService.format_as_html_simple(td)
         assert "<script>" not in result
         assert "&lt;script&gt;" in result
 
     def test_ampersand_escaped(self) -> None:
         from xgen_contextifier.types import TableData, TableCell
+
         td = TableData(rows=[[TableCell(content="A & B")]])
         result = TableService.format_as_html_simple(td)
         assert "&amp;" in result
 
     def test_newline_to_br(self) -> None:
         from xgen_contextifier.types import TableData, TableCell
+
         td = TableData(rows=[[TableCell(content="line1\nline2")]])
         result = TableService.format_as_html_simple(td)
         assert "<br>" in result
@@ -67,7 +77,9 @@ class TestP0_TagServiceBackwardCompat:
     def test_alias_produces_same_result(self) -> None:
         ts = TagService(ProcessingConfig())
         text = ts.create_page_tag(1) + "hello"
-        assert ts.remove_all_structural_markers(text) == ts.remove_page_slide_sheet_markers(text)
+        assert ts.remove_all_structural_markers(
+            text
+        ) == ts.remove_page_slide_sheet_markers(text)
 
 
 class TestP0_ImageServiceThreadIsolation:
@@ -101,6 +113,7 @@ class TestP1_HandlerFinalMethods:
 
     def test_process_is_final(self) -> None:
         from xgen_contextifier.handlers.base import BaseHandler
+
         getattr(BaseHandler.process, "__final__", None)
         # @final sets __final__ attribute (Python 3.11+) or we check via typing
         # The decorator is applied — we verify it doesn't raise at import
@@ -108,6 +121,7 @@ class TestP1_HandlerFinalMethods:
 
     def test_extract_text_is_final(self) -> None:
         from xgen_contextifier.handlers.base import BaseHandler
+
         assert BaseHandler.extract_text is not None
 
 

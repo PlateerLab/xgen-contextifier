@@ -13,6 +13,7 @@ from xgen_contextifier.document_processor import ChunkResult
 
 # ── Fixtures ──────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def txt_file(tmp_path):
     f = tmp_path / "sample.txt"
@@ -21,6 +22,7 @@ def txt_file(tmp_path):
 
 
 # ── TestSingleDocument ────────────────────────────────────────────────────
+
 
 class TestSingleDocument:
     """Tests for single-document (non-chunked) mode."""
@@ -58,18 +60,23 @@ class TestSingleDocument:
 
 # ── TestChunkedDocument ───────────────────────────────────────────────────
 
+
 class TestChunkedDocument:
     """Tests for chunked mode."""
 
     def test_chunk_mode_returns_multiple(self, txt_file):
-        loader = ContextifierLoader(txt_file, chunk=True, chunk_size=10, chunk_overlap=0)
+        loader = ContextifierLoader(
+            txt_file, chunk=True, chunk_size=10, chunk_overlap=0
+        )
         docs = loader.load()
         assert len(docs) > 1
         for doc in docs:
             assert isinstance(doc, Document)
 
     def test_chunk_index_in_metadata(self, txt_file):
-        loader = ContextifierLoader(txt_file, chunk=True, chunk_size=10, chunk_overlap=0)
+        loader = ContextifierLoader(
+            txt_file, chunk=True, chunk_size=10, chunk_overlap=0
+        )
         docs = loader.load()
         for i, doc in enumerate(docs):
             assert doc.metadata["chunk_index"] == i
@@ -83,6 +90,7 @@ class TestChunkedDocument:
 
 
 # ── TestWithConfig ────────────────────────────────────────────────────────
+
 
 class TestWithConfig:
     """Tests for passing custom config."""
@@ -100,6 +108,7 @@ class TestWithConfig:
 
 
 # ── TestOCRIntegration ────────────────────────────────────────────────────
+
 
 class TestOCRIntegration:
     """Tests for OCR engine passing."""
@@ -153,5 +162,8 @@ class TestOCRIntegration:
 
             mock_processor.extract_chunks.assert_called_once()
             call_kwargs = mock_processor.extract_chunks.call_args
-            assert call_kwargs.kwargs.get("ocr_processing") is True or call_kwargs[1].get("ocr_processing") is True
+            assert (
+                call_kwargs.kwargs.get("ocr_processing") is True
+                or call_kwargs[1].get("ocr_processing") is True
+            )
             assert len(docs) == 2

@@ -54,11 +54,14 @@ class TestTesseractEngine:
         mock_pil = _make_mock_pil()
 
         engine = TesseractOCREngine(lang="eng")
-        with mock.patch.dict(sys.modules, {
-            "pytesseract": mock_pt,
-            "PIL": mock_pil,
-            "PIL.Image": mock_pil.Image,
-        }):
+        with mock.patch.dict(
+            sys.modules,
+            {
+                "pytesseract": mock_pt,
+                "PIL": mock_pil,
+                "PIL.Image": mock_pil.Image,
+            },
+        ):
             result = engine.convert_image_to_text("/fake/image.png")
 
         assert result == "[Figure:Hello World]"
@@ -71,11 +74,14 @@ class TestTesseractEngine:
         mock_pil = _make_mock_pil()
 
         engine = TesseractOCREngine()
-        with mock.patch.dict(sys.modules, {
-            "pytesseract": mock_pt,
-            "PIL": mock_pil,
-            "PIL.Image": mock_pil.Image,
-        }):
+        with mock.patch.dict(
+            sys.modules,
+            {
+                "pytesseract": mock_pt,
+                "PIL": mock_pil,
+                "PIL.Image": mock_pil.Image,
+            },
+        ):
             result = engine.convert_image_to_text("/fake/empty.png")
 
         assert result == "[Figure: (no text detected)]"
@@ -97,11 +103,14 @@ class TestTesseractEngine:
         mock_pil.Image.open.side_effect = RuntimeError("Tesseract not found")
 
         engine = TesseractOCREngine()
-        with mock.patch.dict(sys.modules, {
-            "pytesseract": mock_pt,
-            "PIL": mock_pil,
-            "PIL.Image": mock_pil.Image,
-        }):
+        with mock.patch.dict(
+            sys.modules,
+            {
+                "pytesseract": mock_pt,
+                "PIL": mock_pil,
+                "PIL.Image": mock_pil.Image,
+            },
+        ):
             result = engine.convert_image_to_text("/fake/img.png")
 
         assert "[Image conversion error:" in result
@@ -113,11 +122,14 @@ class TestTesseractEngine:
         mock_pil = _make_mock_pil()
 
         engine = TesseractOCREngine(lang="kor+eng", config="--psm 6")
-        with mock.patch.dict(sys.modules, {
-            "pytesseract": mock_pt,
-            "PIL": mock_pil,
-            "PIL.Image": mock_pil.Image,
-        }):
+        with mock.patch.dict(
+            sys.modules,
+            {
+                "pytesseract": mock_pt,
+                "PIL": mock_pil,
+                "PIL.Image": mock_pil.Image,
+            },
+        ):
             engine.convert_image_to_text("/fake/korean.png")
 
         call_kwargs = mock_pt.image_to_string.call_args
@@ -138,7 +150,9 @@ class TestImageOCRIntegration:
 
     def test_image_handler_produces_image_tag(self):
         """ImageContentExtractor produces [Image:...] tags for OCR."""
-        from xgen_contextifier.handlers.image.content_extractor import ImageContentExtractor
+        from xgen_contextifier.handlers.image.content_extractor import (
+            ImageContentExtractor,
+        )
         from xgen_contextifier.types import PreprocessedData
 
         mock_img_service = mock.MagicMock()
@@ -155,7 +169,9 @@ class TestImageOCRIntegration:
 
     def test_image_handler_fallback_no_service(self):
         """Without ImageService, handler returns placeholder tag."""
-        from xgen_contextifier.handlers.image.content_extractor import ImageContentExtractor
+        from xgen_contextifier.handlers.image.content_extractor import (
+            ImageContentExtractor,
+        )
         from xgen_contextifier.types import PreprocessedData
 
         extractor = ImageContentExtractor()
@@ -170,4 +186,5 @@ class TestImageOCRIntegration:
     def test_engine_registered_in_init(self):
         """TesseractOCREngine is accessible from engines package."""
         from xgen_contextifier.ocr.engines import TesseractOCREngine as Imported
+
         assert Imported is TesseractOCREngine

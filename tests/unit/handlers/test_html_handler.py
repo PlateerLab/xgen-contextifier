@@ -44,7 +44,9 @@ class TestBase64ImageSizeLimit:
         assert images[0]["data"] == raw
 
     def test_oversized_image_is_skipped(
-        self, preprocessor: HtmlPreprocessor, caplog: pytest.LogCaptureFixture,
+        self,
+        preprocessor: HtmlPreprocessor,
+        caplog: pytest.LogCaptureFixture,
     ) -> None:
         """Base64 image whose decoded size exceeds _MAX_IMAGE_DECODE_BYTES is skipped."""
         # Create a base64 string that decodes to > threshold
@@ -69,7 +71,9 @@ class TestBase64ImageSizeLimit:
             b64 = base64.b64encode(raw).decode()
             html = f'<html><body><img src="data:image/png;base64,{b64}"></body></html>'
 
-            with caplog.at_level(logging.WARNING, logger="xgen_contextifier.handlers.html.preprocessor"):
+            with caplog.at_level(
+                logging.WARNING, logger="xgen_contextifier.handlers.html.preprocessor"
+            ):
                 result = preprocessor.preprocess(_make_converted(html))
 
             images = result.resources.get("images", [])
@@ -79,7 +83,8 @@ class TestBase64ImageSizeLimit:
             mod._MAX_IMAGE_DECODE_BYTES = original
 
     def test_mix_of_small_and_oversized(
-        self, preprocessor: HtmlPreprocessor,
+        self,
+        preprocessor: HtmlPreprocessor,
     ) -> None:
         """Only images within the size limit are extracted; oversized ones are skipped."""
         import xgen_contextifier.handlers.html.preprocessor as mod
@@ -89,7 +94,7 @@ class TestBase64ImageSizeLimit:
             mod._MAX_IMAGE_DECODE_BYTES = 10
 
             small_raw = b"\x01\x02\x03"  # 3 bytes, under limit
-            big_raw = b"\x00" * 20       # 20 bytes, over limit
+            big_raw = b"\x00" * 20  # 20 bytes, over limit
             small_b64 = base64.b64encode(small_raw).decode()
             big_b64 = base64.b64encode(big_raw).decode()
 

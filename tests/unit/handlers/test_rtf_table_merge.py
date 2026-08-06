@@ -110,12 +110,27 @@ class TestHorizontalMerge:
         """Two cells merged horizontally → colspan=2."""
         rows = [
             [
-                _ParsedCell("A", h_merge_first=True, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("", h_merge_first=False, h_merge_cont=True,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("B", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "A",
+                    h_merge_first=True,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=True,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "B",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -132,20 +147,50 @@ class TestHorizontalMerge:
         """Three cells merged horizontally → colspan=3."""
         rows = [
             [
-                _ParsedCell("Merged", h_merge_first=True, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("", h_merge_first=False, h_merge_cont=True,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("", h_merge_first=False, h_merge_cont=True,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "Merged",
+                    h_merge_first=True,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=True,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=True,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("X", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("Y", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("Z", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "X",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "Y",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "Z",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -170,16 +215,36 @@ class TestVerticalMerge:
         """Two rows merged vertically → rowspan=2."""
         rows = [
             [
-                _ParsedCell("A", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=True, v_merge_cont=False),
-                _ParsedCell("B", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "A",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=True,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "B",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("C", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "C",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -198,22 +263,52 @@ class TestVerticalMerge:
         """Three rows merged vertically → rowspan=3."""
         rows = [
             [
-                _ParsedCell("Header", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=True, v_merge_cont=False),
-                _ParsedCell("X1", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "Header",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=True,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "X1",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("X2", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "X2",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("X3", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "X3",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -234,20 +329,50 @@ class TestCombinedMerge:
         """2×2 block merged: colspan=2, rowspan=2."""
         rows = [
             [
-                _ParsedCell("Block", h_merge_first=True, h_merge_cont=False,
-                            v_merge_first=True, v_merge_cont=False),
-                _ParsedCell("", h_merge_first=False, h_merge_cont=True,
-                            v_merge_first=True, v_merge_cont=False),
-                _ParsedCell("R", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "Block",
+                    h_merge_first=True,
+                    h_merge_cont=False,
+                    v_merge_first=True,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=True,
+                    v_merge_first=True,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "R",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("", h_merge_first=True, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("", h_merge_first=False, h_merge_cont=True,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("S", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "",
+                    h_merge_first=True,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "",
+                    h_merge_first=False,
+                    h_merge_cont=True,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "S",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -275,16 +400,36 @@ class TestMergeEdgeCases:
         """Orphaned \\clvmrg (no preceding \\clvmgf) → cell becomes (0,0)."""
         rows = [
             [
-                _ParsedCell("A", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
-                _ParsedCell("B", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "A",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
+                _ParsedCell(
+                    "B",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
             [
-                _ParsedCell("orphan", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=True),
-                _ParsedCell("C", h_merge_first=False, h_merge_cont=False,
-                            v_merge_first=False, v_merge_cont=False),
+                _ParsedCell(
+                    "orphan",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=True,
+                ),
+                _ParsedCell(
+                    "C",
+                    h_merge_first=False,
+                    h_merge_cont=False,
+                    v_merge_first=False,
+                    v_merge_cont=False,
+                ),
             ],
         ]
         table = _build_table_data(rows)
@@ -333,12 +478,15 @@ class TestMergeEdgeCases:
         """single_column_to_text() concatenates cell texts."""
         # Build minimal RTF row text
         row_text = r"\trowd\cellx5000 Hello\cell\row"
-        with mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
-            side_effect=lambda t, enc: t,
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
-            side_effect=lambda t, enc: t.strip(),
+        with (
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+                side_effect=lambda t, enc: t,
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
+                side_effect=lambda t, enc: t.strip(),
+            ),
         ):
             result = single_column_to_text([row_text], "cp949")
             # Should contain some text (implementation-dependent on RTF parsing)
@@ -363,18 +511,23 @@ class TestExtractTablesIntegration:
             r"\trowd\cellx3000\cellx6000"
             r" C\cell D\cell\row"
         )
-        with mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
-            side_effect=lambda t, enc: t,
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
-            side_effect=lambda t, enc: t.strip(),
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
-            return_value=[],
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
-            return_value=False,
+        with (
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+                side_effect=lambda t, enc: t,
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
+                side_effect=lambda t, enc: t.strip(),
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
+                return_value=[],
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
+                return_value=False,
+            ),
         ):
             tables = extract_tables(rtf, "cp949")
             assert len(tables) == 1
@@ -390,18 +543,23 @@ class TestExtractTablesIntegration:
             r"\trowd\cellx3000\cellx6000"
             r" C\cell D\cell\row"
         )
-        with mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
-            side_effect=lambda t, enc: t,
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
-            side_effect=lambda t, enc: t.strip(),
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
-            return_value=[],
-        ), mock.patch(
-            "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
-            return_value=False,
+        with (
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.decode_hex_escapes",
+                side_effect=lambda t, enc: t,
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.clean_rtf_text",
+                side_effect=lambda t, enc: t.strip(),
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.find_excluded_regions",
+                return_value=[],
+            ),
+            mock.patch(
+                "xgen_contextifier.handlers.rtf._table_parser.is_in_excluded_region",
+                return_value=False,
+            ),
         ):
             tables = extract_tables(rtf, "cp949")
             assert len(tables) == 1

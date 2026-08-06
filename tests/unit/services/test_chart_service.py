@@ -30,6 +30,7 @@ def chart_service_text() -> ChartService:
 
 # ── format_chart ─────────────────────────────────────────────────────────
 
+
 class TestFormatChart:
     def test_basic_bar_chart(self, chart_service: ChartService) -> None:
         data = ChartData(
@@ -103,10 +104,12 @@ class TestFormatChart:
 
 # ── format_chart_fallback ────────────────────────────────────────────────
 
+
 class TestFormatChartFallback:
     def test_fallback_with_type_and_title(self, chart_service: ChartService) -> None:
         result = chart_service.format_chart_fallback(
-            chart_type="barChart", title="My Chart",
+            chart_type="barChart",
+            title="My Chart",
         )
         assert "Bar Chart" in result
         assert "My Chart" in result
@@ -122,15 +125,21 @@ class TestFormatChartFallback:
 
 # ── OOXML type mapping ───────────────────────────────────────────────────
 
+
 class TestChartTypeName:
-    @pytest.mark.parametrize("ooxml_type,expected", [
-        ("barChart", "Bar Chart"),
-        ("lineChart", "Line Chart"),
-        ("pieChart", "Pie Chart"),
-        ("scatterChart", "Scatter Chart"),
-        ("doughnutChart", "Doughnut Chart"),
-    ])
-    def test_known_types(self, chart_service: ChartService, ooxml_type: str, expected: str) -> None:
+    @pytest.mark.parametrize(
+        "ooxml_type,expected",
+        [
+            ("barChart", "Bar Chart"),
+            ("lineChart", "Line Chart"),
+            ("pieChart", "Pie Chart"),
+            ("scatterChart", "Scatter Chart"),
+            ("doughnutChart", "Doughnut Chart"),
+        ],
+    )
+    def test_known_types(
+        self, chart_service: ChartService, ooxml_type: str, expected: str
+    ) -> None:
         assert chart_service.get_chart_type_name(ooxml_type) == expected
 
     def test_unknown_type_passthrough(self, chart_service: ChartService) -> None:
@@ -138,6 +147,7 @@ class TestChartTypeName:
 
 
 # ── Pattern matching ─────────────────────────────────────────────────────
+
 
 class TestChartPatterns:
     def test_has_chart_blocks(self, chart_service: ChartService) -> None:
@@ -157,11 +167,16 @@ class TestChartPatterns:
 
 # ── Tag service integration ──────────────────────────────────────────────
 
+
 class TestTagFallback:
     def test_uses_config_tags_without_tag_service(self) -> None:
         config = ProcessingConfig()
         svc = ChartService(config, tag_service=None)
-        data = ChartData(chart_type="barChart", categories=["A"], series=[ChartSeries(name="S", values=[1])])
+        data = ChartData(
+            chart_type="barChart",
+            categories=["A"],
+            series=[ChartSeries(name="S", values=[1])],
+        )
         result = svc.format_chart(data)
         assert result.startswith("[chart]")
         assert result.endswith("[/chart]")

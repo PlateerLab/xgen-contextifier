@@ -47,12 +47,11 @@ class TestIsEncrypted:
         mock_office = _make_mock_office_file(encrypted=True)
         mock_module.OfficeFile.return_value = mock_office
 
-        with patch.dict(
-            "sys.modules", {"msoffcrypto": mock_module}
-        ):
+        with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             # Need to reimport to pick up the mock
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             assert cs.is_encrypted(UNENCRYPTED_BYTES) is True
 
@@ -61,11 +60,10 @@ class TestIsEncrypted:
         mock_office = _make_mock_office_file(encrypted=False)
         mock_module.OfficeFile.return_value = mock_office
 
-        with patch.dict(
-            "sys.modules", {"msoffcrypto": mock_module}
-        ):
+        with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             assert cs.is_encrypted(UNENCRYPTED_BYTES) is False
 
@@ -73,6 +71,7 @@ class TestIsEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": None}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             assert cs.is_encrypted(UNENCRYPTED_BYTES) is False
 
@@ -83,6 +82,7 @@ class TestIsEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             assert cs.is_encrypted(UNENCRYPTED_BYTES) is False
 
@@ -105,6 +105,7 @@ class TestDecryptIfEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": None}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             result = cs.decrypt_if_encrypted(UNENCRYPTED_BYTES, password="secret")
             assert result == UNENCRYPTED_BYTES
@@ -118,6 +119,7 @@ class TestDecryptIfEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             result = cs.decrypt_if_encrypted(UNENCRYPTED_BYTES, password="secret")
             assert result == DECRYPTED_BYTES
@@ -132,6 +134,7 @@ class TestDecryptIfEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             result = cs.decrypt_if_encrypted(UNENCRYPTED_BYTES, password=None)
             assert result == DECRYPTED_BYTES
@@ -146,8 +149,10 @@ class TestDecryptIfEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             from xgen_contextifier.errors import FileReadError
+
             with pytest.raises(FileReadError, match="password-protected"):
                 cs.decrypt_if_encrypted(UNENCRYPTED_BYTES, password="wrong")
 
@@ -159,6 +164,7 @@ class TestDecryptIfEncrypted:
         with patch.dict("sys.modules", {"msoffcrypto": mock_module}):
             import importlib
             import xgen_contextifier.services.crypto_service as cs
+
             importlib.reload(cs)
             result = cs.decrypt_if_encrypted(UNENCRYPTED_BYTES)
             assert result == UNENCRYPTED_BYTES

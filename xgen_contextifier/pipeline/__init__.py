@@ -39,7 +39,10 @@ from xgen_contextifier.pipeline.content_extractor import (
     BaseContentExtractor,
     NullContentExtractor,
 )
-from xgen_contextifier.pipeline.postprocessor import BasePostprocessor, NullPostprocessor
+from xgen_contextifier.pipeline.postprocessor import (
+    BasePostprocessor,
+    NullPostprocessor,
+)
 
 __all__ = [
     # Abstract bases

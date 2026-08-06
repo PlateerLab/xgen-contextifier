@@ -38,7 +38,10 @@ from xgen_contextifier.pipeline.metadata_extractor import (
     NullMetadataExtractor,
 )
 from xgen_contextifier.pipeline.content_extractor import BaseContentExtractor
-from xgen_contextifier.pipeline.postprocessor import BasePostprocessor, DefaultPostprocessor
+from xgen_contextifier.pipeline.postprocessor import (
+    BasePostprocessor,
+    DefaultPostprocessor,
+)
 
 from xgen_contextifier.handlers.text.converter import TextConverter
 from xgen_contextifier.handlers.text.preprocessor import TextPreprocessor

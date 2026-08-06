@@ -40,8 +40,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e ".[all]"
-          pip install pytest pytest-asyncio
+          # extras 를 core 로 흡수했으므로 [all] 은 더 이상 없다.
+          # 테스트 도구만 [dev] 로 따로 받는다.
+          pip install -e ".[dev]"
       - name: Run tests
         run: pytest tests/ -q --tb=short
 

@@ -14,7 +14,12 @@ class TestEncodingConfigDefaults:
     def test_default_fallback_encodings(self):
         cfg = EncodingConfig()
         assert cfg.fallback_encodings == (
-            "utf-8", "utf-8-sig", "cp949", "euc-kr", "latin-1", "ascii",
+            "utf-8",
+            "utf-8-sig",
+            "cp949",
+            "euc-kr",
+            "latin-1",
+            "ascii",
         )
 
     def test_default_force_encoding_none(self):
@@ -88,18 +93,21 @@ class TestConverterEncodingConfig:
 
     def test_csv_converter_uses_force_encoding(self):
         from xgen_contextifier.handlers.csv.converter import CsvConverter
+
         enc_cfg = EncodingConfig(force_encoding="cp949")
         converter = CsvConverter(encoding_config=enc_cfg)
         assert converter._encodings == ["cp949"]
 
     def test_csv_converter_uses_fallback_encodings(self):
         from xgen_contextifier.handlers.csv.converter import CsvConverter
+
         enc_cfg = EncodingConfig(fallback_encodings=("shift_jis", "utf-8"))
         converter = CsvConverter(encoding_config=enc_cfg)
         assert converter._encodings == ["shift_jis", "utf-8"]
 
     def test_csv_converter_explicit_encodings_override_config(self):
         from xgen_contextifier.handlers.csv.converter import CsvConverter
+
         enc_cfg = EncodingConfig(fallback_encodings=("shift_jis",))
         converter = CsvConverter(encodings=["euc-kr"], encoding_config=enc_cfg)
         # Explicit encodings take priority over config
@@ -107,17 +115,23 @@ class TestConverterEncodingConfig:
 
     def test_text_converter_uses_force_encoding(self):
         from xgen_contextifier.handlers.text.converter import TextConverter
+
         enc_cfg = EncodingConfig(force_encoding="utf-16")
         converter = TextConverter(encoding_config=enc_cfg)
         assert converter._encodings == ["utf-16"]
 
     def test_text_converter_uses_fallback_encodings(self):
         from xgen_contextifier.handlers.text.converter import TextConverter
+
         enc_cfg = EncodingConfig(fallback_encodings=("ascii", "utf-8"))
         converter = TextConverter(encoding_config=enc_cfg)
         assert converter._encodings == ["ascii", "utf-8"]
 
     def test_text_converter_no_config_uses_default(self):
-        from xgen_contextifier.handlers.text.converter import TextConverter, DEFAULT_ENCODINGS
+        from xgen_contextifier.handlers.text.converter import (
+            TextConverter,
+            DEFAULT_ENCODINGS,
+        )
+
         converter = TextConverter()
         assert converter._encodings == DEFAULT_ENCODINGS

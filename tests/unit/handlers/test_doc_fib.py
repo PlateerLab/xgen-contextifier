@@ -26,6 +26,7 @@ from xgen_contextifier.handlers.doc._fib import (
 # Helpers
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 def _build_word_data(
     *,
     wident: int = 0xA5EC,
@@ -38,18 +39,20 @@ def _build_word_data(
 ) -> bytes:
     """Build a minimal WordDocument stream with FIB fields set."""
     buf = bytearray(max(size, 0x01AA))
-    struct.pack_into("<H", buf, 0x0000, wident)    # wIdent
-    struct.pack_into("<H", buf, 0x0002, nfib)      # nFib
+    struct.pack_into("<H", buf, 0x0000, wident)  # wIdent
+    struct.pack_into("<H", buf, 0x0002, nfib)  # nFib
     struct.pack_into("<I", buf, 0x004C, ccp_text)  # ccpText
-    struct.pack_into("<I", buf, 0x01A2, fc_clx)    # fcClx
-    struct.pack_into("<I", buf, 0x01A6, lcb_clx)   # lcbClx
+    struct.pack_into("<I", buf, 0x01A2, fc_clx)  # fcClx
+    struct.pack_into("<I", buf, 0x01A6, lcb_clx)  # lcbClx
     # Write body text at a fixed offset
     body_offset = 0x0200
     buf[body_offset : body_offset + len(body)] = body
     return bytes(buf)
 
 
-def _build_clx_compressed(text: str, body_offset: int = 0x0200) -> tuple[bytes, int, int]:
+def _build_clx_compressed(
+    text: str, body_offset: int = 0x0200
+) -> tuple[bytes, int, int]:
     """
     Build a Clx structure for compressed (cp1252) text.
 
@@ -99,6 +102,7 @@ def _build_clx_unicode(text: str, body_offset: int = 0x0200) -> tuple[bytes, int
 # FIB validation tests
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 class TestFibValidation:
     """FIB header checks reject invalid inputs."""
 
@@ -140,6 +144,7 @@ class TestFibValidation:
 # ═════════════════════════════════════════════════════════════════════════════
 # Piece table parsing tests
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestPieceParsing:
     """PlcPcd parsing extracts correct piece descriptors."""
@@ -193,6 +198,7 @@ class TestPieceParsing:
 # Clx parser tests
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 class TestClxParsing:
     """Clx structure parsing handles Prc + Pcdt correctly."""
 
@@ -223,13 +229,14 @@ class TestClxParsing:
         assert pieces == []
 
     def test_unknown_type_aborts(self):
-        pieces = _parse_clx(b"\xFF\x00\x00\x00")
+        pieces = _parse_clx(b"\xff\x00\x00\x00")
         assert pieces == []
 
 
 # ═════════════════════════════════════════════════════════════════════════════
 # Table detection tests
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestTableDetection:
     """Table detection from cell markers."""
@@ -269,6 +276,7 @@ class TestTableDetection:
 # ═════════════════════════════════════════════════════════════════════════════
 # Text cleaning tests
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 class TestCleanDocText:
     """Text cleaning handles DOC-specific characters."""

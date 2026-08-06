@@ -39,10 +39,12 @@ class TestCheckZipBomb:
 
     def test_multiple_entries_sum(self) -> None:
         """Total size is the sum of all entries, not just one."""
-        raw = _make_zip({
-            "a.bin": b"\x00" * 60,
-            "b.bin": b"\x00" * 60,
-        })
+        raw = _make_zip(
+            {
+                "a.bin": b"\x00" * 60,
+                "b.bin": b"\x00" * 60,
+            }
+        )
         # Each is 60; total 120 > 100
         with zipfile.ZipFile(io.BytesIO(raw), "r") as zf:
             with pytest.raises(ConversionError, match="ZIP bomb detected"):

@@ -19,7 +19,10 @@ class TestXLSXHandlerInit:
         assert xlsx_handler.supported_extensions == frozenset({"xlsx"})
 
     def test_handler_name(self, xlsx_handler: XLSXHandler) -> None:
-        assert "XLSX" in xlsx_handler.handler_name or "xlsx" in xlsx_handler.handler_name.lower()
+        assert (
+            "XLSX" in xlsx_handler.handler_name
+            or "xlsx" in xlsx_handler.handler_name.lower()
+        )
 
     def test_pipeline_components_created(self, xlsx_handler: XLSXHandler) -> None:
         assert xlsx_handler.converter is not None
@@ -51,9 +54,7 @@ class TestXLSXFormatOptions:
 
     def test_read_only_from_format_options(self) -> None:
         """read_only=True via format_options["xlsx"]["read_only"]."""
-        config = ProcessingConfig(
-            format_options={"xlsx": {"read_only": True}}
-        )
+        config = ProcessingConfig(format_options={"xlsx": {"read_only": True}})
         handler = XLSXHandler(config)
         assert handler.converter._read_only is True
 
@@ -65,7 +66,10 @@ class TestXLSXFormatOptions:
         converter = XlsxConverter(data_only=True, read_only=True)
 
         mock_wb = MagicMock()
-        with patch("xgen_contextifier.handlers.xlsx.converter.openpyxl.load_workbook", return_value=mock_wb) as mock_load:
+        with patch(
+            "xgen_contextifier.handlers.xlsx.converter.openpyxl.load_workbook",
+            return_value=mock_wb,
+        ) as mock_load:
             ctx = {"file_data": b"PK\x03\x04" + b"\x00" * 100}
             try:
                 converter.convert(ctx)

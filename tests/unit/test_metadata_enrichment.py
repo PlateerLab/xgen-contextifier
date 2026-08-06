@@ -73,11 +73,13 @@ def test_plain_string_chunks_untouched():
 
 def test_chunker_populates_page_metadata_end_to_end():
     text = "\n\n".join(
-        f"[Page Number: {p}]\n" + (f"{p}페이지 본문 문단. " * 40)
-        for p in range(1, 4)
+        f"[Page Number: {p}]\n" + (f"{p}페이지 본문 문단. " * 40) for p in range(1, 4)
     )
     chunks = DocumentProcessor().chunk_text(
-        text, file_extension="pdf", chunk_size=400, chunk_overlap=50,
+        text,
+        file_extension="pdf",
+        chunk_size=400,
+        chunk_overlap=50,
         include_position_metadata=True,
     )
     assert chunks and not isinstance(chunks[0], str)
@@ -93,15 +95,13 @@ def test_json_renders_leaf_paths():
     out = _render_json_context(
         '{"user": {"name": "하렴", "roles": ["boss", "dev"]}, "count": 2}'
     )
-    assert "user.name: \"하렴\"" in out
-    assert "user.roles[0]: \"boss\"" in out
+    assert 'user.name: "하렴"' in out
+    assert 'user.roles[0]: "boss"' in out
     assert "count: 2" in out
 
 
 def test_json_array_of_objects_gets_record_boundaries():
-    out = _render_json_context(
-        '{"items": [{"id": 1, "t": "a"}, {"id": 2, "t": "b"}]}'
-    )
+    out = _render_json_context('{"items": [{"id": 1, "t": "a"}, {"id": 2, "t": "b"}]}')
     blocks = out.split("\n\n")
     assert len(blocks) >= 2  # record boundary between array elements
     assert "items[1].id: 2" in out

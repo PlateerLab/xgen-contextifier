@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "xgen-contextifier"
-version = "0.8.0"
+version = "0.9.0"
 description = "Convert raw documents into AI-understandable context with intelligent text extraction, table detection, and semantic chunking"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -92,6 +92,12 @@ dependencies = [
     "pymupdf>=1.24.0",
 ]
 
+[project.optional-dependencies]
+# 개발·테스트 도구. 런타임 기능이 아니므로 core 에 넣지 않는다.
+# pytest-asyncio 가 없으면 @pytest.mark.asyncio 가 **인식조차 되지 않아**
+# async 테스트가 조용히 실패한다 (실제로 7건이 그 상태였다).
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.6"]
+
 [project.urls]
 Homepage = "https://github.com/PlateerLab/xgen-contextifier"
 Documentation = "https://github.com/PlateerLab/xgen-contextifier#readme"
@@ -130,3 +136,7 @@ target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F"]
+# 레이아웃은 포매터가 소유한다 — E501 을 켜 두면 포매터가 못 줄이는 줄
+# (긴 URL·문자열)까지 오류로 잡혀 게이트가 영구히 빨간 상태가 된다.
+# 위 주석이 "E501 제외"라고 적혀 있었는데 설정이 그렇지 않아 81건이 떠 있었다.
+ignore = ["E501"]

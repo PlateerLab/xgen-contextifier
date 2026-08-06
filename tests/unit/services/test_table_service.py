@@ -13,7 +13,10 @@ def _simple_table() -> TableData:
     """2×2 table with basic text content."""
     return TableData(
         rows=[
-            [TableCell(content="A", is_header=True), TableCell(content="B", is_header=True)],
+            [
+                TableCell(content="A", is_header=True),
+                TableCell(content="B", is_header=True),
+            ],
             [TableCell(content="1"), TableCell(content="2")],
         ],
         num_cols=2,
@@ -24,7 +27,10 @@ def _table_with_special_chars() -> TableData:
     """Table with HTML-sensitive characters."""
     return TableData(
         rows=[
-            [TableCell(content="<script>alert('xss')</script>"), TableCell(content="a & b")],
+            [
+                TableCell(content="<script>alert('xss')</script>"),
+                TableCell(content="a & b"),
+            ],
         ],
         num_cols=2,
     )

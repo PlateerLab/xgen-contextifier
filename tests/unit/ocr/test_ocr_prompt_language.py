@@ -20,7 +20,6 @@ from xgen_contextifier.ocr.base import (
 
 
 class TestOCRPromptLanguage:
-
     def test_default_prompt_is_korean(self):
         assert "Output in Korean" in DEFAULT_OCR_PROMPT
 

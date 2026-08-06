@@ -19,7 +19,10 @@ class TestDOCXHandlerInit:
         assert docx_handler.supported_extensions == frozenset({"docx"})
 
     def test_handler_name(self, docx_handler: DOCXHandler) -> None:
-        assert "DOCX" in docx_handler.handler_name or "docx" in docx_handler.handler_name.lower()
+        assert (
+            "DOCX" in docx_handler.handler_name
+            or "docx" in docx_handler.handler_name.lower()
+        )
 
     def test_pipeline_components_created(self, docx_handler: DOCXHandler) -> None:
         assert docx_handler.converter is not None
@@ -30,6 +33,7 @@ class TestDOCXHandlerInit:
 
     def test_services_passed_through(self) -> None:
         from unittest.mock import MagicMock
+
         mock_img = MagicMock()
         mock_tag = MagicMock()
         handler = DOCXHandler(

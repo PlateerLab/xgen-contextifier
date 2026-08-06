@@ -25,8 +25,10 @@ def _make_engine(results: dict[str, str | None] | None = None):
     """Create a mock OCR engine."""
     engine = MagicMock()
     if results:
+
         def convert(path):
             return results.get(os.path.basename(path))
+
         engine.convert_image_to_text.side_effect = convert
     else:
         engine.convert_image_to_text.return_value = "OCR text"

@@ -19,7 +19,10 @@ class TestPPTXHandlerInit:
         assert pptx_handler.supported_extensions == frozenset({"pptx"})
 
     def test_handler_name(self, pptx_handler: PPTXHandler) -> None:
-        assert "PPTX" in pptx_handler.handler_name or "pptx" in pptx_handler.handler_name.lower()
+        assert (
+            "PPTX" in pptx_handler.handler_name
+            or "pptx" in pptx_handler.handler_name.lower()
+        )
 
     def test_pipeline_components_created(self, pptx_handler: PPTXHandler) -> None:
         assert pptx_handler.converter is not None
@@ -30,6 +33,7 @@ class TestPPTXHandlerInit:
 
     def test_services_passed_through(self) -> None:
         from unittest.mock import MagicMock
+
         mock_chart = MagicMock()
         mock_table = MagicMock()
         handler = PPTXHandler(

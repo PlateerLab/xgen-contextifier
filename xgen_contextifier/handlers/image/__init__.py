@@ -2,7 +2,10 @@
 """Image file handler package."""
 
 from xgen_contextifier.handlers.image.handler import ImageFileHandler
-from xgen_contextifier.handlers.image.converter import ImageConverter, ImageConvertedData
+from xgen_contextifier.handlers.image.converter import (
+    ImageConverter,
+    ImageConvertedData,
+)
 from xgen_contextifier.handlers.image.preprocessor import ImagePreprocessor
 from xgen_contextifier.handlers.image.metadata_extractor import ImageMetadataExtractor
 from xgen_contextifier.handlers.image.content_extractor import ImageContentExtractor

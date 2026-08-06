@@ -82,7 +82,7 @@ class TestCsvPreprocessorMaxRows(unittest.TestCase):
 
     def _make_csv(self, n: int) -> str:
         header = "col_a,col_b,col_c"
-        data = "\n".join(f"{i},val_{i},{i*10}" for i in range(n))
+        data = "\n".join(f"{i},val_{i},{i * 10}" for i in range(n))
         return f"{header}\n{data}"
 
     def test_default_max_rows(self):
@@ -121,15 +121,15 @@ class TestCsvHandlerMaxRowsOption(unittest.TestCase):
 
     def test_csv_handler_passes_max_rows(self):
         from xgen_contextifier.handlers.csv.handler import CSVHandler
-        config = ProcessingConfig(
-            format_options={"csv": {"max_rows": 500}}
-        )
+
+        config = ProcessingConfig(format_options={"csv": {"max_rows": 500}})
         handler = CSVHandler(config=config)
         pp = handler.create_preprocessor()
         self.assertEqual(pp._max_rows, 500)
 
     def test_csv_handler_default_max_rows(self):
         from xgen_contextifier.handlers.csv.handler import CSVHandler
+
         handler = CSVHandler(config=ProcessingConfig())
         pp = handler.create_preprocessor()
         self.assertEqual(pp._max_rows, MAX_ROWS)
@@ -140,9 +140,8 @@ class TestTsvHandlerMaxRowsOption(unittest.TestCase):
 
     def test_tsv_handler_passes_max_rows(self):
         from xgen_contextifier.handlers.tsv.handler import TSVHandler
-        config = ProcessingConfig(
-            format_options={"tsv": {"max_rows": 200}}
-        )
+
+        config = ProcessingConfig(format_options={"tsv": {"max_rows": 200}})
         handler = TSVHandler(config=config)
         pp = handler.create_preprocessor()
         self.assertEqual(pp._max_rows, 200)
@@ -153,15 +152,23 @@ class TestCsvParsedDataTruncated(unittest.TestCase):
 
     def test_default_false(self):
         pd = CsvParsedData(
-            rows=[], has_header=False, delimiter=",",
-            encoding="utf-8", row_count=0, col_count=0,
+            rows=[],
+            has_header=False,
+            delimiter=",",
+            encoding="utf-8",
+            row_count=0,
+            col_count=0,
         )
         self.assertFalse(pd.truncated)
 
     def test_explicit_true(self):
         pd = CsvParsedData(
-            rows=[], has_header=False, delimiter=",",
-            encoding="utf-8", row_count=0, col_count=0,
+            rows=[],
+            has_header=False,
+            delimiter=",",
+            encoding="utf-8",
+            row_count=0,
+            col_count=0,
             truncated=True,
         )
         self.assertTrue(pd.truncated)

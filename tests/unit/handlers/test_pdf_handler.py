@@ -19,7 +19,10 @@ class TestPDFHandlerInit:
         assert pdf_handler.supported_extensions == frozenset({"pdf"})
 
     def test_handler_name(self, pdf_handler: PDFHandler) -> None:
-        assert "PDF" in pdf_handler.handler_name or "pdf" in pdf_handler.handler_name.lower()
+        assert (
+            "PDF" in pdf_handler.handler_name
+            or "pdf" in pdf_handler.handler_name.lower()
+        )
 
     def test_pipeline_components_created(self, pdf_handler: PDFHandler) -> None:
         assert pdf_handler.converter is not None
@@ -37,9 +40,7 @@ class TestPDFModeSelection:
         assert "Plus" in cls_name or "Default" not in cls_name or True  # flexible
 
     def test_explicit_default_mode(self) -> None:
-        config = ProcessingConfig(
-            format_options={"pdf": {"mode": "default"}}
-        )
+        config = ProcessingConfig(format_options={"pdf": {"mode": "default"}})
         handler = PDFHandler(config)
         cls_name = handler.content_extractor.__class__.__name__
         assert "Default" in cls_name or "default" in cls_name.lower() or True

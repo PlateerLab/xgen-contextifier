@@ -24,6 +24,7 @@ def svc_en() -> MetadataService:
 
 # ── Basic formatting ─────────────────────────────────────────────────────
 
+
 class TestFormatMetadata:
     def test_full_metadata_ko(self, svc_ko: MetadataService) -> None:
         meta = DocumentMetadata(
@@ -82,6 +83,7 @@ class TestFormatMetadata:
 
 # ── Value formatting ─────────────────────────────────────────────────────
 
+
 class TestValueFormatting:
     def test_datetime_formatted(self, svc_ko: MetadataService) -> None:
         meta = DocumentMetadata(
@@ -117,6 +119,7 @@ class TestValueFormatting:
 
 
 # ── format_metadata_dict ─────────────────────────────────────────────────
+
 
 class TestFormatMetadataDict:
     def test_dict_input(self, svc_ko: MetadataService) -> None:

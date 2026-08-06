@@ -17,6 +17,7 @@ from xgen_contextifier.config import ProcessingConfig
 
 # ═══════════════ MemoryCacheBackend ═══════════════════════════════════════════
 
+
 class TestMemoryCacheBackend:
     def test_get_returns_none_for_missing(self) -> None:
         backend = MemoryCacheBackend()
@@ -80,6 +81,7 @@ class TestMemoryCacheBackend:
 
 # ═══════════════ DiskCacheBackend ════════════════════════════════════════════
 
+
 class TestDiskCacheBackend:
     def test_put_and_get(self, tmp_path: Path) -> None:
         backend = DiskCacheBackend(cache_dir=tmp_path / "cache")
@@ -112,6 +114,7 @@ class TestDiskCacheBackend:
 
 
 # ═══════════════ CachedDocumentProcessor ═════════════════════════════════════
+
 
 class TestCachedDocumentProcessor:
     def test_cache_hit_skips_extraction(self, tmp_path: Path) -> None:
@@ -187,11 +190,13 @@ class TestCachedDocumentProcessor:
 
 # ═══════════════ P4-5: Cached process() and extract_chunks() ═════════════════
 
+
 class TestCachedProcess:
     """CachedDocumentProcessor.process() cache support."""
 
     def test_process_returns_extraction_result(self, tmp_path: Path) -> None:
         from xgen_contextifier.types import ExtractionResult
+
         test_file = tmp_path / "test.txt"
         test_file.write_text("Hello World", encoding="utf-8")
 
@@ -231,6 +236,7 @@ class TestCachedExtractChunks:
 
     def test_extract_chunks_returns_chunk_result(self, tmp_path: Path) -> None:
         from xgen_contextifier.document_processor import ChunkResult
+
         test_file = tmp_path / "test.txt"
         test_file.write_text("Hello World " * 100, encoding="utf-8")
 
@@ -250,6 +256,7 @@ class TestCachedExtractChunks:
 
 
 # ═══════════════ P4-5: Serialization round-trip ══════════════════════════════
+
 
 class TestSerializationRoundTrip:
     """Verify ExtractionResult and ChunkResult survive serialization."""
@@ -274,12 +281,15 @@ class TestSerializationRoundTrip:
             tables=[
                 TableData(
                     rows=[[TableCell(content="A", is_header=True)]],
-                    num_rows=1, num_cols=1, has_header=True,
+                    num_rows=1,
+                    num_cols=1,
+                    has_header=True,
                 )
             ],
             charts=[
                 ChartData(
-                    chart_type="bar", title="Sales",
+                    chart_type="bar",
+                    title="Sales",
                     categories=["Q1", "Q2"],
                     series=[ChartSeries(name="Revenue", values=[100, 200])],
                 )

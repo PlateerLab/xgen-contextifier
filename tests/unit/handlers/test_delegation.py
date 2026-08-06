@@ -102,11 +102,13 @@ class TestDelegationDepthLimit:
 # P3-6: Handler delegation path tests — magic byte detection triggers
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 class TestDOCDelegation:
     """DOCHandler delegates to DOCX, RTF, or HTML based on magic bytes."""
 
     def _make_doc_handler(self):
         from xgen_contextifier.handlers.doc.handler import DOCHandler
+
         h = DOCHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -163,6 +165,7 @@ class TestPPTDelegation:
 
     def _make_ppt_handler(self):
         from xgen_contextifier.handlers.ppt.handler import PPTHandler
+
         h = PPTHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -192,6 +195,7 @@ class TestXLSDelegation:
 
     def _make_xls_handler(self):
         from xgen_contextifier.handlers.xls.handler import XLSHandler
+
         h = XLSHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
@@ -221,6 +225,7 @@ class TestHWPDelegation:
 
     def _make_hwp_handler(self):
         from xgen_contextifier.handlers.hwp.handler import HWPHandler
+
         h = HWPHandler(ProcessingConfig())
         registry = MagicMock()
         h.set_registry(registry)
